@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="AIROLAX — Artist and Creative Technologist. Immersive installations, projection mapping, generative art and real-time experiences. Based in Mexico, working worldwide.">
+  <meta name="keywords" content="immersive installations, interactive design, projection mapping, generative art, creative technology, real-time visual systems, experiential design, digital art studio, emerging media, audiovisual installations, immersive experiences">
+  <title>AIROLAX — Immersive Installations &amp; Creative Technology</title>
+  
+  <!-- OpenGraph / Social Media -->
+  <meta property="og:title" content="AIROLAX — Immersive Installations &amp; Creative Technology">
+  <meta property="og:description" content="Artist and Creative Technologist. Immersive installations, projection mapping and real-time experiences. Based in Mexico, working worldwide.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://airolax.com">
+  <meta property="og:image" content="https://airolax.com/images/LOGO.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:site_name" content="AIROLAX">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIROLAX — Immersive Installations &amp; Creative Technology">
+  <meta name="twitter:description" content="Artist and Creative Technologist. Immersive installations, projection mapping and real-time experiences. Based in Mexico, working worldwide.">
+  <meta name="twitter:image" content="https://airolax.com/images/LOGO.png">
+  <link rel="icon" type="image/png" href="./images/logo.png">
+  <link rel="apple-touch-icon" href="./images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Preload only hero video for faster first paint; GLB and env load when 3D runs -->
+  <link rel="preload" href="./videos/home.mp4" as="video" type="video/mp4" fetchpriority="high">
+  <link rel="stylesheet" href="./src/styles.css">
+  <style>
+    /* Forzar que la página termine justo después del footer - sin espacio blanco */
+    html { min-height: 0 !important; height: auto !important; }
+    body { padding-bottom: 0 !important; margin-bottom: 0 !important; min-height: 0 !important; }
+    .site-footer { padding-bottom: 0 !important; margin-bottom: 0 !important; min-height: 0 !important; }
+    .contact-section, .contact-top { padding-bottom: 0 !important; margin-bottom: 0 !important; }
+  </style>
+  
+  <!-- GA4: cargado desde src/main.ts con VITE_GA_MEASUREMENT_ID (.env / Vercel). Ver .env.example -->
+  
+  <!-- Inline script to force video loading immediately - runs before DOMContentLoaded -->
+  <script>
+    // Force hero video to start loading immediately when HTML is parsed
+    (function() {
+      if (document.readyState === 'loading') {
+        // DOM is still loading - use MutationObserver to catch video element early
+        var observer = new MutationObserver(function(mutations) {
+          var video = document.querySelector('.hero-video__element');
+          if (video) {
+            observer.disconnect();
+            // Force load immediately
+            video.load();
+            // Try to play as soon as metadata is loaded
+            video.addEventListener('loadedmetadata', function() {
+              if (video.readyState >= 2) {
+                video.play().catch(function() {});
+              }
+            }, { once: true });
+            video.addEventListener('canplay', function() {
+              video.play().catch(function() {});
+            }, { once: true });
+          }
+        });
+        observer.observe(document.body || document.documentElement, {
+          childList: true,
+          subtree: true
+        });
+      } else {
+        // DOM already loaded - process immediately
+        var video = document.querySelector('.hero-video__element');
+        if (video) {
+          video.load();
+          video.addEventListener('loadedmetadata', function() {
+            if (video.readyState >= 2) {
+              video.play().catch(function() {});
+            }
+          }, { once: true });
+          video.addEventListener('canplay', function() {
+            video.play().catch(function() {});
+          }, { once: true });
+        }
+      }
+    })();
+  </script>
+</head>
+<body>
+  <!-- Header Fixed -->
+  <header class="topbar" role="banner">
+    <div class="topbar__inner">
+      <!-- Left: Clock -->
+      <div class="topbar__clock">
+        <span class="clock-text" id="time-clock">00:00:00</span>
+      </div>
+      
+      <!-- Center: Logo (espacio para el logo 3D flotante) -->
+      <div class="topbar__logo">
+      </div>
+      
+      <!-- Right: Navigation -->
+      <nav class="topbar__nav" role="navigation" aria-label="Main navigation">
+        <a href="#projects" class="nav-link">Work</a>
+        <a href="#presentations-section" class="nav-link nav-link--about">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="https://www.andatalab.art" class="nav-link" target="_blank" rel="noopener noreferrer">LAB*</a>
+      </nav>
+      
+      <!-- Mobile Menu Toggle -->
+      <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+      <button type="button" class="mobile-menu__close" id="mobile-menu-close" aria-label="Cerrar menú">✕</button>
+      <nav class="mobile-menu__nav" role="navigation" aria-label="Mobile navigation">
+        <a href="#projects" class="mobile-menu__link">Work</a>
+        <a href="#presentations-section" class="mobile-menu__link">About</a>
+        <a href="#contact" class="mobile-menu__link">Contact</a>
+        <a href="https://www.andatalab.art" class="mobile-menu__link" target="_blank" rel="noopener noreferrer">LAB*</a>
+      </nav>
+    </div>
+  </header>
+  <script>
+    (function() {
+      var btn = document.getElementById('mobile-menu-toggle');
+      var menu = document.getElementById('mobile-menu');
+      var closeBtn = document.getElementById('mobile-menu-close');
+      if (!btn || !menu) return;
+      function openMenu() {
+        menu.classList.add('is-open');
+        btn.classList.add('active');
+        document.body.classList.add('mobile-menu-open');
+        btn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
+      }
+      function closeMenu() {
+        menu.classList.remove('is-open');
+        btn.classList.remove('active');
+        document.body.classList.remove('mobile-menu-open');
+        btn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+      }
+      function toggle() {
+        if (menu.classList.contains('is-open')) closeMenu();
+        else openMenu();
+      }
+      btn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); toggle(); });
+      if (closeBtn) closeBtn.addEventListener('click', function(e) { e.preventDefault(); closeMenu(); });
+      window.toggleMobileMenu = function(e) { if (e) { e.preventDefault(); e.stopPropagation(); } toggle(); };
+      window.closeMobileMenu = closeMenu;
+    })();
+  </script>
+
+  <!-- Logo 3D Flotante (fuera del menú) -->
+  <div id="logo-3d-container" class="floating-logo-3d" aria-label="AIROLAX — Go to home"></div>
+
+  <!-- Hero Video Section -->
+  <section class="hero-video" id="hero-video">
+    <div class="hero-video__container">
+      <video 
+        class="hero-video__element" 
+        autoplay 
+        muted 
+        loop 
+        playsinline 
+        preload="auto"
+        fetchpriority="high"
+        aria-label="Hero background video">
+        <source src="./videos/home.mp4" type="video/mp4">
+        <!-- Fallback for browsers that don't support video -->
+      </video>
+      <div class="hero-video__overlay"></div>
+      <div class="hero-video__shine" aria-hidden="true"></div>
+      <div class="hero-video__text-overlay"></div>
+      <div class="hero-video__content">
+        <div class="hero-video__text-container">
+          <div class="hero-video__headline">
+            <div
+              class="hero-video__title-stack"
+              id="hero-video-title-matrix"
+              aria-label="Argel Erevan Airola, México, 1991"
+            >
+              <p class="hero-video__title-line hero-video__title-row" data-matrix-text="ARGEL EREVAN AIROLA"></p>
+              <p class="hero-video__title-line hero-video__title-row" data-matrix-text="MÉXICO"></p>
+              <p class="hero-video__title-line hero-video__title-row" data-matrix-text="1991"></p>
+            </div>
+            <p
+              class="hero-video__role"
+              id="hero-video-role-matrix"
+              data-matrix-text="Multimedia Artist"
+              aria-label="Multimedia Artist"
+            ></p>
+          </div>
+        </div>
+        <div class="hero-video__cta">
+          <a href="#projects" class="hero-video__button">
+            <span>Artworks</span>
+          </a>
+          <a href="#projects" class="hero-video__scroll-hint" aria-label="Scroll down">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 10l5 5 5-5"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Carousel Section -->
+  <section class="carousel-section" id="projects">
+    <div class="carousel-wrap">
+      <h2 class="section-label">SELECTED WORK</h2>
+      
+      <!-- Selected Work Carousel -->
+      <div class="selected-work-carousel">
+        <button class="carousel-arrow carousel-arrow--left" aria-label="Previous project">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <div class="carousel-track" id="carousel-track">
+          <!-- Cards will be injected by JavaScript -->
+        </div>
+        <button class="carousel-arrow carousel-arrow--right" aria-label="Next project">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Project Details Panel -->
+      <div id="project-details-panel" class="project-details-panel"></div>
+    </div>
+  </section>
+
+  <!-- Scroll Down Indicator (links to Expositions) -->
+  <a href="#presentations-section" class="scroll-down-indicator" aria-label="Scroll to Expositions">
+    <span class="scroll-down-text">Scroll down</span>
+    <svg class="scroll-down-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+
+  <!-- Expositions (timeline) -->
+  <section class="presentations" id="presentations-section">
+    <div class="presentations-header">
+      <h2 class="presentations-title">Expositions</h2>
+      <p class="presentations-subtitle">Museums, festivals and public presentations.</p>
+    </div>
+    <div class="timeline" id="presentations-timeline">
+      <!-- Timeline items injected by JavaScript -->
+    </div>
+  </section>
+
+
+  <!-- Contact anchor (content moved to global footer) -->
+  <section class="contact-anchor" id="contact"></section>
+
+  <!-- Global Footer: Contact section (top + divider + bottom channels) -->
+  <footer class="site-footer">
+    <div class="contact-section">
+      <div class="contact-top">
+        <div class="site-footer__col site-footer__col--contact">
+          <h2 class="footer-contact__title">Let’s collaborate</h2>
+          <p class="footer-contact__intro">Send a message. I reply within 24–48h.</p>
+          <form class="footer-contact-form" id="footer-contact-form">
+            <input type="text" name="name" placeholder="Your name" class="footer-form-input" required aria-label="Your name">
+            <input type="email" name="email" placeholder="Your email" class="footer-form-input" required aria-label="Your email">
+            <textarea name="message" placeholder="Tell me about your project..." class="footer-form-textarea" rows="3" required aria-label="Your message"></textarea>
+            <button type="submit" class="footer-form-submit">Send Message</button>
+            <div class="footer-form-message" id="footer-form-message"></div>
+          </form>
+        </div>
+        <div class="site-footer__col site-footer__col--identity">
+          <div class="footer-identity__name">Airola Argel Erevan. Multimedia Artist. Director. Producer.</div>
+          <div class="footer-identity__location">Based in Mexico. Working worldwide</div>
+          <div class="footer-identity__links">
+            <a href="mailto:airolaxx@gmail.com" class="footer-contact__link">Email</a>
+            <a href="https://wa.me/523221364664" target="_blank" rel="noopener noreferrer" class="footer-contact__link">WhatsApp</a>
+          </div>
+          <div class="footer-identity__channels">
+            <div class="channels-title">ARTIST CHANNELS</div>
+            <nav class="channels-list" aria-label="Artist channels">
+              <a href="https://www.instagram.com/air_olax/" target="_blank" rel="noopener noreferrer" class="footer-artist-channels__link">Instagram</a>
+              <a href="https://www.behance.net/argelairola" target="_blank" rel="noopener noreferrer" class="footer-artist-channels__link">Behance</a>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <p class="footer-meta">© 2025</p>
+    </div>
+  </footer>
+
+
+
+  
+  <!-- Swiper.js for infinite carousel -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  
+  <!-- Three.js for 3D Logo - Loaded with defer to not block rendering -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS2DRenderer.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+  <script defer>
+    // Ensure THREE is available globally (executes after scripts load)
+    if (typeof THREE !== 'undefined') {
+      window.THREE = THREE;
+    }
+  </script>
+  
+  <!-- Main TypeScript module - Vite will process this correctly -->
+  <script type="module" src="./src/main.ts"></script>
+  
+  <!-- Floating Copyright -->
+  <div class="floating-copyright">2025©</div>
+
+  <!-- Floating WhatsApp Button (Desktop & Mobile) -->
+  <a href="https://wa.me/523221364664?text=Hola%20AIROLAX%20STUDIO,%20me%20gustaría%20saber%20más%20sobre%20sus%20experiencias%20interactivas." 
+     target="_blank" 
+     class="floating-whatsapp-btn" 
+     rel="noopener noreferrer" 
+     aria-label="Contact via WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+    </svg>
+  </a>
+
+  <!-- cPanel-only hit counter removed for static hosts (Vercel). Use GA4 or serverless instead. -->
+
+  <script>
+    (function() {
+      function pageEndsAtFooter() {
+        var footer = document.querySelector('.site-footer');
+        if (!footer) return;
+        var h = footer.offsetTop + footer.offsetHeight;
+        document.documentElement.style.minHeight = '0';
+        document.body.style.minHeight = '0';
+        document.body.style.height = h + 'px';
+      }
+      function run() { pageEndsAtFooter(); }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+      else run();
+      window.addEventListener('load', run);
+      window.addEventListener('resize', run);
+    })();
+  </script>
+</body>
+</html>

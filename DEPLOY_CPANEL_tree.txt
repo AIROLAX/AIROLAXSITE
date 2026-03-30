@@ -1,0 +1,188 @@
+Listado de rutas de carpetas
+El número de serie del volumen es 8C68-C271
+C:\USERS\EREVAN\DOCUMENTS\AIROLAX\DEPLOY_CPANEL
+¦   DEPLOY_README.txt
+¦   index.html
+¦   
++---assets
+¦       home-C4bEbYVq.mp4
+¦       index-C8kEfqIE.css
+¦       index-CcKMSa9f.js
+¦       logo-DodazVQC.png
+¦       three-NzwLfSsh.js
+¦       
++---images
+¦   ¦   AI INSTA.jpg
+¦   ¦   airolax-logo.svg
+¦   ¦   IMMERSIVE.jpg
+¦   ¦   logo.png
+¦   ¦   MOTION.png
+¦   ¦   OHM2.png
+¦   ¦   pngegg (1).png
+¦   ¦   pngwing.com (1).png
+¦   ¦   pngwing.com.png
+¦   ¦   project1.jpg.png
+¦   ¦   
+¦   +---optimized
+¦       +---videos
+¦           +---ai-mirror
+¦           +---edzna
+¦           ¦       1_compressed.webp
+¦           ¦       
+¦           +---wavey
+¦                   wavey-1.webp
+¦                   
++---videos
+¦   ¦   andatalogo.glb
+¦   ¦   andatalogo_optimized.glb
+¦   ¦   demo2.mp4
+¦   ¦   home.mp4
+¦   ¦   home_compressed.mp4
+¦   ¦   mirror - Trim.MOV
+¦   ¦   mirror.MOV
+¦   ¦   pro1.MOV
+¦   ¦   thermosense.mp4
+¦   ¦   waveytiktok.mp4
+¦   ¦   
+¦   +---BIOINTERFACE
+¦   ¦       1.JPG
+¦   ¦       2.MP4
+¦   ¦       3.HEIC
+¦   ¦       4.MOV
+¦   ¦       IMG_8151.HEIC
+¦   ¦       README-process-assets.txt
+¦   ¦       
+¦   +---BL_proxy
+¦   ¦   +---home.mp4
+¦   ¦   +---pro1.MOV
+¦   +---Chapala
+¦   ¦       1.mp4
+¦   ¦       2.mp4
+¦   ¦       3.mp4
+¦   ¦       
+¦   +---chapala_project
+¦   ¦       1.mp4
+¦   ¦       2.mp4
+¦   ¦       3.mp4
+¦   ¦       
+¦   +---edzna
+¦   ¦   ¦   1.png
+¦   ¦   ¦   2.png
+¦   ¦   ¦   3.png
+¦   ¦   ¦   ednzapyramid.mp4
+¦   ¦   ¦   
+¦   ¦   +---BL_proxy
+¦   ¦       +---ednzapyramid.mp4
+¦   +---museo
+¦   ¦       1.png
+¦   ¦       2.png
+¦   ¦       3.png
+¦   ¦       4.png
+¦   ¦       C0087.MP4
+¦   ¦       C0094.MP4
+¦   ¦       DESCUBRE.mkv
+¦   ¦       museo.jpeg
+¦   ¦       
+¦   +---OHM
+¦   ¦       1.MP4
+¦   ¦       2.png
+¦   ¦       3.png
+¦   ¦       ohm.mp4
+¦   ¦       ohm2.mp4
+¦   ¦       ohmfinal.MP4
+¦   ¦       
+¦   +---optimized
+¦   ¦   +---videos
+¦   ¦       ¦   demo2_compressed.mp4
+¦   ¦       ¦   demo2_compressed.webm
+¦   ¦       ¦   thermosense_compressed.mp4
+¦   ¦       ¦   thermosense_compressed.webm
+¦   ¦       ¦   waveytiktok_compressed.mp4
+¦   ¦       ¦   waveytiktok_compressed.webm
+¦   ¦       ¦   
+¦   ¦       +---BIOINTERFACE
+¦   ¦       ¦       2.MP4_compressed.mp4
+¦   ¦       ¦       2.MP4_compressed.webm
+¦   ¦       ¦       
+¦   ¦       +---Chapala
+¦   ¦       ¦       1_compressed.mp4
+¦   ¦       ¦       1_compressed.webm
+¦   ¦       ¦       2_compressed.mp4
+¦   ¦       ¦       2_compressed.webm
+¦   ¦       ¦       3_compressed.mp4
+¦   ¦       ¦       3_compressed.webm
+¦   ¦       ¦       
+¦   ¦       +---chapala_project
+¦   ¦       ¦       1_compressed.mp4
+¦   ¦       ¦       1_compressed.webm
+¦   ¦       ¦       2_compressed.mp4
+¦   ¦       ¦       2_compressed.webm
+¦   ¦       ¦       3_compressed.mp4
+¦   ¦       ¦       3_compressed.webm
+¦   ¦       ¦       
+¦   ¦       +---edzna
+¦   ¦       ¦       ednzapyramid_compressed.mp4
+¦   ¦       ¦       ednzapyramid_compressed.webm
+¦   ¦       ¦       
+¦   ¦       +---museo
+¦   ¦       ¦       C0087.MP4_compressed.mp4
+¦   ¦       ¦       C0087.MP4_compressed.webm
+¦   ¦       ¦       C0094.MP4_compressed.mp4
+¦   ¦       ¦       C0094.MP4_compressed.webm
+¦   ¦       ¦       
+¦   ¦       +---OHM
+¦   ¦               1.MP4_compressed.mp4
+¦   ¦               1.MP4_compressed.webm
+¦   ¦               ohm2_compressed.mp4
+¦   ¦               ohm2_compressed.webm
+¦   ¦               ohmfinal.MP4_compressed.mp4
+¦   ¦               ohmfinal.MP4_compressed.webm
+¦   ¦               ohm_compressed.mp4
+¦   ¦               ohm_compressed.webm
+¦   ¦               
+¦   +---wavey
+¦           Captura de Pantalla 2024-02-17 a la(s) 5.03.54.png
+¦           Captura de Pantalla 2025-05-25 a la(s) 14.51.40.png
+¦           Captura de Pantalla 2025-05-25 a la(s) 14.54.27 2.png
+¦           
++---videos-compressed
+¦   +---videos
+¦       ¦   demo2.mp4
+¦       ¦   mirror - Trim.mp4
+¦       ¦   mirror.mp4
+¦       ¦   pro1.mp4
+¦       ¦   thermosense.mp4
+¦       ¦   waveytiktok.mp4
+¦       ¦   
+¦       +---BIOINTERFACE
+¦       ¦       2.MP4
+¦       ¦       4.mp4
+¦       ¦       
+¦       +---edzna
+¦       ¦       ednzapyramid.mp4
+¦       ¦       
+¦       +---museo
+¦       ¦       C0087.MP4
+¦       ¦       C0094.MP4
+¦       ¦       DESCUBRE.mp4
+¦       ¦       
+¦       +---OHM
+¦               1.MP4
+¦               ohm.mp4
+¦               ohm2.mp4
+¦               ohmfinal.MP4
+¦               
++---work
+        ai-mirror-dia-de-muertos.html
+        biointerface-2.html
+        biointerface.html
+        breathing-space.html
+        edzna-video-mapping.html
+        ethereal-motion-digital-poetry.html
+        museo-descubre.html
+        ohm-1.html
+        ohm-interactive-laser-sculpture.html
+        thermosense.html
+        wavey-runway.html
+        whispers-of-the-lake-digital-immersive-experience.html
+        

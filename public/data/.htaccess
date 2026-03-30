@@ -1,0 +1,2 @@
+# No permitir acceso directo a los datos de analytics
+Deny from all
