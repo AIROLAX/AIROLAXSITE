@@ -29,7 +29,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Preload only hero video for faster first paint; GLB and env load when 3D runs -->
-    <link rel="preload" href="./videos/home.mp4" as="video" type="video/mp4" fetchpriority="high">
+    <link rel="preload" href="/videos/home.mp4" as="video" type="video/mp4" fetchpriority="high">
     <link rel="stylesheet" href="./src/styles.css">
     <style>
       /* Forzar que la página termine justo después del footer - sin espacio blanco */
@@ -176,7 +176,7 @@
           preload="auto"
           fetchpriority="high"
           aria-label="Hero background video">
-          <source src="./videos/home.mp4" type="video/mp4">
+          <source src="/videos/home.mp4" type="video/mp4">
           <!-- Fallback for browsers that don't support video -->
         </video>
         <div class="hero-video__overlay"></div>

@@ -59,8 +59,8 @@ const projects: Project[] = [
     id: '1',
     title: 'Biointerface',
     tag: 'AI + Interactive Art',
-    videoUrl: './videos-compressed/videos/pro1.mp4',
-    poster: './videos/BIOINTERFACE/1.JPG',
+    videoUrl: '/videos/compressed/pro1.mp4',
+    poster: '/videos/BIOINTERFACE/1.JPG',
     description: [
       'An interactive installation exploring the intersection of artificial intelligence and biological data visualization, creating a bridge between human physiology and digital art.',
       'Developed using machine learning algorithms, biometric sensors, real-time processing with Python and OpenCV, and interactive visualization systems.',
@@ -69,9 +69,9 @@ const projects: Project[] = [
     technologies: ['Machine Learning', 'Biometric Sensors', 'Real-time Processing', 'Interactive Visualization', 'Python', 'OpenCV'],
     concept: 'The concept explores how technology can serve as a mirror to our internal biological processes, making the invisible visible through art. By translating physiological data into aesthetic experiences, Biointerface creates a new form of human-computer interaction that is both intimate and universal.',
     galleryItems: [
-      { type: 'image', src: './videos/BIOINTERFACE/F2.jpg', alt: 'Biointerface Installation' },
-      { type: 'image', src: './videos/BIOINTERFACE/1.JPG', alt: 'Biointerface Installation' },
-      { type: 'video', src: './videos-compressed/videos/BIOINTERFACE/4.mp4', alt: 'Biointerface Detail' }
+      { type: 'image', src: '/videos/BIOINTERFACE/F2.jpg', alt: 'Biointerface Installation' },
+      { type: 'image', src: '/videos/BIOINTERFACE/1.JPG', alt: 'Biointerface Installation' },
+      { type: 'video', src: '/videos/compressed/BIOINTERFACE/4.mp4', alt: 'Biointerface Detail' }
     ],
     credits: {
       direction: 'AIROLAX',
@@ -84,8 +84,8 @@ const projects: Project[] = [
     id: 'breathing-space',
     title: 'Breathing Space',
     tag: 'Generative Immersive Environment',
-    videoUrl: './videos/ASANA_YOGA/elbueno.mp4',
-    poster: './videos/ASANA_YOGA/elbueno.mp4',
+    videoUrl: '/videos/ASANA_YOGA/elbueno.mp4',
+    poster: '/videos/ASANA_YOGA/elbueno.mp4',
     description: [
       'Breathing Space is an immersive audiovisual installation developed for Asana Yoga at Conjunto Santander.',
       'Using TouchDesigner and real-time generative systems, the space was transformed into a living environment of light and motion.',
@@ -94,14 +94,14 @@ const projects: Project[] = [
     technologies: ['TouchDesigner', 'Real-time generative systems', 'Projection mapping', 'Generative Art'],
     concept: 'Breathing Space is a generative audiovisual installation that transforms a cubic architecture into a responsive field. Developed for Asana Yoga at Conjunto Santander, Guadalajara, the piece uses TouchDesigner and real-time generative systems to create a living environment of light and motion, where visuals evolve continuously and the space becomes a contemplative dialogue between body, perception and environment.',
     galleryItems: [
-      { type: 'video', src: './videos/ASANA_YOGA/IMG_6114.MOV', alt: 'Breathing Space, Asana Yoga installation' },
-      { type: 'image', src: './videos/ASANA_YOGA/IMG_20260131_103426.jpg', alt: 'Breathing Space, Asana Yoga installation' },
-      { type: 'image', src: './videos/ASANA_YOGA/IMG_20260131_120910.jpg', alt: 'Breathing Space, Asana Yoga installation' },
-      { type: 'image', src: './videos/ASANA_YOGA/IMG_20260131_170352.jpg', alt: 'Breathing Space, Asana Yoga installation' },
-      { type: 'image', src: './videos/ASANA_YOGA/IMG_20260201_141845.jpg', alt: 'Breathing Space, Asana Yoga installation' },
-      { type: 'image', src: './videos/ASANA_YOGA/IMG_20260201_142306.jpg', alt: 'Breathing Space, Asana Yoga installation' },
-      { type: 'image', src: './videos/ASANA_YOGA/IMG_20260201_144131.jpg', alt: 'Breathing Space, Asana Yoga installation' },
-      { type: 'image', src: './videos/ASANA_YOGA/IMG_20260201_164343.jpg', alt: 'Breathing Space, Asana Yoga installation' }
+      { type: 'video', src: '/videos/ASANA_YOGA/IMG_6114.MOV', alt: 'Breathing Space, Asana Yoga installation' },
+      { type: 'image', src: '/videos/ASANA_YOGA/IMG_20260131_103426.jpg', alt: 'Breathing Space, Asana Yoga installation' },
+      { type: 'image', src: '/videos/ASANA_YOGA/IMG_20260131_120910.jpg', alt: 'Breathing Space, Asana Yoga installation' },
+      { type: 'image', src: '/videos/ASANA_YOGA/IMG_20260131_170352.jpg', alt: 'Breathing Space, Asana Yoga installation' },
+      { type: 'image', src: '/videos/ASANA_YOGA/IMG_20260201_141845.jpg', alt: 'Breathing Space, Asana Yoga installation' },
+      { type: 'image', src: '/videos/ASANA_YOGA/IMG_20260201_142306.jpg', alt: 'Breathing Space, Asana Yoga installation' },
+      { type: 'image', src: '/videos/ASANA_YOGA/IMG_20260201_144131.jpg', alt: 'Breathing Space, Asana Yoga installation' },
+      { type: 'image', src: '/videos/ASANA_YOGA/IMG_20260201_164343.jpg', alt: 'Breathing Space, Asana Yoga installation' }
     ],
     credits: {
       direction: 'AIROLAX',
@@ -115,8 +115,8 @@ const projects: Project[] = [
     title: 'Whispers of the Lake. Digital Immersive Experience',
     tag: 'Projection Mapping + Cultural Art',
     // Use original master video; compressed versions live under /videos but we avoid broken /videos/optimized paths
-    videoUrl: './videos/chapala_project/1.mp4',
-    poster: './videos/chapala_project/1.mp4',
+    videoUrl: '/videos/chapala_project/1.mp4',
+    poster: '/videos/chapala_project/1.mp4',
     description: [
       'An immersive audiovisual installation transforming the historic presidential building in Chapala into a living canvas that narrates the origins, myths, and spirits surrounding Lake Chapala.',
       'Developed using 3D projection mapping, Blender for architectural modeling, After Effects for animation, AI-assisted visuals via Runway, TouchDesigner for real-time generative systems, and spatial audio design.',
@@ -125,9 +125,9 @@ const projects: Project[] = [
     technologies: ['3D Projection Mapping', 'Blender', 'After Effects', 'Runway / AI Tools', 'TouchDesigner', 'Spatial Audio'],
     concept: 'The concept explores the spiritual connection between the lake, its ancestral stories, and the transition between life and death. Through layered 3D animations, architectural transformations, and atmospheric sound design, the façade becomes a portal between worlds.',
     galleryItems: [
-      { type: 'video', src: './videos/chapala_project/1.mp4', alt: 'Chapala Projection Mapping overview' },
-      { type: 'video', src: './videos/chapala_project/2.mp4', alt: 'Chapala Projection Mapping detail' },
-      { type: 'video', src: './videos/chapala_project/3.mp4', alt: 'Chapala Projection Mapping ambience' }
+      { type: 'video', src: '/videos/chapala_project/1.mp4', alt: 'Chapala Projection Mapping overview' },
+      { type: 'video', src: '/videos/chapala_project/2.mp4', alt: 'Chapala Projection Mapping detail' },
+      { type: 'video', src: '/videos/chapala_project/3.mp4', alt: 'Chapala Projection Mapping ambience' }
     ],
     credits: {
       direction: 'Airolax',
@@ -140,8 +140,8 @@ const projects: Project[] = [
     id: 'ai-mirror-dia-de-muertos',
     title: 'AI Mirror. Día de Muertos',
     tag: 'Interactive Installation · AI-Driven Mirror',
-    videoUrl: './videos/Chapala/export%287%29.MP4',
-    poster: './videos/Chapala/export%287%29.MP4',
+    videoUrl: '/videos/Chapala/export%287%29.MP4',
+    poster: '/videos/Chapala/export%287%29.MP4',
     description: [
       'AI Mirror. Día de Muertos is an interactive altar where the living and the digital overlap.',
       'When a visitor approaches the mirror, a real-time camera captures their silhouette and merges it with AI-generated calavera textures, neon smoke patterns, and glitch-driven spiritual motifs.',
@@ -152,9 +152,9 @@ const projects: Project[] = [
     technologies: ['TouchDesigner', 'AI Textures', 'Stable Diffusion', 'RunwayML', 'Real-Time Compositing', 'Camera Tracking', 'Interactive Installation', 'Generative Art', 'Spatial Audio'],
     concept: 'An AI-powered mirror that blends visitors with generative calavera spirits, transforming the Día de Muertos altar into a responsive digital portal.',
     galleryItems: [
-      { type: 'video', src: './videos/Chapala/export%287%29.MP4', alt: 'AI Mirror. Día de Muertos main video' },
-      { type: 'video', src: './videos/ai-mirror/1.mp4', alt: 'AI Mirror interaction detail 1' },
-      { type: 'video', src: './videos/ai-mirror/2.mp4', alt: 'AI Mirror interaction detail 2' }
+      { type: 'video', src: '/videos/Chapala/export%287%29.MP4', alt: 'AI Mirror. Día de Muertos main video' },
+      { type: 'video', src: '/videos/ai-mirror/1.mp4', alt: 'AI Mirror interaction detail 1' },
+      { type: 'video', src: '/videos/ai-mirror/2.mp4', alt: 'AI Mirror interaction detail 2' }
     ],
     credits: {
       direction: 'AIROLAX',
@@ -167,8 +167,8 @@ const projects: Project[] = [
     id: '1b',
     title: 'Biointerface 2',
     tag: 'AI + Interactive Art · Multiscreen',
-    videoUrl: './videos/BIOINTERFACE/4.MOV',
-    poster: './videos/BIOINTERFACE/1.JPG',
+    videoUrl: '/videos/BIOINTERFACE/4.MOV',
+    poster: '/videos/BIOINTERFACE/1.JPG',
     description: [
       'Same mechanism as Biointerface 1, with a different screen setup: a multi-screen animation where a generative line of visual art travels across the installation.',
       'Features real-time generative visuals, spatial sound design, and a continuous flowing line that moves between screens, creating a unified audiovisual experience across multiple displays.',
@@ -177,9 +177,9 @@ const projects: Project[] = [
     technologies: ['Multi-Screen Animation', 'Generative Art', 'Real-time Processing', 'Spatial Audio', 'Interactive Visualization', 'Python', 'OpenCV'],
     concept: 'Biointerface 2 extends the original concept into a multiscreen space. A single generative line of light and form travels across the screens, accompanied by sound, transforming the installation into a journey of one continuous gesture through different “windows” of the same system.',
     galleryItems: [
-      { type: 'video', src: './videos/BIOINTERFACE/4.MOV', alt: 'Biointerface 2, Multiscreen' },
-      { type: 'image', src: './videos/BIOINTERFACE/1.JPG', alt: 'Biointerface 2 Installation' },
-      { type: 'video', src: './videos-compressed/videos/pro1.mp4', alt: 'Biointerface 1 reference' }
+      { type: 'video', src: '/videos/BIOINTERFACE/4.MOV', alt: 'Biointerface 2, Multiscreen' },
+      { type: 'image', src: '/videos/BIOINTERFACE/1.JPG', alt: 'Biointerface 2 Installation' },
+      { type: 'video', src: '/videos/compressed/pro1.mp4', alt: 'Biointerface 1 reference' }
     ],
     credits: {
       direction: 'AIROLAX',
@@ -192,8 +192,8 @@ const projects: Project[] = [
     id: '2',
     title: 'MUSEO DESCUBRE',
     tag: 'Interactive Museum',
-    videoUrl: './videos/museo/DESCUBRE.mkv', // First video from gallery as main carousel video
-    poster: './videos/museo/1.png',                                                                                                                                                                                 
+    videoUrl: '/videos/museo/DESCUBRE.mkv', // First video from gallery as main carousel video
+    poster: '/videos/museo/1.png',                                                                                                                                                                                 
     description: [
       'An immersive interactive museum experience transforming traditional exhibition spaces into dynamic learning environments where visitors interact with historical artifacts and scientific concepts.',
       'Developed using projection mapping, motion tracking with Kinect sensors, touch interactive surfaces, Unity3D for 3D environments, and real-time graphics processing.',
@@ -202,12 +202,12 @@ const projects: Project[] = [
     technologies: ['Projection Mapping', 'Motion Tracking', 'Touch Interactive Surfaces', 'Unity3D', 'Kinect Sensors', 'Real-time Graphics'],
     concept: 'This project reimagines the museum experience for the digital age, making education more engaging and accessible through interactive technology. It demonstrates how immersive installations can enhance learning and create memorable experiences that inspire curiosity.',
     galleryItems: [
-      { type: 'video', src: './videos/museo/DESCUBRE.mkv', alt: 'MUSEO DESCUBRE Experience' },
-      { type: 'video', src: './videos/museo/C0087.MP4', alt: 'MUSEO DESCUBRE Interactive' },
-      { type: 'image', src: './videos/museo/1.png', alt: 'MUSEO DESCUBRE Interactive Wall' },
-      { type: 'image', src: './videos/museo/2.png', alt: 'MUSEO DESCUBRE Projection' },
-      { type: 'image', src: './videos/museo/3.png', alt: 'MUSEO DESCUBRE Experience' },
-      { type: 'image', src: './videos/museo/4.png', alt: 'MUSEO DESCUBRE Installation' }
+      { type: 'video', src: '/videos/museo/DESCUBRE.mkv', alt: 'MUSEO DESCUBRE Experience' },
+      { type: 'video', src: '/videos/museo/C0087.MP4', alt: 'MUSEO DESCUBRE Interactive' },
+      { type: 'image', src: '/videos/museo/1.png', alt: 'MUSEO DESCUBRE Interactive Wall' },
+      { type: 'image', src: '/videos/museo/2.png', alt: 'MUSEO DESCUBRE Projection' },
+      { type: 'image', src: '/videos/museo/3.png', alt: 'MUSEO DESCUBRE Experience' },
+      { type: 'image', src: '/videos/museo/4.png', alt: 'MUSEO DESCUBRE Installation' }
     ],
     credits: {
       direction: 'AIROLAX',
@@ -220,8 +220,8 @@ const projects: Project[] = [
     id: '3',
     title: 'OHM Interactive Laser Sculpture',
     tag: 'Laser Sound Sculpture',
-    videoUrl: './videos-compressed/videos/OHM/ohmfinal.MP4',
-    poster: './videos/OHM/2.png',
+    videoUrl: '/videos/compressed/OHM/ohmfinal.MP4',
+    poster: '/videos/OHM/2.png',
     description: [
       'A kinetic sound sculpture using precision laser technology to create visual music, where multiple laser beams intersect and dance in three-dimensional space.',
       'Developed using laser technology, photonic sensors, kinetic sculpture mechanics, sound synthesis with Arduino and Max/MSP, and real-time audio-visual processing.',
@@ -230,12 +230,12 @@ const projects: Project[] = [
     technologies: ['Laser Technology', 'Photonic Sensors', 'Kinetic Sculpture', 'Sound Synthesis', 'Arduino', 'Max/MSP'],
     concept: 'OHM explores the fundamental relationship between light and sound, making visible the invisible frequencies that surround us. The sculpture serves as a meditation on the nature of resonance and the interconnectedness of all vibrational phenomena.',
     galleryItems: [
-      { type: 'video', src: './videos-compressed/videos/OHM/1.MP4', alt: 'OHM Blue Lasers' },
-      { type: 'video', src: './videos-compressed/videos/OHM/ohmfinal.MP4', alt: 'OHM Laser Performance' },
-      { type: 'video', src: './videos-compressed/videos/OHM/ohm.mp4', alt: 'OHM Laser Sculpture' },
-      { type: 'video', src: './videos-compressed/videos/OHM/ohm2.mp4', alt: 'OHM Installation View' },
-      { type: 'image', src: './videos/OHM/2.png', alt: 'OHM Installation View' },
-      { type: 'image', src: './videos/OHM/3.png', alt: 'OHM Installation View' }
+      { type: 'video', src: '/videos/compressed/OHM/1.MP4', alt: 'OHM Blue Lasers' },
+      { type: 'video', src: '/videos/compressed/OHM/ohmfinal.MP4', alt: 'OHM Laser Performance' },
+      { type: 'video', src: '/videos/compressed/OHM/ohm.mp4', alt: 'OHM Laser Sculpture' },
+      { type: 'video', src: '/videos/compressed/OHM/ohm2.mp4', alt: 'OHM Installation View' },
+      { type: 'image', src: '/videos/OHM/2.png', alt: 'OHM Installation View' },
+      { type: 'image', src: '/videos/OHM/3.png', alt: 'OHM Installation View' }
     ],
     credits: {
       direction: 'AIROLAX',
@@ -248,8 +248,8 @@ const projects: Project[] = [
     id: '4',
     title: 'EDZNA VIDEO MAPPING',
     tag: 'Interactive Installation',
-    videoUrl: './videos-compressed/videos/edzna/ednzapyramid.mp4',
-    poster: './videos/edzna/1.png',
+    videoUrl: '/videos/compressed/edzna/ednzapyramid.mp4',
+    poster: '/videos/edzna/1.png',
     description: [
       'A large-scale projection mapping project transforming the ancient Mayan pyramid into a canvas for contemporary digital art, bringing pre-Hispanic history to life through immersive visual storytelling.',
       'Developed using projection mapping, 3D modeling with Blender, animation in After Effects, TouchDesigner for real-time content, camera mapping techniques, and historical research integration.',
@@ -258,10 +258,10 @@ const projects: Project[] = [
     technologies: ['Projection Mapping', '3D Modeling', 'Blender', 'After Effects', 'TouchDesigner', 'Camera Mapping'],
     concept: 'This project creates a dialogue between ancient architecture and modern technology, demonstrating how digital art can enhance cultural heritage sites and make history accessible to new generations through spectacular visual experiences.',
     galleryItems: [
-      { type: 'video', src: './videos-compressed/videos/edzna/ednzapyramid.mp4', alt: 'EDZNA Video Mapping Show' },
-      { type: 'image', src: './videos/edzna/1.png', alt: 'EDZNA Pyramid Projection' },
-      { type: 'image', src: './videos/edzna/2.png', alt: 'EDZNA Video Mapping Detail' },
-      { type: 'image', src: './videos/edzna/3.png', alt: 'EDZNA Night Show' }
+      { type: 'video', src: '/videos/compressed/edzna/ednzapyramid.mp4', alt: 'EDZNA Video Mapping Show' },
+      { type: 'image', src: '/videos/edzna/1.png', alt: 'EDZNA Pyramid Projection' },
+      { type: 'image', src: '/videos/edzna/2.png', alt: 'EDZNA Video Mapping Detail' },
+      { type: 'image', src: '/videos/edzna/3.png', alt: 'EDZNA Night Show' }
     ],
     credits: {
       direction: 'AIROLAX',
@@ -275,9 +275,9 @@ const projects: Project[] = [
     title: 'Wavey Runway',
     tag: 'Wavey runwavey',
     // Use original waveytiktok master as base video
-    videoUrl: './videos/waveytiktok.mp4',
+    videoUrl: '/videos/waveytiktok.mp4',
     // Use compressed hero still
-    poster: './images/optimized/videos/wavey/wavey-1.webp',
+    poster: '/images/optimized/videos/wavey/wavey-1.webp',
     description: [
       'A groundbreaking runway experience merging fashion and generative art, where each garment transforms into a living canvas that evolves as models walk.',
       'Developed using generative AI tools, real-time VFX, motion capture systems, LED technology, machine learning algorithms, and TouchDesigner for live visual generation.',
@@ -288,17 +288,17 @@ const projects: Project[] = [
     galleryItems: [
       {
         type: 'image',
-        src: './videos/wavey/Captura de Pantalla 2024-02-17 a la(s) 5.03.54.png',
+        src: '/videos/wavey/Captura de Pantalla 2024-02-17 a la(s) 5.03.54.png',
         alt: 'Wavey Runway Scene 1'
       },
       {
         type: 'image',
-        src: './videos/wavey/Captura de Pantalla 2025-05-25 a la(s) 14.51.40.png',
+        src: '/videos/wavey/Captura de Pantalla 2025-05-25 a la(s) 14.51.40.png',
         alt: 'Wavey Runway Scene 2'
       },
       {
         type: 'image',
-        src: './videos/wavey/Captura de Pantalla 2025-05-25 a la(s) 14.54.27 2.png',
+        src: '/videos/wavey/Captura de Pantalla 2025-05-25 a la(s) 14.54.27 2.png',
         alt: 'Wavey Runway Scene 3'
       }
     ],
@@ -313,8 +313,8 @@ const projects: Project[] = [
     id: '6',
     title: 'ThermoSense',
     tag: 'Interactive Installation',
-    videoUrl: './videos/thermosense.mp4',
-    poster: './videos/thermosense.mp4',
+    videoUrl: '/videos/thermosense.mp4',
+    poster: '/videos/thermosense.mp4',
     description: [
       'An interactive installation visualizing thermal energy and human presence through infrared sensors and generative visuals, creating beautiful patterns that respond to body heat and movement.',
       'Developed using infrared sensors, thermal imaging technology, generative art algorithms, real-time processing with Processing and Arduino, and interactive sound design.',
@@ -334,8 +334,8 @@ const projects: Project[] = [
     id: '8',
     title: 'OHM 1',
     tag: 'Laser Sound Sculpture',
-    videoUrl: './videos-compressed/videos/OHM/1.MP4',
-    poster: './videos-compressed/videos/OHM/1.MP4',
+    videoUrl: '/videos/compressed/OHM/1.MP4',
+    poster: '/videos/compressed/OHM/1.MP4',
     description: [
       'An initial exploration of laser technology as a medium for visual music, featuring red laser beams that create intricate patterns and geometric compositions in three-dimensional space.',
       'Developed using laser technology, photonic sensors, sound synthesis with Arduino and Max/MSP, and real-time audio-visual processing.',
@@ -344,9 +344,9 @@ const projects: Project[] = [
     technologies: ['Laser Technology', 'Photonic Sensors', 'Sound Synthesis', 'Arduino', 'Max/MSP'],
     concept: 'OHM 1 represents the first iteration in exploring the relationship between light and sound through laser technology. The red laser beams create a visual language that translates into harmonic frequencies, making visible the invisible connections between vibration, resonance, and perception.',
     galleryItems: [
-      { type: 'video', src: './videos-compressed/videos/OHM/1.MP4', alt: 'OHM 1 Blue Lasers' },
-      { type: 'image', src: './videos/OHM/2.png', alt: 'OHM 1 Laser Pattern' },
-      { type: 'image', src: './videos/OHM/3.png', alt: 'OHM 1 Installation View' }
+      { type: 'video', src: '/videos/compressed/OHM/1.MP4', alt: 'OHM 1 Blue Lasers' },
+      { type: 'image', src: '/videos/OHM/2.png', alt: 'OHM 1 Laser Pattern' },
+      { type: 'image', src: '/videos/OHM/3.png', alt: 'OHM 1 Installation View' }
     ],
     credits: {
       direction: 'AIROLAX',
@@ -359,8 +359,8 @@ const projects: Project[] = [
     id: '9',
     title: 'Ethereal Motion. Digital Poetry',
     tag: '3D Motion Graphics',
-    videoUrl: './videos-compressed/videos/demo2.mp4',
-    poster: './videos-compressed/videos/demo2.mp4',
+    videoUrl: '/videos/compressed/demo2.mp4',
+    poster: '/videos/compressed/demo2.mp4',
     description: [
       'A visual journey through abstract dimensions where geometry becomes emotion and motion transforms into poetry.',
       'This piece explores the fluid boundaries between form and void, light and shadow, creating a meditative experience through kinetic 3D compositions.',
@@ -371,7 +371,7 @@ const projects: Project[] = [
     technologies: ['3D Animation', 'Blender', 'After Effects', 'Cinema 4D', 'Motion Design', 'Compositing', 'Color Grading', 'Real-time Rendering'],
     concept: 'Ethereal Motion explores the poetic potential of 3D motion graphics, where abstract forms and fluid movements create a language beyond words. The piece demonstrates how digital geometry can evoke emotion and how motion can become a form of visual poetry.',
     galleryItems: [
-      { type: 'video', src: './videos-compressed/videos/demo2.mp4', alt: 'Ethereal Motion. Digital Poetry' }
+      { type: 'video', src: '/videos/compressed/demo2.mp4', alt: 'Ethereal Motion. Digital Poetry' }
     ],
     credits: {
       direction: 'AIROLAX',
@@ -902,10 +902,13 @@ updateClock();
 // ==========================================
 const TIMELINE_RASTER_EXT = /\.(jpe?g|png|gif|webp|avif|bmp|svg)(\?|#|$)/i;
 
+/** Rutas públicas (Vercel / static): siempre desde la raíz del sitio. */
 function normalizePresentationAssetPath(src: string): string {
   const s = (src || '').trim();
   if (!s) return '';
-  return s.startsWith('./') ? s : `./${s}`;
+  if (s.startsWith('/')) return s;
+  if (s.startsWith('./')) return '/' + s.slice(2).replace(/^\/+/, '');
+  return '/' + s.replace(/^\/+/, '');
 }
 
 function isTimelineRasterPath(url: string): boolean {
@@ -1955,7 +1958,7 @@ function setupLogoScene({
     // Create video element for LED screen
     videoElement = document.createElement('video');
     // Use home.mp4 for LED screen - add timestamp to prevent caching
-    videoElement.src = './videos/home.mp4?' + Date.now();
+    videoElement.src = '/videos/home.mp4?' + Date.now();
     videoElement.muted = true;
     videoElement.loop = true;
     videoElement.playsInline = true;
@@ -2111,7 +2114,7 @@ function setupLogoScene({
         // Try alternative path if main path fails
         if (videoElement && videoElement.src.includes('home.mp4')) {
           console.log('🔄 Trying alternative video path...');
-          videoElement.src = 'videos/home.mp4?' + Date.now();
+          videoElement.src = '/videos/home.mp4?' + Date.now();
           videoElement.load();
         }
       }
@@ -2752,7 +2755,7 @@ function initLogoScenes(): void {
     }
     setupLogoScene({
       containerId: 'logo-3d-container',
-      modelPath: './videos/andatalogo.glb',
+      modelPath: '/videos/andatalogo.glb',
       envMapPath: './env/1.jpeg',
       cameraZ: 5,
       autoRotate: true,
