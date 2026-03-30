@@ -1,23 +1,14 @@
-# BLOQUEO DE BASURA Y PESADOS (ZIPS Y VIDEOS)
+# BLOQUEO DE BASURA (ZIPS Y NODOS)
 *.zip
 *.ZIP
-*.mp4
-*.MP4
-*.mov
-*.MOV
-*.mkv
-*.wav
-*.HEIC
-
-# BLOQUEO DE CARPETAS PESADAS
-/videos/
-/public/videos/
-/public/videos-compressed/
-/AI MIRROR/
 /DEPLOY_CPANEL/
 /dist/
 /node_modules/
 /.env
+.DS_Store
 
-# NO BLOQUEAR EL LOGO
-# (Git ahora sí verá los archivos .glb)
+# CARPETAS DE TRABAJO (Solo si NO las usas en la web)
+# /AI MIRROR/ 
+
+# NOTA: He quitado *.mp4, *.mov y las carpetas de videos 
+# para que Git LFS pueda subirlos ahora mismo.
