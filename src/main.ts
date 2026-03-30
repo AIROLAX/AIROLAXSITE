@@ -81,6 +81,32 @@ const projects: Project[] = [
     }
   },
   {
+    id: '7',
+    title: 'Whispers of the Lake. Digital Immersive Experience',
+    tag: 'Projection Mapping + Cultural Art',
+    // Use original master video; compressed versions live under /videos but we avoid broken /videos/optimized paths
+    videoUrl: '/videos/chapala_project/1.mp4',
+    poster: '/videos/chapala_project/1.mp4',
+    description: [
+      'An immersive audiovisual installation transforming the historic presidential building in Chapala into a living canvas that narrates the origins, myths, and spirits surrounding Lake Chapala.',
+      'Developed using 3D projection mapping, Blender for architectural modeling, After Effects for animation, AI-assisted visuals via Runway, TouchDesigner for real-time generative systems, and spatial audio design.',
+      'Deliverables: Large-scale projection mapping show, 3D animations, generative visual content, and spatial sound installation.'
+    ],
+    technologies: ['3D Projection Mapping', 'Blender', 'After Effects', 'Runway / AI Tools', 'TouchDesigner', 'Spatial Audio'],
+    concept: 'The concept explores the spiritual connection between the lake, its ancestral stories, and the transition between life and death. Through layered 3D animations, architectural transformations, and atmospheric sound design, the façade becomes a portal between worlds.',
+    galleryItems: [
+      { type: 'video', src: '/videos/chapala_project/1.mp4', alt: 'Chapala Projection Mapping overview' },
+      { type: 'video', src: '/videos/chapala_project/2.mp4', alt: 'Chapala Projection Mapping detail' },
+      { type: 'video', src: '/videos/chapala_project/3.mp4', alt: 'Chapala Projection Mapping ambience' }
+    ],
+    credits: {
+      direction: 'Airolax',
+      development: 'Airolax Studio + Collaborators',
+      exhibition: 'Chapala, Jalisco. Día de Muertos 2025',
+      duration: '3 months development'
+    }
+  },
+  {
     id: 'breathing-space',
     title: 'Breathing Space',
     tag: 'Generative Immersive Environment',
@@ -108,32 +134,6 @@ const projects: Project[] = [
       development: 'AIROLAX',
       exhibition: 'Guadalajara, Mexico · Asana Yoga, Conjunto Santander 2026',
       duration: '2026'
-    }
-  },
-  {
-    id: '7',
-    title: 'Whispers of the Lake. Digital Immersive Experience',
-    tag: 'Projection Mapping + Cultural Art',
-    // Use original master video; compressed versions live under /videos but we avoid broken /videos/optimized paths
-    videoUrl: '/videos/chapala_project/1.mp4',
-    poster: '/videos/chapala_project/1.mp4',
-    description: [
-      'An immersive audiovisual installation transforming the historic presidential building in Chapala into a living canvas that narrates the origins, myths, and spirits surrounding Lake Chapala.',
-      'Developed using 3D projection mapping, Blender for architectural modeling, After Effects for animation, AI-assisted visuals via Runway, TouchDesigner for real-time generative systems, and spatial audio design.',
-      'Deliverables: Large-scale projection mapping show, 3D animations, generative visual content, and spatial sound installation.'
-    ],
-    technologies: ['3D Projection Mapping', 'Blender', 'After Effects', 'Runway / AI Tools', 'TouchDesigner', 'Spatial Audio'],
-    concept: 'The concept explores the spiritual connection between the lake, its ancestral stories, and the transition between life and death. Through layered 3D animations, architectural transformations, and atmospheric sound design, the façade becomes a portal between worlds.',
-    galleryItems: [
-      { type: 'video', src: '/videos/chapala_project/1.mp4', alt: 'Chapala Projection Mapping overview' },
-      { type: 'video', src: '/videos/chapala_project/2.mp4', alt: 'Chapala Projection Mapping detail' },
-      { type: 'video', src: '/videos/chapala_project/3.mp4', alt: 'Chapala Projection Mapping ambience' }
-    ],
-    credits: {
-      direction: 'Airolax',
-      development: 'Airolax Studio + Collaborators',
-      exhibition: 'Chapala, Jalisco. Día de Muertos 2025',
-      duration: '3 months development'
     }
   },
   {
@@ -3159,18 +3159,15 @@ if (document.readyState === 'loading') {
 initScrollToTop();
 
 // ==========================================
-// HERO — Matrix typing (jeroglíficos + símbolos; sin katakana)
+// HERO — Matrix typing (números + símbolos matemáticos/operadores)
 // ==========================================
-const EGYPTIAN_HIERO_START = 0x13000;
-const EGYPTIAN_HIERO_END = 0x1342f;
-const GLYPH_EXTRAS = '◈◇◆▲▼◉◎⬡⬢⎔⌬⍟†‡¶⌁⏣⏢';
+const MATRIX_DIGITS = '0123456789';
+const MATRIX_OPERATORS = '+-*/=%<>^~|&!?()[]{}#@$';
+const MATRIX_MATH_SYMBOLS = '∑∆√πλΩ∞≈≠≤≥∫∂∇⊕⊗';
+const MATRIX_CHAR_POOL = `${MATRIX_DIGITS}${MATRIX_OPERATORS}${MATRIX_MATH_SYMBOLS}`;
 
-function randomHieroglyphicChar(): string {
-  if (Math.random() < 0.12) {
-    return GLYPH_EXTRAS[Math.floor(Math.random() * GLYPH_EXTRAS.length)]!;
-  }
-  const range = EGYPTIAN_HIERO_END - EGYPTIAN_HIERO_START + 1;
-  return String.fromCodePoint(EGYPTIAN_HIERO_START + Math.floor(Math.random() * range));
+function randomMatrixChar(): string {
+  return MATRIX_CHAR_POOL[Math.floor(Math.random() * MATRIX_CHAR_POOL.length)]!;
 }
 
 type RunHeroMatrixLineOptions = {
@@ -3228,7 +3225,7 @@ function runHeroMatrixLine(
       const tick = (): void => {
         if (n < cycles) {
           if (!isSpace) {
-            span.textContent = randomHieroglyphicChar();
+            span.textContent = randomMatrixChar();
           } else {
             span.innerHTML = '&nbsp;';
           }
