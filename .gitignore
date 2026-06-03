@@ -6,6 +6,8 @@
 /node_modules/
 /.env
 .DS_Store
+gallery-ingest.log
+/public/gallery/
 
 # CARPETAS DE TRABAJO (Solo si NO las usas en la web)
 # /AI MIRROR/ 

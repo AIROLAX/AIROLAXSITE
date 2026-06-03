@@ -1,15 +1,17 @@
   <!DOCTYPE html>
   <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="AIROLAX — Artist and Creative Technologist. Immersive installations, projection mapping, generative art and real-time experiences. Based in Mexico, working worldwide.">
-    <meta name="keywords" content="immersive installations, interactive design, projection mapping, generative art, creative technology, real-time visual systems, experiential design, digital art studio, emerging media, audiovisual installations, immersive experiences">
-    <title>AIROLAX — Immersive Installations &amp; Creative Technology</title>
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="Argel Erevan Airola — AI content creator and creative technologist. Generative video, real-time systems, and immersive installations built for museums, festivals, and public space. Mexico · worldwide.">
+    <meta name="keywords" content="AI content creator, generative video, AI video, immersive installations, projection mapping, creative technologist, real-time visuals, TouchDesigner, Runway, experiential design, Mexico">
+    <title>Argel Erevan Airola — AI Content &amp; Immersive Installations</title>
     
     <!-- OpenGraph / Social Media -->
-    <meta property="og:title" content="AIROLAX — Immersive Installations &amp; Creative Technology">
-    <meta property="og:description" content="Artist and Creative Technologist. Immersive installations, projection mapping and real-time experiences. Based in Mexico, working worldwide.">
+    <meta property="og:title" content="Argel Erevan Airola — AI Content &amp; Immersive Installations">
+    <meta property="og:description" content="AI-generated content and real-time media — from generative video to projection mapping on heritage sites and live interactive installations.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://airolax.com">
     <meta property="og:image" content="https://airolax.com/images/LOGO.png">
@@ -20,18 +22,152 @@
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="AIROLAX — Immersive Installations &amp; Creative Technology">
-    <meta name="twitter:description" content="Artist and Creative Technologist. Immersive installations, projection mapping and real-time experiences. Based in Mexico, working worldwide.">
+    <meta name="twitter:title" content="Argel Erevan Airola — AI Content &amp; Immersive Installations">
+    <meta name="twitter:description" content="AI-generated content and real-time media — generative video, projection mapping, and installations built for real audiences.">
     <meta name="twitter:image" content="https://airolax.com/images/LOGO.png">
     <link rel="icon" type="image/png" href="./images/logo.png">
     <link rel="apple-touch-icon" href="./images/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Preload only hero video for faster first paint; GLB and env load when 3D runs -->
-    <link rel="preload" href="/videos/home.mp4" as="video" type="video/mp4" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Preload lightweight hero video variant -->
+    <link rel="stylesheet" href="./src/colors_and_type.css">
     <link rel="stylesheet" href="./src/styles.css">
+    <link rel="stylesheet" href="./src/aaad-theme.css">
     <style>
+      /* Critical paint — topbar + hero before JS bundle (prevents logo/menu FOUC) */
+      html { background: #000; }
+      body[data-brand="airolax"] {
+        background: #000 !important;
+        color: #fff;
+        margin: 0;
+      }
+      body[data-brand="airolax"] .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1001;
+        background: rgba(0, 0, 0, 0.35);
+        pointer-events: auto;
+      }
+      body[data-brand="airolax"] .topbar__inner {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 0;
+        height: calc(66px + env(safe-area-inset-top, 0));
+        min-height: 66px;
+        padding: env(safe-area-inset-top, 0) 40px 0;
+        max-width: none;
+      }
+      body[data-brand="airolax"] .topbar__brand {
+        grid-column: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        min-width: 0;
+        max-width: 42vw;
+      }
+      body[data-brand="airolax"] .topbar__brand-name {
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      body[data-brand="airolax"] .topbar__mark {
+        width: 22px !important;
+        height: 22px !important;
+        max-width: 22px !important;
+        flex-shrink: 0;
+        object-fit: contain;
+      }
+      body[data-brand="airolax"] .topbar__clock {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+        z-index: 1;
+      }
+      body[data-brand="airolax"] .clock-text {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+      body[data-brand="airolax"] .topbar__nav {
+        grid-column: 2;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 26px;
+      }
+      body[data-brand="airolax"] .nav-link {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 14px;
+        text-decoration: none;
+      }
+      body[data-brand="airolax"] .mobile-menu-toggle {
+        grid-column: 2;
+        justify-self: end;
+        display: none;
+      }
+      @media (max-width: 767px) {
+        body[data-brand="airolax"] .topbar__inner {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        body[data-brand="airolax"] .topbar__brand {
+          max-width: 34vw;
+          font-size: 11px;
+        }
+        body[data-brand="airolax"] .topbar__nav { display: none; }
+        body[data-brand="airolax"] .mobile-menu-toggle { display: flex; }
+      }
+      @media (min-width: 768px) {
+        body[data-brand="airolax"] .mobile-menu-toggle { display: none; }
+      }
+      .hero-video {
+        position: relative;
+        background: #000;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow: hidden;
+      }
+      .hero-video__container {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+      }
+      .hero-video__element {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        object-fit: cover;
+        opacity: 0 !important;
+        visibility: hidden;
+      }
+      .hero-video.is-ready .hero-video__element {
+        opacity: 1 !important;
+        visibility: visible;
+        transition: opacity 0.85s ease;
+      }
+      .hero-video:not(.is-ready) .hero-video__overlay {
+        background: #000 !important;
+      }
       /* Forzar que la página termine justo después del footer - sin espacio blanco */
       html { min-height: 0 !important; height: auto !important; }
       body { padding-bottom: 0 !important; margin-bottom: 0 !important; min-height: 0 !important; }
@@ -41,73 +177,28 @@
     
     <!-- GA4: cargado desde src/main.ts con VITE_GA_MEASUREMENT_ID (.env / Vercel). Ver .env.example -->
     
-    <!-- Inline script to force video loading immediately - runs before DOMContentLoaded -->
-    <script>
-      // Force hero video to start loading immediately when HTML is parsed
-      (function() {
-        if (document.readyState === 'loading') {
-          // DOM is still loading - use MutationObserver to catch video element early
-          var observer = new MutationObserver(function(mutations) {
-            var video = document.querySelector('.hero-video__element');
-            if (video) {
-              observer.disconnect();
-              // Force load immediately
-              video.load();
-              // Try to play as soon as metadata is loaded
-              video.addEventListener('loadedmetadata', function() {
-                if (video.readyState >= 2) {
-                  video.play().catch(function() {});
-                }
-              }, { once: true });
-              video.addEventListener('canplay', function() {
-                video.play().catch(function() {});
-              }, { once: true });
-            }
-          });
-          observer.observe(document.body || document.documentElement, {
-            childList: true,
-            subtree: true
-          });
-        } else {
-          // DOM already loaded - process immediately
-          var video = document.querySelector('.hero-video__element');
-          if (video) {
-            video.load();
-            video.addEventListener('loadedmetadata', function() {
-              if (video.readyState >= 2) {
-                video.play().catch(function() {});
-              }
-            }, { once: true });
-            video.addEventListener('canplay', function() {
-              video.play().catch(function() {});
-            }, { once: true });
-          }
-        }
-      })();
-    </script>
   </head>
-  <body>
+  <body data-brand="airolax" class="hero-video-active">
     <!-- Header Fixed -->
     <header class="topbar" role="banner">
       <div class="topbar__inner">
-        <!-- Left: Clock -->
-        <div class="topbar__clock">
-          <span class="clock-text" id="time-clock">00:00:00</span>
-        </div>
-        
-        <!-- Center: Logo (espacio para el logo 3D flotante) -->
-        <div class="topbar__logo">
-        </div>
-        
-        <!-- Right: Navigation -->
+        <a href="#hero-video" class="topbar__brand" aria-label="Argel Erevan Airola — home">
+          <img class="topbar__mark" src="/images/aaad-mark-white.png" width="22" height="22" alt="">
+          <span class="topbar__brand-name">Argel Erevan Airola</span>
+        </a>
+
         <nav class="topbar__nav" role="navigation" aria-label="Main navigation">
+          <a href="#immersive-index" class="nav-link">Index</a>
           <a href="#projects" class="nav-link">Work</a>
           <a href="#presentations-section" class="nav-link nav-link--about">About</a>
           <a href="#contact" class="nav-link">Contact</a>
-          <a href="https://www.andatalab.art" class="nav-link" target="_blank" rel="noopener noreferrer">LAB*</a>
+          <a href="https://www.andatalab.art" class="nav-link nav-link--cross" target="_blank" rel="noopener noreferrer">Andata Lab↗</a>
         </nav>
-        
-        <!-- Mobile Menu Toggle -->
+
+        <span class="topbar__clock" aria-hidden="true">
+          <span class="clock-text" id="time-clock">00:00:00</span>
+        </span>
+
         <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
@@ -119,10 +210,11 @@
       <div class="mobile-menu" id="mobile-menu">
         <button type="button" class="mobile-menu__close" id="mobile-menu-close" aria-label="Cerrar menú">✕</button>
         <nav class="mobile-menu__nav" role="navigation" aria-label="Mobile navigation">
+          <a href="#immersive-index" class="mobile-menu__link">Index</a>
           <a href="#projects" class="mobile-menu__link">Work</a>
           <a href="#presentations-section" class="mobile-menu__link">About</a>
           <a href="#contact" class="mobile-menu__link">Contact</a>
-          <a href="https://www.andatalab.art" class="mobile-menu__link" target="_blank" rel="noopener noreferrer">LAB*</a>
+          <a href="https://www.andatalab.art" class="mobile-menu__link" target="_blank" rel="noopener noreferrer">Andata Lab↗</a>
         </nav>
       </div>
     </header>
@@ -161,9 +253,6 @@
       })();
     </script>
 
-    <!-- Logo 3D Flotante (fuera del menú) -->
-    <div id="logo-3d-container" class="floating-logo-3d" aria-label="AIROLAX — Go to home"></div>
-
     <!-- Hero Video Section -->
     <section class="hero-video" id="hero-video">
       <div class="hero-video__container">
@@ -173,13 +262,14 @@
           muted 
           loop 
           playsinline 
-          preload="auto"
-          fetchpriority="high"
+          preload="metadata"
+          style="opacity:0"
           aria-label="Hero background video">
-          <source src="/videos/home.mp4" type="video/mp4">
+          <source src="/videos/home_WEB.mp4" type="video/mp4">
           <!-- Fallback for browsers that don't support video -->
         </video>
         <div class="hero-video__overlay"></div>
+        <div class="hero-video__grain" aria-hidden="true"></div>
         <div class="hero-video__shine" aria-hidden="true"></div>
         <div class="hero-video__text-overlay"></div>
         <div class="hero-video__content">
@@ -197,16 +287,16 @@
               <p
                 class="hero-video__role"
                 id="hero-video-role-matrix"
-                data-matrix-text="Multimedia Artist"
-                aria-label="Multimedia Artist"
+                data-matrix-text="AI Content · Live Installations"
+                aria-label="AI Content Creator and live installations"
               ></p>
             </div>
           </div>
           <div class="hero-video__cta">
-            <a href="#projects" class="hero-video__button">
-              <span>Artworks</span>
+            <a href="#immersive-index" class="hero-video__button">
+              <span>Selected Work</span>
             </a>
-            <a href="#projects" class="hero-video__scroll-hint" aria-label="Scroll down">
+            <a href="#immersive-index" class="hero-video__scroll-hint" aria-label="Scroll down">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M7 10l5 5 5-5"/>
               </svg>
@@ -215,6 +305,9 @@
         </div>
       </div>
     </section>
+
+    <!-- Immersive Index (AAAD — full archive wall) -->
+    <section class="immersive-index" id="immersive-index" aria-label="Immersive Index"></section>
 
     <!-- Carousel Section -->
     <section class="carousel-section" id="projects">
@@ -238,8 +331,8 @@
           </button>
         </div>
         
-        <!-- Project Details Panel -->
-        <div id="project-details-panel" class="project-details-panel"></div>
+        <!-- Active project → full case study page (work/*.html) -->
+        <div id="work-detail-strip" class="work-detail-strip" aria-live="polite"></div>
       </div>
     </section>
 
@@ -255,7 +348,7 @@
     <section class="presentations" id="presentations-section">
       <div class="presentations-header">
         <h2 class="presentations-title">Expositions</h2>
-        <p class="presentations-subtitle">Museums, festivals and public presentations.</p>
+        <p class="presentations-subtitle">AI-assisted visuals, generative content, and large-scale work delivered on site — museums, festivals, and public space.</p>
       </div>
       <div class="timeline" id="presentations-timeline">
         <!-- Timeline items injected by JavaScript -->
@@ -282,8 +375,8 @@
             </form>
           </div>
           <div class="site-footer__col site-footer__col--identity">
-            <div class="footer-identity__name">Airola Argel Erevan. Multimedia Artist. Director. Producer.</div>
-            <div class="footer-identity__location">Based in Mexico. Working worldwide</div>
+            <div class="footer-identity__name">Argel Erevan Airola — AI content creator · Director · Producer</div>
+            <div class="footer-identity__location">Generative video &amp; immersive installations · Mexico · worldwide</div>
             <div class="footer-identity__links">
               <a href="mailto:airolaxx@gmail.com" class="footer-contact__link">Email</a>
               <a href="https://wa.me/523221364664" target="_blank" rel="noopener noreferrer" class="footer-contact__link">WhatsApp</a>
@@ -327,9 +420,6 @@
     
     <!-- Main TypeScript module - Vite will process this correctly -->
     <script type="module" src="./src/main.ts"></script>
-    
-    <!-- Floating Copyright -->
-    <div class="floating-copyright">2025©</div>
 
     <!-- Floating WhatsApp Button (Desktop & Mobile) -->
     <a href="https://wa.me/523221364664?text=Hola%20AIROLAX%20STUDIO,%20me%20gustaría%20saber%20más%20sobre%20sus%20experiencias%20interactivas." 

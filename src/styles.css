@@ -37,10 +37,33 @@
    GLOBAL RESPONSIVE MEDIA RULES
    ========================================== */
 img, video {
-  width: 100%;
-  height: auto;
   display: block;
   object-fit: cover;
+}
+
+img:not(.topbar__mark):not(.topbar__logo-image),
+video:not(.hero-video__element) {
+  width: 100%;
+  height: auto;
+}
+
+.topbar__mark {
+  width: 22px;
+  height: 22px;
+  max-width: 22px;
+  object-fit: contain;
+}
+
+.topbar__logo-image {
+  width: auto;
+  height: 40px;
+  max-width: none;
+}
+
+.hero-video__element {
+  width: 100%;
+  height: 100%;
+  max-width: none;
 }
 
 /* Responsive container for videos and images */
@@ -522,15 +545,18 @@ body:not(.hero-video-active) .topbar.scrolled .mobile-menu-toggle .hamburger-lin
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  animation: heroVideoFadeIn 1.5s ease-in-out 0.3s forwards;
+  visibility: hidden;
 }
 
-@keyframes heroVideoFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+.hero-video.is-ready .hero-video__element {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.85s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-video.is-ready .hero-video__element {
+    transition: none;
   }
 }
 
@@ -2775,8 +2801,9 @@ section#projects.carousel-section {
     padding: 24px 20px max(20px, env(safe-area-inset-bottom, 0));
   }
 
+  .project-card__overlay,
   .project-card__overlay * {
-    pointer-events: auto;
+    pointer-events: none;
   }
 
   .project-card__title {

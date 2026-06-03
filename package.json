@@ -11,7 +11,7 @@
     "postbuild": "node -e \"const fs=require('fs'); const path=require('path'); if(fs.existsSync('work')) fs.cpSync('work','dist/work',{recursive:true}); if(fs.existsSync('contact.html')) fs.copyFileSync('contact.html',path.join('dist','contact.html'));\"",
     "preview": "vite preview",
     "compress:videos": "node tools/compressVideos.mjs",
-    "compress:images": "node tools/compressImages.mjs",
+    "ingest:gallery": "node tools/ingestGallery.mjs",
     "optimize:model": "node tools/model-optimize/optimizeModel.mjs"
   },
   "devDependencies": {

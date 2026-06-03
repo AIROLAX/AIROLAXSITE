@@ -2,6 +2,9 @@
 // IMPORTS
 // ==========================================
 import './styles.css';
+import './colors_and_type.css';
+import './aaad-theme.css';
+import { initImmersiveIndex } from './immersive-index';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -58,11 +61,11 @@ const projects: Project[] = [
   {
     id: '1',
     title: 'Biointerface',
-    tag: 'AI + Interactive Art',
+    tag: 'AI Content · Interactive Installation',
     videoUrl: '/videos/compressed/pro1.mp4',
     poster: '/videos/BIOINTERFACE/1.JPG',
     description: [
-      'An interactive installation exploring the intersection of artificial intelligence and biological data visualization, creating a bridge between human physiology and digital art.',
+      'AI-driven visuals and biometric data translated into a live interactive installation — digital content made tangible for audiences in the room.',
       'Developed using machine learning algorithms, biometric sensors, real-time processing with Python and OpenCV, and interactive visualization systems.',
       'Deliverables: Real-time interactive system, biometric data visualization, and immersive installation design.'
     ],
@@ -70,7 +73,6 @@ const projects: Project[] = [
     concept: 'The concept explores how technology can serve as a mirror to our internal biological processes, making the invisible visible through art. By translating physiological data into aesthetic experiences, Biointerface creates a new form of human-computer interaction that is both intimate and universal.',
     galleryItems: [
       { type: 'image', src: '/videos/BIOINTERFACE/F2.jpg', alt: 'Biointerface Installation' },
-      { type: 'image', src: '/videos/BIOINTERFACE/1.JPG', alt: 'Biointerface Installation' },
       { type: 'video', src: '/videos/compressed/BIOINTERFACE/4.mp4', alt: 'Biointerface Detail' }
     ],
     credits: {
@@ -83,19 +85,18 @@ const projects: Project[] = [
   {
     id: '7',
     title: 'Whispers of the Lake. Digital Immersive Experience',
-    tag: 'Projection Mapping + Cultural Art',
+    tag: 'AI-Assisted Projection · Cultural Installation',
     // Use original master video; compressed versions live under /videos but we avoid broken /videos/optimized paths
     videoUrl: '/videos/chapala_project/1.mp4',
     poster: '/videos/chapala_project/1.mp4',
     description: [
-      'An immersive audiovisual installation transforming the historic presidential building in Chapala into a living canvas that narrates the origins, myths, and spirits surrounding Lake Chapala.',
+      'Large-scale projection mapping on a historic façade — AI-assisted visuals, generative layers, and spatial audio composed for a real public audience at Lake Chapala.',
       'Developed using 3D projection mapping, Blender for architectural modeling, After Effects for animation, AI-assisted visuals via Runway, TouchDesigner for real-time generative systems, and spatial audio design.',
       'Deliverables: Large-scale projection mapping show, 3D animations, generative visual content, and spatial sound installation.'
     ],
     technologies: ['3D Projection Mapping', 'Blender', 'After Effects', 'Runway / AI Tools', 'TouchDesigner', 'Spatial Audio'],
     concept: 'The concept explores the spiritual connection between the lake, its ancestral stories, and the transition between life and death. Through layered 3D animations, architectural transformations, and atmospheric sound design, the façade becomes a portal between worlds.',
     galleryItems: [
-      { type: 'video', src: '/videos/chapala_project/1.mp4', alt: 'Chapala Projection Mapping overview' },
       { type: 'video', src: '/videos/chapala_project/2.mp4', alt: 'Chapala Projection Mapping detail' },
       { type: 'video', src: '/videos/chapala_project/3.mp4', alt: 'Chapala Projection Mapping ambience' }
     ],
@@ -109,11 +110,11 @@ const projects: Project[] = [
   {
     id: 'breathing-space',
     title: 'Breathing Space',
-    tag: 'Generative Immersive Environment',
+    tag: 'Generative Video · Real Space',
     videoUrl: '/videos/ASANA_YOGA/elbueno.mp4',
     poster: '/videos/ASANA_YOGA/elbueno.mp4',
     description: [
-      'Breathing Space is an immersive audiovisual installation developed for Asana Yoga at Conjunto Santander.',
+      'Real-time generative visuals projected into a physical yoga space — digital content that breathes with the room, not a screen-only piece.',
       'Using TouchDesigner and real-time generative systems, the space was transformed into a living environment of light and motion.',
       'A cubic architecture became a responsive field where generative visuals evolved continuously, creating a contemplative atmosphere between body, perception and space.'
     ],
@@ -139,11 +140,11 @@ const projects: Project[] = [
   {
     id: 'ai-mirror-dia-de-muertos',
     title: 'AI Mirror. Día de Muertos',
-    tag: 'Interactive Installation · AI-Driven Mirror',
+    tag: 'AI Content · Real-Time Mirror',
     videoUrl: '/videos/Chapala/export%287%29.MP4',
     poster: '/videos/Chapala/export%287%29.MP4',
     description: [
-      'AI Mirror. Día de Muertos is an interactive altar where the living and the digital overlap.',
+      'Live AI-generated calavera textures and generative portraits composited in real time on visitors — AI content as a physical altar experience.',
       'When a visitor approaches the mirror, a real-time camera captures their silhouette and merges it with AI-generated calavera textures, neon smoke patterns, and glitch-driven spiritual motifs.',
       'The installation reacts to presence, movement, and proximity, generating portraits that appear and fade like memories.',
       'This piece explores how artificial intelligence can expand traditional rituals. Turning a classic Día de Muertos ofrenda into a living, luminous, and responsive portal.',
@@ -152,7 +153,6 @@ const projects: Project[] = [
     technologies: ['TouchDesigner', 'AI Textures', 'Stable Diffusion', 'RunwayML', 'Real-Time Compositing', 'Camera Tracking', 'Interactive Installation', 'Generative Art', 'Spatial Audio'],
     concept: 'An AI-powered mirror that blends visitors with generative calavera spirits, transforming the Día de Muertos altar into a responsive digital portal.',
     galleryItems: [
-      { type: 'video', src: '/videos/Chapala/export%287%29.MP4', alt: 'AI Mirror. Día de Muertos main video' },
       { type: 'video', src: '/videos/ai-mirror/1.mp4', alt: 'AI Mirror interaction detail 1' },
       { type: 'video', src: '/videos/ai-mirror/2.mp4', alt: 'AI Mirror interaction detail 2' }
     ],
@@ -166,11 +166,11 @@ const projects: Project[] = [
   {
     id: '1b',
     title: 'Biointerface 2',
-    tag: 'AI + Interactive Art · Multiscreen',
+    tag: 'AI Content · Multiscreen',
     videoUrl: '/videos/BIOINTERFACE/4.MOV',
     poster: '/videos/BIOINTERFACE/1.JPG',
     description: [
-      'Same mechanism as Biointerface 1, with a different screen setup: a multi-screen animation where a generative line of visual art travels across the installation.',
+      'Generative visual line traveling across multiple screens with spatial sound — AI-driven motion designed for a physical multiscreen environment.',
       'Features real-time generative visuals, spatial sound design, and a continuous flowing line that moves between screens, creating a unified audiovisual experience across multiple displays.',
       'Deliverables: Multi-screen interactive installation, generative visual line, spatial audio, and immersive environment.'
     ],
@@ -178,7 +178,6 @@ const projects: Project[] = [
     concept: 'Biointerface 2 extends the original concept into a multiscreen space. A single generative line of light and form travels across the screens, accompanied by sound, transforming the installation into a journey of one continuous gesture through different “windows” of the same system.',
     galleryItems: [
       { type: 'video', src: '/videos/BIOINTERFACE/4.MOV', alt: 'Biointerface 2, Multiscreen' },
-      { type: 'image', src: '/videos/BIOINTERFACE/1.JPG', alt: 'Biointerface 2 Installation' },
       { type: 'video', src: '/videos/compressed/pro1.mp4', alt: 'Biointerface 1 reference' }
     ],
     credits: {
@@ -191,20 +190,18 @@ const projects: Project[] = [
   {
     id: '2',
     title: 'MUSEO DESCUBRE',
-    tag: 'Interactive Museum',
+    tag: 'Interactive · Built for Museum',
     videoUrl: '/videos/museo/DESCUBRE.mkv', // First video from gallery as main carousel video
     poster: '/videos/museo/1.png',                                                                                                                                                                                 
     description: [
-      'An immersive interactive museum experience transforming traditional exhibition spaces into dynamic learning environments where visitors interact with historical artifacts and scientific concepts.',
+      'Interactive museum experience built on site — motion tracking, touch surfaces, and real-time graphics deployed in a living exhibition space.',
       'Developed using projection mapping, motion tracking with Kinect sensors, touch interactive surfaces, Unity3D for 3D environments, and real-time graphics processing.',
       'Deliverables: Interactive museum installation, 3D reconstructions, motion-tracking systems, and adaptive educational experiences.'
     ],
     technologies: ['Projection Mapping', 'Motion Tracking', 'Touch Interactive Surfaces', 'Unity3D', 'Kinect Sensors', 'Real-time Graphics'],
     concept: 'This project reimagines the museum experience for the digital age, making education more engaging and accessible through interactive technology. It demonstrates how immersive installations can enhance learning and create memorable experiences that inspire curiosity.',
     galleryItems: [
-      { type: 'video', src: '/videos/museo/DESCUBRE.mkv', alt: 'MUSEO DESCUBRE Experience' },
       { type: 'video', src: '/videos/museo/C0087.MP4', alt: 'MUSEO DESCUBRE Interactive' },
-      { type: 'image', src: '/videos/museo/1.png', alt: 'MUSEO DESCUBRE Interactive Wall' },
       { type: 'image', src: '/videos/museo/2.png', alt: 'MUSEO DESCUBRE Projection' },
       { type: 'image', src: '/videos/museo/3.png', alt: 'MUSEO DESCUBRE Experience' },
       { type: 'image', src: '/videos/museo/4.png', alt: 'MUSEO DESCUBRE Installation' }
@@ -219,11 +216,11 @@ const projects: Project[] = [
   {
     id: '3',
     title: 'OHM Interactive Laser Sculpture',
-    tag: 'Laser Sound Sculpture',
+    tag: 'Physical Installation · Light & Sound',
     videoUrl: '/videos/compressed/OHM/ohmfinal.MP4',
     poster: '/videos/OHM/2.png',
     description: [
-      'A kinetic sound sculpture using precision laser technology to create visual music, where multiple laser beams intersect and dance in three-dimensional space.',
+      'Kinetic laser sculpture in physical space — precision light, photonic sensors, and live sound synthesis; no screen, fully built and presented on site.',
       'Developed using laser technology, photonic sensors, kinetic sculpture mechanics, sound synthesis with Arduino and Max/MSP, and real-time audio-visual processing.',
       'Deliverables: Interactive laser sculpture, sound synthesis system, and real-time audio-visual composition.'
     ],
@@ -231,10 +228,8 @@ const projects: Project[] = [
     concept: 'OHM explores the fundamental relationship between light and sound, making visible the invisible frequencies that surround us. The sculpture serves as a meditation on the nature of resonance and the interconnectedness of all vibrational phenomena.',
     galleryItems: [
       { type: 'video', src: '/videos/compressed/OHM/1.MP4', alt: 'OHM Blue Lasers' },
-      { type: 'video', src: '/videos/compressed/OHM/ohmfinal.MP4', alt: 'OHM Laser Performance' },
       { type: 'video', src: '/videos/compressed/OHM/ohm.mp4', alt: 'OHM Laser Sculpture' },
       { type: 'video', src: '/videos/compressed/OHM/ohm2.mp4', alt: 'OHM Installation View' },
-      { type: 'image', src: '/videos/OHM/2.png', alt: 'OHM Installation View' },
       { type: 'image', src: '/videos/OHM/3.png', alt: 'OHM Installation View' }
     ],
     credits: {
@@ -247,19 +242,17 @@ const projects: Project[] = [
   {
     id: '4',
     title: 'EDZNA VIDEO MAPPING',
-    tag: 'Interactive Installation',
+    tag: 'Projection Mapping · Heritage Site',
     videoUrl: '/videos/compressed/edzna/ednzapyramid.mp4',
     poster: '/videos/edzna/1.png',
     description: [
-      'A large-scale projection mapping project transforming the ancient Mayan pyramid into a canvas for contemporary digital art, bringing pre-Hispanic history to life through immersive visual storytelling.',
+      'Mayan pyramid as canvas — projection mapping, 3D animation, and narrative content produced for a real archaeological site and night-time public show.',
       'Developed using projection mapping, 3D modeling with Blender, animation in After Effects, TouchDesigner for real-time content, camera mapping techniques, and historical research integration.',
       'Deliverables: Large-scale projection mapping show, 3D animations, historical narrative content, and on-site installation.'
     ],
     technologies: ['Projection Mapping', '3D Modeling', 'Blender', 'After Effects', 'TouchDesigner', 'Camera Mapping'],
     concept: 'This project creates a dialogue between ancient architecture and modern technology, demonstrating how digital art can enhance cultural heritage sites and make history accessible to new generations through spectacular visual experiences.',
     galleryItems: [
-      { type: 'video', src: '/videos/compressed/edzna/ednzapyramid.mp4', alt: 'EDZNA Video Mapping Show' },
-      { type: 'image', src: '/videos/edzna/1.png', alt: 'EDZNA Pyramid Projection' },
       { type: 'image', src: '/videos/edzna/2.png', alt: 'EDZNA Video Mapping Detail' },
       { type: 'image', src: '/videos/edzna/3.png', alt: 'EDZNA Night Show' }
     ],
@@ -273,13 +266,13 @@ const projects: Project[] = [
   {
     id: '5',
     title: 'Wavey Runway',
-    tag: 'Wavey runwavey',
+    tag: 'Generative AI · Live Runway',
     // Use original waveytiktok master as base video
     videoUrl: '/videos/waveytiktok.mp4',
     // Use compressed hero still
     poster: '/images/optimized/videos/wavey/wavey-1.webp',
     description: [
-      'A groundbreaking runway experience merging fashion and generative art, where each garment transforms into a living canvas that evolves as models walk.',
+      'Generative AI visuals on the runway — each look becomes a live canvas; real-time VFX and motion-responsive content for a fashion show audience.',
       'Developed using generative AI tools, real-time VFX, motion capture systems, LED technology, machine learning algorithms, and TouchDesigner for live visual generation.',
       'Deliverables: Real-time generative fashion show, AI-generated visual content, motion-responsive systems, and immersive runway experience.'
     ],
@@ -312,11 +305,11 @@ const projects: Project[] = [
   {
     id: '6',
     title: 'ThermoSense',
-    tag: 'Interactive Installation',
+    tag: 'Interactive · Sensor-Driven',
     videoUrl: '/videos/thermosense.mp4',
     poster: '/videos/thermosense.mp4',
     description: [
-      'An interactive installation visualizing thermal energy and human presence through infrared sensors and generative visuals, creating beautiful patterns that respond to body heat and movement.',
+      'Thermal sensors and generative visuals in a physical installation — invisible body heat made visible for visitors in real space.',
       'Developed using infrared sensors, thermal imaging technology, generative art algorithms, real-time processing with Processing and Arduino, and interactive sound design.',
       'Deliverables: Interactive thermal visualization system, generative visual content, and immersive installation design.'
     ],
@@ -333,19 +326,17 @@ const projects: Project[] = [
   {
     id: '8',
     title: 'OHM 1',
-    tag: 'Laser Sound Sculpture',
+    tag: 'Physical Installation · Lasers',
     videoUrl: '/videos/compressed/OHM/1.MP4',
     poster: '/videos/compressed/OHM/1.MP4',
     description: [
-      'An initial exploration of laser technology as a medium for visual music, featuring red laser beams that create intricate patterns and geometric compositions in three-dimensional space.',
+      'Early laser sound sculpture — geometric light compositions in three-dimensional space, built and presented as a physical audiovisual work.',
       'Developed using laser technology, photonic sensors, sound synthesis with Arduino and Max/MSP, and real-time audio-visual processing.',
       'Deliverables: Laser sound sculpture, photonic sensor system, and audio-visual composition.'
     ],
     technologies: ['Laser Technology', 'Photonic Sensors', 'Sound Synthesis', 'Arduino', 'Max/MSP'],
     concept: 'OHM 1 represents the first iteration in exploring the relationship between light and sound through laser technology. The red laser beams create a visual language that translates into harmonic frequencies, making visible the invisible connections between vibration, resonance, and perception.',
     galleryItems: [
-      { type: 'video', src: '/videos/compressed/OHM/1.MP4', alt: 'OHM 1 Blue Lasers' },
-      { type: 'image', src: '/videos/OHM/2.png', alt: 'OHM 1 Laser Pattern' },
       { type: 'image', src: '/videos/OHM/3.png', alt: 'OHM 1 Installation View' }
     ],
     credits: {
@@ -358,11 +349,11 @@ const projects: Project[] = [
   {
     id: '9',
     title: 'Ethereal Motion. Digital Poetry',
-    tag: '3D Motion Graphics',
+    tag: 'Generative Video · 3D Motion',
     videoUrl: '/videos/compressed/demo2.mp4',
     poster: '/videos/compressed/demo2.mp4',
     description: [
-      'A visual journey through abstract dimensions where geometry becomes emotion and motion transforms into poetry.',
+      'Generative 3D motion piece — abstract digital poetry where form, light, and movement carry the narrative; content-first video work.',
       'This piece explores the fluid boundaries between form and void, light and shadow, creating a meditative experience through kinetic 3D compositions.',
       'Each movement tells a story, each transition reveals a new perspective, inviting the viewer to lose themselves in the dance of digital matter.',
       'Developed using Blender for 3D modeling and animation, After Effects for compositing and color grading, Cinema 4D for complex motion design, and real-time rendering techniques.',
@@ -419,6 +410,72 @@ function getProjectSlug(project: Project): string {
     '9': 'ethereal-motion-digital-poetry'
   };
   return slugMap[project.id] ?? generateSlug(project.title);
+}
+
+function getProjectYear(project: Project): string {
+  const dur = (project.credits?.duration || '').trim();
+  const exh = (project.credits?.exhibition || '').trim();
+  const m = dur.match(/^\d{4}$/) || exh.match(/\d{4}/);
+  return m ? m[0] : dur || '';
+}
+
+function renderWorkDetailStrip(project: Project): void {
+  const strip = document.getElementById('work-detail-strip');
+  if (!strip) return;
+  const href = `work/${getProjectSlug(project)}.html`;
+  const year = getProjectYear(project);
+  const teaser = project.description[0] || project.concept || '';
+  strip.innerHTML = `
+    <a class="work-detail-strip__link" href="${href}">
+      <span class="work-detail-strip__meta">${year}${year ? ' — ' : ''}${project.tag}</span>
+      <h3 class="work-detail-strip__title">${project.title}</h3>
+      <p class="work-detail-strip__teaser">${teaser}</p>
+      <span class="work-detail-strip__cta">View project →</span>
+    </a>
+  `;
+}
+
+function getCenteredCarouselIndex(track: HTMLElement): number {
+  const cards = Array.from(track.querySelectorAll<HTMLElement>('.project-card'));
+  if (cards.length === 0) return 0;
+  const tr = track.getBoundingClientRect();
+  const centerX = tr.left + tr.width * 0.5;
+  let bestIdx = 0;
+  let best = Infinity;
+  cards.forEach((card, i) => {
+    const r = card.getBoundingClientRect();
+    const d = Math.abs(r.left + r.width * 0.5 - centerX);
+    if (d < best) {
+      best = d;
+      bestIdx = i;
+    }
+  });
+  return bestIdx;
+}
+
+function bindWorkDetailStrip(track: HTMLElement): void {
+  const update = (): void => {
+    const idx = getCenteredCarouselIndex(track);
+    const project = carouselProjects[idx];
+    if (project) renderWorkDetailStrip(project);
+    track.querySelectorAll('.project-card').forEach((card, i) => {
+      card.classList.toggle('is-centered', i === idx);
+    });
+  };
+  update();
+  let debounce: number | null = null;
+  track.addEventListener(
+    'scroll',
+    () => {
+      if (debounce != null) window.clearTimeout(debounce);
+      debounce = window.setTimeout(() => {
+        update();
+        debounce = null;
+      }, 80);
+    },
+    { passive: true }
+  );
+  track.addEventListener('scrollend', update as EventListener, { passive: true });
 }
 
 // ==========================================
@@ -484,6 +541,7 @@ function initSelectedWorkCarousel(): void {
 
   let mobileCarouselScrollBound = false;
   let carouselBreakpointBound = false;
+  let workDetailStripBound = false;
 
   // Create project card with video
   const createCard = (project: Project, _index: number): HTMLElement => {
@@ -493,6 +551,7 @@ function initSelectedWorkCarousel(): void {
     card.setAttribute('data-project-id', project.id);
     const slug = getProjectSlug(project);
     card.href = `work/${slug}.html`;
+    card.setAttribute('aria-label', `View ${project.title} project page`);
     
     const videoSrc = project.videoUrl || '';
     const posterSrc = project.poster || '';
@@ -863,6 +922,12 @@ function initSelectedWorkCarousel(): void {
         }
       });
     }
+
+    if (!workDetailStripBound && carouselProjects[0]) {
+      workDetailStripBound = true;
+      renderWorkDetailStrip(carouselProjects[0]);
+      bindWorkDetailStrip(trackElement);
+    }
   };
   
   // Setup arrow buttons (only once, outside renderCards to avoid duplicate listeners)
@@ -876,7 +941,6 @@ function initSelectedWorkCarousel(): void {
   // Initialize
   setTimeout(() => {
     renderCards();
-    renderProjectDetailsPanel();
   }, 100);
 }
 
@@ -1955,15 +2019,14 @@ function setupLogoScene({
       }
     );
 
-    // Create video element for LED screen
+    // Create video element for LED screen (use lightweight variant + browser cache)
     videoElement = document.createElement('video');
-    // Use home.mp4 for LED screen - add timestamp to prevent caching
-    videoElement.src = '/videos/home.mp4?' + Date.now();
+    videoElement.src = '/videos/home_WEB.mp4';
     videoElement.muted = true;
     videoElement.loop = true;
     videoElement.playsInline = true;
     videoElement.autoplay = true;
-    videoElement.preload = 'auto';
+    videoElement.preload = 'metadata';
     videoElement.setAttribute('playsinline', '');
     videoElement.setAttribute('webkit-playsinline', '');
     videoElement.setAttribute('x5-playsinline', '');
@@ -3045,63 +3108,59 @@ function initHeroShineEffect(): void {
 // HERO VIDEO OPTIMIZATION - Fast load on mobile
 // ==========================================
 function initHeroVideoFastLoad(): void {
+  const heroSection = document.querySelector('.hero-video') as HTMLElement;
   const heroVideo = document.querySelector('.hero-video__element') as HTMLVideoElement;
   if (!heroVideo) return;
 
+  const revealHeroVideo = (): void => {
+    if (heroSection?.classList.contains('is-ready')) return;
+    heroSection?.classList.add('is-ready');
+  };
+
   // Force immediate load on ALL devices for faster start
-  // Set loading priority
   heroVideo.setAttribute('fetchpriority', 'high');
-  
-  // Force load start immediately
   heroVideo.load();
-  
-  // Aggressive playback strategy - try to play as soon as ANY data is available
-  const tryPlay = () => {
-    // Try to play when we have enough data (HAVE_CURRENT_DATA = 2)
+
+  const tryPlay = (): void => {
     if (heroVideo.readyState >= 2) {
-      heroVideo.play().catch(() => {
-        // Autoplay blocked, will play on first user interaction
-      });
+      heroVideo.play().catch(() => {});
     }
   };
-  
-  // Listen to multiple events to catch playback as early as possible
-  heroVideo.addEventListener('loadedmetadata', () => {
-    // Video metadata loaded - try immediate play
-    tryPlay();
-  }, { once: true });
-  
+
   heroVideo.addEventListener('loadeddata', () => {
-    // First frame loaded - definitely try to play
     tryPlay();
+    revealHeroVideo();
   }, { once: true });
-  
+
   heroVideo.addEventListener('canplay', () => {
-    // Can start playing - play immediately
     tryPlay();
+    revealHeroVideo();
   }, { once: true });
-  
+
   heroVideo.addEventListener('canplaythrough', () => {
-    // Full video can play without buffering - ensure it's playing
     heroVideo.play().catch(() => {});
+    revealHeroVideo();
   }, { once: true });
-  
-  // Try immediately if video is already partially loaded
-  if (heroVideo.readyState >= 1) { // HAVE_METADATA or higher
+
+  heroVideo.addEventListener('loadedmetadata', tryPlay, { once: true });
+
+  if (heroVideo.readyState >= 1) {
     tryPlay();
   }
-  
-  // Also set video element properties for faster loading
+
   heroVideo.preload = 'auto';
-  
-  // Force browser to prioritize this video
+
+  // Fallback: never leave hero black if video fails or is slow
+  window.setTimeout(revealHeroVideo, 2200);
+
   if ('requestVideoFrameCallback' in heroVideo) {
-    // Modern browsers - use video frame callback to ensure early playback
     try {
-      (heroVideo as any).requestVideoFrameCallback(() => {
-        tryPlay();
-      });
-    } catch (e) {
+      (heroVideo as HTMLVideoElement & { requestVideoFrameCallback: (cb: () => void) => void })
+        .requestVideoFrameCallback(() => {
+          tryPlay();
+          revealHeroVideo();
+        });
+    } catch {
       // Fallback if not supported
     }
   }
@@ -3118,7 +3177,8 @@ function initializeApp(): void {
   initHeroVideoFastLoad();
   initHeroShineEffect();
 
-  initLogoScenes();
+  // Logo 3D disabled — AAAD header uses static mark (pairs with Andata Lab)
+  // initLogoScenes();
   initScrollToTop();
   
   // Initialize section animations with GSAP + ScrollTrigger
@@ -3306,7 +3366,7 @@ function initHeroVideoAnimations(): void {
     if (role) {
       gsap.set(role, { opacity: 1, filter: 'blur(0px)' });
     }
-    const roleRaw = role?.dataset.matrixText?.trim() || 'Multimedia Artist';
+    const roleRaw = role?.dataset.matrixText?.trim() || 'AI Content · Live Installations';
     runHeroMatrixLine(role, roleRaw, {
       staggerMs: 38,
       lineClass: 'hero-video__role--matrix',
@@ -4032,6 +4092,18 @@ function initFloatingWhatsAppButton(): void {
 // Initialize carousel on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
+    initImmersiveIndex(
+      projects.map((p) => ({
+        id: p.id,
+        title: p.title,
+        tag: p.tag,
+        poster: p.poster,
+        galleryItems: p.galleryItems,
+        technologies: p.technologies,
+        credits: p.credits,
+        slug: getProjectSlug(p),
+      }))
+    );
     initSelectedWorkCarousel();
     initPresentationsTimeline();
   }, 200);
