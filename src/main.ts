@@ -608,18 +608,13 @@ function initSelectedWorkCarousel(): void {
       ? `<p class="project-card__desc">${teaser}</p>`
       : '';
 
-    // Desktop: todos los videos con src (comportamiento anterior). Móvil: data-src + poster; src solo al slide activo.
+    // data-src + poster; src solo cuando el slide está visible (móvil y desktop).
     card.innerHTML = `
       <div class="project-card__media">
         ${videoSrc ? `
           <video
             data-src="${videoSrc}"
-            ${mobileLayout
-              ? `preload="none"`
-              : `src="${videoSrc}"
-            autoplay
-            preload="metadata"
-            loading="lazy"`}
+            preload="none"
             muted
             loop
             playsinline
@@ -746,7 +741,26 @@ function initSelectedWorkCarousel(): void {
         console.log(`Loading video for ${project.title}:`, videoSrc);
         
         // Function to play video with retry logic for iOS
+        const ensureVideoSrc = (vid: HTMLVideoElement): void => {
+          const src = vid.dataset.src?.trim();
+          if (!src) return;
+          if (!vid.getAttribute('src')) {
+            vid.src = src;
+            vid.load();
+          }
+        };
+
+        const releaseVideoSrc = (vid: HTMLVideoElement): void => {
+          vid.pause();
+          vid.dataset.playing = '0';
+          if (vid.getAttribute('src')) {
+            vid.removeAttribute('src');
+            vid.load();
+          }
+        };
+
         const playVideo = async (vid: HTMLVideoElement) => {
+          ensureVideoSrc(vid);
           try {
             await vid.play();
           } catch (err) {
@@ -763,18 +777,21 @@ function initSelectedWorkCarousel(): void {
         // Desktop: play/pause según visibilidad en viewport. Móvil: solo un video vía syncMobileCarouselVideos.
         if (!mobileLayout) {
           const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                const vid = entry.target as HTMLVideoElement;
+            entries.forEach((entry) => {
+              const vid = entry.target as HTMLVideoElement;
+              if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
+                trackElement.querySelectorAll<HTMLVideoElement>('video').forEach((other) => {
+                  if (other !== vid && other.dataset.playing === '1') releaseVideoSrc(other);
+                });
                 playVideo(vid);
+                vid.dataset.playing = '1';
               } else {
-                const vid = entry.target as HTMLVideoElement;
-                vid.pause();
+                releaseVideoSrc(vid);
               }
             });
           }, {
-            threshold: 0.1,
-            rootMargin: '50px'
+            threshold: [0, 0.25, 0.45],
+            rootMargin: '40px',
           });
           observer.observe(video);
         }
@@ -1617,6 +1634,20 @@ function scrollToSection(targetId: string): void {
   if (targetId === 'projects') {
     scrollToProjectsVideoStart('smooth');
     return;
+  }
+
+  if (targetId === 'immersive-index') {
+    const section = document.getElementById('immersive-index');
+    const stage = section?.querySelector<HTMLElement>('.immersive-index__stage');
+    const scrollTarget = stage ?? section;
+    if (scrollTarget) {
+      const isMobile = window.innerWidth <= 768;
+      const headerHeight = isMobile ? 64 : 80;
+      const rect = scrollTarget.getBoundingClientRect();
+      const top = rect.top + window.pageYOffset - headerHeight - 6;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      return;
+    }
   }
 
   // Handle all other sections
@@ -3290,7 +3321,24 @@ function initHeroVideoFastLoad(): void {
     tryPlay();
   }
 
-  heroVideo.preload = 'auto';
+  heroVideo.preload = 'metadata';
+
+  if ('IntersectionObserver' in window && heroSection) {
+    const heroIo = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          heroVideo.preload = 'auto';
+          tryPlay();
+        } else {
+          heroVideo.pause();
+        }
+      },
+      { threshold: 0.12 }
+    );
+    heroIo.observe(heroSection);
+  } else {
+    heroVideo.preload = 'auto';
+  }
 
   // Fallback: never leave hero black if video fails or is slow
   window.setTimeout(revealHeroVideo, 2200);

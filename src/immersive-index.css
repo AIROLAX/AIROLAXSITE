@@ -1,75 +1,81 @@
-/* Immersive Index — AAAD gallery wall */
+/* Work gallery wall — compact chrome, max image area */
 
 .immersive-index {
-  padding: 40px 0 96px;
+  padding: 12px 0 40px;
   background: var(--bg);
 }
 
-.immersive-index__head {
+.immersive-index__controls {
+  padding: 0 36px;
+  margin-bottom: 10px;
+}
+
+.immersive-index__intro {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
   flex-wrap: wrap;
-  padding: 0 36px;
-  margin-bottom: 30px;
+  margin-bottom: 12px;
 }
 
-.immersive-index__label {
-  font-size: var(--fs-label);
-  font-weight: var(--fw-medium);
-  letter-spacing: var(--tr-label);
-  text-transform: uppercase;
-  color: var(--ink-2);
+.immersive-index__intro-text {
+  min-width: 0;
+  flex: 1 1 240px;
 }
 
 .immersive-index__title {
-  margin: 10px 0 0;
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 800;
+  margin: 0;
+  font-size: clamp(1.05rem, 2.2vw, 1.45rem);
+  font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--ink);
-  line-height: 1.04;
+  line-height: 1.12;
+  max-width: 42ch;
+}
+
+.immersive-index__controls-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 .immersive-index__counter {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 4px;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .immersive-index__counter-vis {
-  font-size: clamp(2rem, 4vw, 3.1rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink-2);
   font-variant-numeric: tabular-nums;
 }
 
 .immersive-index__counter-sep {
-  font-size: clamp(2rem, 4vw, 3.1rem);
-  font-weight: 300;
+  font-size: 0.85rem;
+  font-weight: 400;
   color: var(--ink-3);
 }
 
 .immersive-index__counter-total {
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--ink-3);
   font-variant-numeric: tabular-nums;
 }
 
-.immersive-index__facet-wrap {
-  padding: 0 36px;
-  margin-bottom: 16px;
-}
-
 .immersive-index__seg {
   display: inline-flex;
   flex-direction: row;
-  gap: 4px;
-  padding: 4px;
+  gap: 3px;
+  padding: 3px;
   border-radius: var(--r-pill);
   border: 1px solid var(--hair);
   background: transparent;
@@ -85,10 +91,10 @@
 
 .immersive-index__seg-btn {
   font-family: inherit;
-  font-size: 12.5px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.01em;
-  padding: 8px 18px;
+  letter-spacing: 0.02em;
+  padding: 6px 14px;
   border-radius: var(--r-pill);
   border: none;
   cursor: pointer;
@@ -103,7 +109,6 @@
 }
 
 .immersive-index__chips-scroll {
-  padding: 0 36px;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -115,23 +120,22 @@
 .immersive-index__chips {
   position: relative;
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: nowrap;
   width: max-content;
   min-width: 100%;
-  padding-bottom: 4px;
+  padding-bottom: 2px;
 }
 
 .immersive-index__chip-indicator {
   position: absolute;
-  z-index: 0;
   top: 0;
   left: 0;
   height: 100%;
-  background: var(--ink);
   border-radius: var(--r-pill);
-  transition: transform 0.42s cubic-bezier(0.22, 0.61, 0.36, 1),
-    width 0.42s cubic-bezier(0.22, 0.61, 0.36, 1);
+  background: var(--ink);
+  transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1), width 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+  z-index: 0;
 }
 
 .immersive-index__chip {
@@ -139,28 +143,29 @@
   z-index: 1;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  flex: none;
-  font-family: inherit;
-  font-size: 13.5px;
-  padding: 9px 16px;
+  gap: 6px;
+  padding: 6px 12px;
   border-radius: var(--r-pill);
   border: 1px solid var(--hair);
   background: transparent;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
   cursor: pointer;
   white-space: nowrap;
-  color: var(--ink-2);
   transition: color 0.2s, border-color 0.2s;
 }
 
 .immersive-index__chip.is-active {
-  color: var(--on-accent);
   border-color: transparent;
+  color: var(--on-accent);
 }
 
 .immersive-index__chip-count {
-  font-size: 10.5px;
-  font-weight: 600;
+  font-size: 9px;
+  font-weight: 500;
   letter-spacing: 0.04em;
   opacity: 0.55;
   font-variant-numeric: tabular-nums;
@@ -172,9 +177,9 @@
 
 .immersive-index__stage {
   position: relative;
-  height: 74vh;
-  min-height: 460px;
-  margin-top: 22px;
+  height: min(80vh, calc(100dvh - 188px));
+  min-height: 400px;
+  margin-top: 8px;
   overflow: hidden;
   cursor: grab;
   user-select: none;
@@ -249,7 +254,6 @@
   background: #000;
 }
 
-/* Proporción real del archivo — sin recorte forzado a cuadrado */
 .gal-frame--natural .gal-media {
   object-fit: contain;
 }
@@ -352,21 +356,21 @@
 .immersive-index__hint {
   position: absolute;
   left: 50%;
-  bottom: 18px;
+  bottom: 14px;
   transform: translateX(-50%);
   z-index: 7;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: var(--r-pill);
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #fff;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   pointer-events: none;
   transition: opacity 0.5s;
@@ -377,15 +381,22 @@
 }
 
 @media (max-width: 768px) {
-  .immersive-index__head,
-  .immersive-index__facet-wrap,
-  .immersive-index__chips-scroll {
+  .immersive-index {
+    padding: 8px 0 28px;
+  }
+
+  .immersive-index__controls {
     padding: 0 20px;
+    margin-bottom: 8px;
+  }
+
+  .immersive-index__title {
+    font-size: 1rem;
   }
 
   .immersive-index__stage {
-    height: 58dvh;
-    min-height: 320px;
+    height: min(68dvh, calc(100dvh - 168px));
+    min-height: 280px;
     touch-action: none;
     -webkit-overflow-scrolling: touch;
   }
@@ -395,8 +406,8 @@
   }
 
   .immersive-index__hint {
-    bottom: calc(14px + env(safe-area-inset-bottom, 0));
-    font-size: 10px;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0));
+    font-size: 9px;
   }
 }
 

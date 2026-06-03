@@ -199,16 +199,7 @@ function initTileNaturalAspects(grid: HTMLElement, onDone: () => void): void {
         probe.onerror = finish;
         probe.src = poster;
       } else {
-        pending += 1;
-        const onMeta = (): void => {
-          video.removeEventListener('loadedmetadata', onMeta);
-          if (video.videoWidth > 0) setTileAspect(frame, video.videoWidth, video.videoHeight);
-          finish();
-        };
-        video.addEventListener('loadedmetadata', onMeta);
-        video.preload = 'metadata';
-        if (!video.src && video.dataset.videoSrc) video.src = video.dataset.videoSrc;
-        video.load();
+        setTileAspect(frame, 16, 9);
       }
       return;
     }
@@ -594,25 +585,26 @@ export async function initImmersiveIndex(
   const tx = { x: 0, y: 0 };
 
   root.innerHTML = `
-    <div class="immersive-index__head">
-      <div>
-        <p class="immersive-index__label">Immersive Index</p>
-        <h2 class="immersive-index__title">Works that breathe in space — installation, projection, and live media.</h2>
+    <div class="immersive-index__controls">
+      <div class="immersive-index__intro">
+        <div class="immersive-index__intro-text">
+          <h2 class="immersive-index__title">Works that breathe in space — installation, projection, and live media.</h2>
+        </div>
+        <div class="immersive-index__counter" aria-live="polite">
+          <span class="immersive-index__counter-vis" data-counter-vis>${pad3(tiles.length)}</span>
+          <span class="immersive-index__counter-sep">/</span>
+          <span class="immersive-index__counter-total" data-counter-total>${pad3(tiles.length)}</span>
+        </div>
       </div>
-      <div class="immersive-index__counter" aria-live="polite">
-        <span class="immersive-index__counter-vis" data-counter-vis>${pad3(tiles.length)}</span>
-        <span class="immersive-index__counter-sep">/</span>
-        <span class="immersive-index__counter-total" data-counter-total>${pad3(tiles.length)}</span>
+      <div class="immersive-index__controls-top">
+        <div class="immersive-index__seg" role="tablist" aria-label="Filter by">
+          <button type="button" class="immersive-index__seg-btn is-active" data-facet="disc">By Technique</button>
+          <button type="button" class="immersive-index__seg-btn" data-facet="proj">By Project</button>
+        </div>
       </div>
-    </div>
-    <div class="immersive-index__facet-wrap">
-      <div class="immersive-index__seg" role="tablist" aria-label="Filter by">
-        <button type="button" class="immersive-index__seg-btn is-active" data-facet="disc">By Technique</button>
-        <button type="button" class="immersive-index__seg-btn" data-facet="proj">By Project</button>
+      <div class="immersive-index__chips-scroll">
+        <div class="immersive-index__chips" data-chips></div>
       </div>
-    </div>
-    <div class="immersive-index__chips-scroll">
-      <div class="immersive-index__chips" data-chips></div>
     </div>
     <div class="immersive-index__stage" data-stage>
       <div class="immersive-index__grid" data-grid></div>
@@ -736,7 +728,17 @@ export async function initImmersiveIndex(
     requestAnimationFrame(updateIndicator);
   };
 
+  const pauseAllIndexVideos = (): void => {
+    grid.querySelectorAll<HTMLVideoElement>('video.gal-media--video').forEach((v) => {
+      v.pause();
+      v.removeAttribute('src');
+      v.load();
+      v.dataset.playing = '0';
+    });
+  };
+
   const applyFilter = (): void => {
+    pauseAllIndexVideos();
     let visible = 0;
     tileEls.forEach((el, i) => {
       const tile = tiles[i]!;
@@ -769,6 +771,8 @@ export async function initImmersiveIndex(
   root.querySelectorAll<HTMLElement>('[data-facet]').forEach((btn) => {
     btn.addEventListener('click', () => pickFacet(btn.dataset.facet as 'proj' | 'disc'));
   });
+
+  root.dataset.indexReady = 'true';
 
   const relayout = (): void => {
     const visible = tiles.filter((t) => matches(t, active)).length || 1;
@@ -897,6 +901,8 @@ export async function initImmersiveIndex(
     alignGridView();
   });
 
+  const MAX_INDEX_VIDEOS_PLAYING = 2;
+
   const initVideoTiles = (): void => {
     const videos = Array.from(grid.querySelectorAll<HTMLVideoElement>('video.gal-media--video'));
     if (!videos.length) return;
@@ -905,7 +911,45 @@ export async function initImmersiveIndex(
       v.closest('.gal-frame')?.classList.toggle('is-media-loading', loading);
     };
 
+    const tileVisible = (v: HTMLVideoElement): boolean => {
+      const tile = v.closest<HTMLElement>('.immersive-index__tile');
+      if (!tile || tile.style.display === 'none') return false;
+      return true;
+    };
+
+    const unload = (v: HTMLVideoElement): void => {
+      v.pause();
+      v.removeAttribute('src');
+      v.load();
+      v.dataset.playing = '0';
+    };
+
+    const play = (v: HTMLVideoElement): void => {
+      const src = v.dataset.videoSrc || '';
+      if (!src || !tileVisible(v)) return;
+
+      const playing = videos.filter((x) => x.dataset.playing === '1');
+      if (playing.length >= MAX_INDEX_VIDEOS_PLAYING && v.dataset.playing !== '1') {
+        const farthest = playing.reduce((a, b) =>
+          (a.getBoundingClientRect().top > b.getBoundingClientRect().top ? a : b)
+        );
+        unload(farthest);
+      }
+
+      if (v.dataset.playing === '1' && v.src) return;
+      v.src = src;
+      v.preload = 'auto';
+      v.load();
+      const p = v.play();
+      if (p) {
+        p.then(() => {
+          v.dataset.playing = '1';
+        }).catch(() => {});
+      }
+    };
+
     videos.forEach((v) => {
+      v.preload = 'none';
       v.addEventListener('loadstart', () => setTileLoading(v, true));
       v.addEventListener('waiting', () => setTileLoading(v, true));
       v.addEventListener('canplay', () => setTileLoading(v, false));
@@ -913,39 +957,32 @@ export async function initImmersiveIndex(
       v.addEventListener('error', () => setTileLoading(v, false));
     });
 
-    const play = (v: HTMLVideoElement): void => {
-      if (v.dataset.playing === '1') return;
-      v.src = v.dataset.videoSrc || '';
-      v.load();
-      const p = v.play();
-      if (p) {
-        p.then(() => {
-          v.dataset.playing = '1';
-        }).catch(() => {
-          /* autoplay blocked until interaction */
-        });
-      }
-    };
-
-    const pause = (v: HTMLVideoElement): void => {
-      v.pause();
-      v.dataset.playing = '0';
+    const syncFromEntries = (entries: IntersectionObserverEntry[]): void => {
+      entries.forEach((e) => {
+        const v = e.target as HTMLVideoElement;
+        const wantPlay = e.isIntersecting && e.intersectionRatio >= 0.4 && tileVisible(v);
+        if (wantPlay) play(v);
+        else unload(v);
+      });
     };
 
     if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            const v = e.target as HTMLVideoElement;
-            if (e.isIntersecting && e.intersectionRatio > 0.35) play(v);
-            else pause(v);
-          });
-        },
-        { root: stage, threshold: [0, 0.35, 0.6] }
-      );
+      const io = new IntersectionObserver(syncFromEntries, {
+        root: null,
+        rootMargin: '80px 0px',
+        threshold: [0, 0.25, 0.4, 0.55],
+      });
       videos.forEach((v) => io.observe(v));
-    } else {
-      videos.forEach(play);
+
+      const section = root;
+      const sectionIo = new IntersectionObserver(
+        (entries) => {
+          if (entries[0]?.isIntersecting) return;
+          videos.forEach(unload);
+        },
+        { root: null, threshold: 0.05 }
+      );
+      sectionIo.observe(section);
     }
   };
 
