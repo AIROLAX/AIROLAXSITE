@@ -118,19 +118,26 @@ function firstImageFromProject(w: IndexProject): string | null {
   return null;
 }
 
-function fallbackTileMedia(w: IndexProject): { src: string | null; type: 'image' | 'video' } {
+const OPTIMIZED_STILL: Record<string, string> = {
+  '1': '/images/optimized/videos/BIOINTERFACE/1.JPG_compressed.webp',
+  '1b': '/images/optimized/videos/BIOINTERFACE/1.JPG_compressed.webp',
+  '2': '/images/optimized/videos/museo/1_compressed.webp',
+  '3': '/images/optimized/videos/OHM/3_compressed.webp',
+  '4': '/images/optimized/videos/edzna/1_compressed.webp',
+  '5': '/images/optimized/videos/wavey/wavey-1.webp',
+  '8': '/images/optimized/videos/OHM/3_compressed.webp',
+};
+
+function stillForProject(w: IndexProject): string | null {
   const img = firstImageFromProject(w);
-  if (img) return { src: img, type: 'image' };
-  if (w.poster) {
-    return {
-      src: w.poster,
-      type: mediaTypeFromSrc(w.poster),
-    };
-  }
-  if (w.id === '8') {
-    return { src: '/images/optimized/videos/OHM/3_compressed.webp', type: 'image' };
-  }
-  return { src: null, type: 'image' };
+  if (img) return img;
+  if (OPTIMIZED_STILL[w.id]) return OPTIMIZED_STILL[w.id]!;
+  return '/images/IMMERSIVE.jpg';
+}
+
+function fallbackTileMedia(w: IndexProject): { src: string | null; type: 'image' | 'video' } {
+  const still = stillForProject(w);
+  return { src: still, type: 'image' };
 }
 
 function buildTiles(projects: IndexProject[]): IndexTile[] {
@@ -168,14 +175,26 @@ function buildTiles(projects: IndexProject[]): IndexTile[] {
       add(g.src, g.type);
     }
 
-    if (w.poster) {
-      const posterIsVideo = VIDEO_EXT.test(w.poster);
-      if (!posterIsVideo || sources.length === 0) {
-        add(w.poster);
-      }
+    if (w.poster && !VIDEO_EXT.test(w.poster)) {
+      add(w.poster);
     }
 
-    const picked = sources.slice(0, maxPerProj);
+    const imageSources = sources.filter((s) => s.type === 'image');
+    let picked =
+      imageSources.length > 0
+        ? imageSources.slice(0, maxPerProj)
+        : sources.slice(0, maxPerProj);
+
+    if (picked.length === 0) {
+      const still = stillForProject(w);
+      if (still) picked = [{ src: still, type: 'image' }];
+    }
+
+    // Grid tiles: always stills so frames fill instantly (no black video boxes)
+    picked = picked.map((item) => ({
+      src: item.type === 'image' ? item.src : stillForProject(w) || item.src,
+      type: 'image' as const,
+    }));
     const tilePoster = firstImageFromProject(w);
 
     if (picked.length === 0) {
@@ -227,11 +246,7 @@ function buildTiles(projects: IndexProject[]): IndexTile[] {
 function renderTileMedia(t: IndexTile): string {
   const style = `object-position:${t.pos}`;
   if (!t.img) {
-    return `<div style="width:100%;height:100%;min-height:120px;display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)">Image soon</div>`;
-  }
-  if (t.mediaType === 'video') {
-    const poster = t.poster ? ` poster="${t.poster}"` : '';
-    return `<video src="${t.img}"${poster} muted loop playsinline preload="metadata" draggable="false" style="${style}" data-index-video></video>`;
+    return `<div class="gal-placeholder">Image soon</div>`;
   }
   return `<img src="${t.img}" alt="${t.caption}" loading="lazy" decoding="async" draggable="false" style="${style}">`;
 }
@@ -558,41 +573,4 @@ export async function initImmersiveIndex(projects: IndexProject[]): Promise<void
 
   renderChips();
   applyFilter();
-
-  const indexVideos = grid.querySelectorAll<HTMLVideoElement>('[data-index-video]');
-  indexVideos.forEach((v) => {
-    v.addEventListener('error', () => {
-      const poster = v.getAttribute('poster');
-      if (!poster) return;
-      const img = document.createElement('img');
-      img.src = poster;
-      img.alt = '';
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      img.draggable = false;
-      img.style.cssText = v.style.cssText;
-      v.replaceWith(img);
-    });
-  });
-  if (indexVideos.length > 0 && 'IntersectionObserver' in window) {
-    const vidObs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const v = entry.target as HTMLVideoElement;
-          if (entry.isIntersecting) {
-            if (!v.dataset.hydrated) {
-              v.dataset.hydrated = '1';
-              v.preload = 'auto';
-              v.load();
-            }
-            void v.play().catch(() => {});
-          } else {
-            v.pause();
-          }
-        });
-      },
-      { rootMargin: '120px', threshold: 0.15 }
-    );
-    indexVideos.forEach((v) => vidObs.observe(v));
-  }
 }
