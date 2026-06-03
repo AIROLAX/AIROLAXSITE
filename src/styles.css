@@ -753,8 +753,14 @@ body:not(.hero-video-active) .topbar.scrolled .mobile-menu-toggle .hamburger-lin
   max-width: min(56rem, 100%);
 }
 
-.hero-video__cv-link {
+.hero-video__brand-links {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65em;
   flex: none;
+}
+
+.hero-video__brand-link {
   font-size: clamp(0.58rem, 1.2vw, 0.7rem);
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -767,7 +773,7 @@ body:not(.hero-video-active) .topbar.scrolled .mobile-menu-toggle .hamburger-lin
   transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.hero-video__cv-link:hover {
+.hero-video__brand-link:hover {
   color: #fff;
   border-bottom-color: transparent;
   background: linear-gradient(90deg, var(--spec-cyan), var(--spec-magenta), var(--spec-orange));

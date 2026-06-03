@@ -83,8 +83,13 @@
         flex: 1 1 auto;
         overflow: hidden;
       }
-      body[data-brand="airolax"] .topbar__cv-link {
+      body[data-brand="airolax"] .topbar__brand-links {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         flex: none;
+      }
+      body[data-brand="airolax"] .topbar__brand-link {
         font-size: 11px;
         font-weight: 600;
         letter-spacing: 0.18em;
@@ -208,7 +213,10 @@
             <img class="topbar__mark" src="/images/aaad-mark-white.png" width="22" height="22" alt="">
             <span class="topbar__brand-name">Argel Erevan Airola</span>
           </a>
-          <a href="/CV.pdf" class="topbar__cv-link" download>CV</a>
+          <span class="topbar__brand-links">
+            <a href="/CV.pdf" class="topbar__brand-link" download>CV</a>
+            <a href="#immersive-index" class="topbar__brand-link">Portfolio</a>
+          </span>
         </div>
 
         <nav class="topbar__nav" role="navigation" aria-label="Main navigation">
@@ -308,7 +316,10 @@
                   <p class="hero-video__title-line hero-video__title-row" data-matrix-text="MÉXICO"></p>
                   <p class="hero-video__title-line hero-video__title-row" data-matrix-text="1991"></p>
                 </div>
-                <a href="/CV.pdf" class="hero-video__cv-link" download aria-label="Download CV">CV</a>
+                <span class="hero-video__brand-links">
+                  <a href="/CV.pdf" class="hero-video__brand-link" download aria-label="Download CV">CV</a>
+                  <a href="#immersive-index" class="hero-video__brand-link">Portfolio</a>
+                </span>
               </div>
               <p
                 class="hero-video__role"
