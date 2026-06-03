@@ -41,7 +41,7 @@ img, video {
   object-fit: cover;
 }
 
-img:not(.topbar__mark):not(.topbar__logo-image),
+img:not(.topbar__mark):not(.topbar__logo-image):not(.gal-media),
 video:not(.hero-video__element) {
   width: 100%;
   height: auto;

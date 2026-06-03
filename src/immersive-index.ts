@@ -248,7 +248,7 @@ function renderTileMedia(t: IndexTile): string {
   if (!t.img) {
     return `<div class="gal-placeholder">Image soon</div>`;
   }
-  return `<img src="${t.img}" alt="${t.caption}" loading="lazy" decoding="async" draggable="false" style="${style}">`;
+  return `<img class="gal-media" src="${t.img}" alt="${t.caption}" loading="lazy" decoding="async" draggable="false" style="object-position:${t.pos}">`;
 }
 
 export async function initImmersiveIndex(projects: IndexProject[]): Promise<void> {
@@ -306,7 +306,7 @@ export async function initImmersiveIndex(projects: IndexProject[]): Promise<void
     .map(
       (t) => `
     <figure class="immersive-index__tile" data-tile-id="${t.id}" data-proj="${t.proj}" data-disc="${t.disc.join('|')}" data-href="work/${t.slug}.html" tabindex="0" role="link" aria-label="${t.projName} - ${t.caption}">
-      <div class="gal-frame" style="aspect-ratio:${t.ar}">
+      <div class="gal-frame" style="--tile-ar:${t.ar}">
         ${renderTileMedia(t)}
         <span class="gal-caption">
           <span class="gal-caption__proj">${t.caption}</span>
