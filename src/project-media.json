@@ -1,10 +1,172 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-03T03:10:35.465Z",
+  "generatedAt": "2026-06-03T18:31:34.913Z",
   "projects": {
+    "1": {
+      "slug": "biointerface",
+      "workGallery": [
+        "/videos/BIOINTERFACE/F2.jpg",
+        {
+          "type": "video",
+          "src": "/videos/BIOINTERFACE/F6.mov"
+        },
+        {
+          "type": "video",
+          "src": "/videos/BIOINTERFACE/F7.mov"
+        },
+        "/videos/BIOINTERFACE/F1.jpg",
+        "/videos/BIOINTERFACE/F3.jpg",
+        {
+          "type": "video",
+          "src": "/videos/BIOINTERFACE/F4.mov"
+        },
+        {
+          "type": "video",
+          "src": "/videos/BIOINTERFACE/F5.mp4"
+        },
+        "/videos/BIOINTERFACE/F8.jpg"
+      ]
+    },
+    "2": {
+      "slug": "museo-descubre",
+      "workGallery": [
+        {
+          "type": "video",
+          "src": "/videos/museo/DESCUBRE.mkv"
+        },
+        {
+          "type": "video",
+          "src": "/videos/museo/C0087.MP4"
+        },
+        "/videos/museo/1.png",
+        "/videos/museo/2.png",
+        "/videos/museo/3.png",
+        "/videos/museo/4.png"
+      ]
+    },
+    "3": {
+      "slug": "ohm-interactive-laser-sculpture",
+      "workGallery": [
+        {
+          "type": "video",
+          "src": "/videos/compressed/OHM/1.MP4"
+        },
+        {
+          "type": "video",
+          "src": "/videos/compressed/OHM/ohmfinal.MP4"
+        },
+        {
+          "type": "video",
+          "src": "/videos/compressed/OHM/ohm.mp4"
+        },
+        {
+          "type": "video",
+          "src": "/videos/compressed/OHM/ohm2.mp4"
+        },
+        "/videos/OHM/2.png",
+        "/videos/OHM/3.png"
+      ]
+    },
+    "4": {
+      "slug": "edzna-video-mapping",
+      "workGallery": [
+        {
+          "type": "video",
+          "src": "/videos/compressed/edzna/ednzapyramid.mp4"
+        },
+        "/videos/edzna/1.png",
+        "/videos/edzna/2.png",
+        "/videos/edzna/3.png"
+      ]
+    },
+    "5": {
+      "slug": "wavey-runway",
+      "workGallery": [
+        "/videos/wavey/Captura de Pantalla 2024-02-17 a la(s) 5.03.54.png",
+        "/videos/wavey/Captura de Pantalla 2025-05-25 a la(s) 14.51.40.png",
+        "/videos/wavey/Captura de Pantalla 2025-05-25 a la(s) 14.54.27 2.png"
+      ]
+    },
+    "7": {
+      "slug": "whispers-of-the-lake-digital-immersive-experience",
+      "workGallery": [
+        {
+          "type": "video",
+          "src": "/videos/chapala_project/1.mp4"
+        },
+        {
+          "type": "video",
+          "src": "/videos/chapala_project/2.mp4"
+        },
+        {
+          "type": "video",
+          "src": "/videos/chapala_project/3.mp4"
+        }
+      ]
+    },
     "8": {
       "slug": "ohm-1",
-      "poster": "/projects/ohm-1/51835853-acba-4058-a8cf-4c385bbcea80 (1).jpeg"
+      "poster": "/projects/ohm-1/51835853-acba-4058-a8cf-4c385bbcea80 (1).jpeg",
+      "workGallery": [
+        "/videos/OHM/2.png",
+        "/videos/OHM/3.png"
+      ]
+    },
+    "9": {
+      "slug": "ethereal-motion-digital-poetry",
+      "workGallery": [
+        {
+          "type": "video",
+          "src": "/videos/compressed/demo2.mp4"
+        }
+      ]
+    },
+    "ai-mirror-dia-de-muertos": {
+      "slug": "ai-mirror-dia-de-muertos",
+      "workGallery": [
+        {
+          "type": "video",
+          "src": "/videos/Chapala/export(7).MP4"
+        },
+        {
+          "type": "video",
+          "src": "/videos/ai-mirror/1.mp4"
+        },
+        {
+          "type": "video",
+          "src": "/videos/ai-mirror/2.mp4"
+        }
+      ]
+    },
+    "1b": {
+      "slug": "biointerface-2",
+      "workGallery": [
+        {
+          "type": "video",
+          "src": "/videos/BIOINTERFACE/4.MOV"
+        },
+        "/videos/BIOINTERFACE/1.JPG",
+        {
+          "type": "video",
+          "src": "/videos/compressed/pro1.mp4"
+        }
+      ]
+    },
+    "breathing-space": {
+      "slug": "breathing-space",
+      "workGallery": [
+        {
+          "type": "video",
+          "src": "/videos/ASANA_YOGA/IMG_6114.MOV"
+        },
+        "/videos/ASANA_YOGA/IMG_20260131_103426.jpg",
+        "/videos/ASANA_YOGA/IMG_20260131_120910.jpg",
+        "/videos/ASANA_YOGA/IMG_20260131_170352.jpg",
+        "/videos/ASANA_YOGA/IMG_20260201_141845.jpg",
+        "/videos/ASANA_YOGA/IMG_20260201_142306.jpg",
+        "/videos/ASANA_YOGA/IMG_20260201_144131.jpg",
+        "/videos/ASANA_YOGA/IMG_20260201_164343.jpg"
+      ]
     }
   },
   "collections": {
@@ -12,9 +174,7 @@
       "slug": "ai-content",
       "label": "AI Content",
       "disciplines": [
-        "AI Content",
-        "Real-time",
-        "Generative"
+        "AI Content"
       ],
       "index": [
         {
@@ -26,8 +186,9 @@
           "src": "/collections/ai-content/index/02.webp"
         },
         {
-          "type": "image",
-          "src": "/collections/ai-content/index/03.webp"
+          "type": "video",
+          "src": "/collections/ai-content/previews/03.mp4",
+          "poster": "/collections/ai-content/index/03.webp"
         },
         {
           "type": "image",
@@ -35,7 +196,12 @@
         },
         {
           "type": "image",
-          "src": "/collections/ai-content/index/06.webp"
+          "src": "/collections/ai-content/index/05.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/06.mp4",
+          "poster": "/collections/ai-content/index/06.webp"
         },
         {
           "type": "image",
@@ -50,9 +216,8 @@
           "src": "/collections/ai-content/index/09.webp"
         },
         {
-          "type": "video",
-          "src": "/collections/ai-content/previews/10.mp4",
-          "poster": "/collections/ai-content/index/10.webp"
+          "type": "image",
+          "src": "/collections/ai-content/index/10.webp"
         },
         {
           "type": "image",
@@ -63,33 +228,38 @@
           "src": "/collections/ai-content/index/12.webp"
         },
         {
-          "type": "image",
-          "src": "/collections/ai-content/index/13.webp"
-        },
-        {
-          "type": "image",
-          "src": "/collections/ai-content/index/14.webp"
-        },
-        {
-          "type": "image",
-          "src": "/collections/ai-content/index/15.webp"
-        },
-        {
-          "type": "image",
-          "src": "/collections/ai-content/index/16.webp"
+          "type": "video",
+          "src": "/collections/ai-content/previews/13.mp4",
+          "poster": "/collections/ai-content/index/13.webp"
         },
         {
           "type": "video",
-          "src": "/collections/ai-content/previews/17.mp4",
-          "poster": "/collections/ai-content/index/17.webp"
+          "src": "/collections/ai-content/previews/14.mp4",
+          "poster": "/collections/ai-content/index/14.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/15.mp4",
+          "poster": "/collections/ai-content/index/15.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/16.mp4",
+          "poster": "/collections/ai-content/index/16.webp"
         },
         {
           "type": "image",
-          "src": "/collections/ai-content/index/18.webp"
+          "src": "/collections/ai-content/index/17.webp"
         },
         {
-          "type": "image",
-          "src": "/collections/ai-content/index/19.webp"
+          "type": "video",
+          "src": "/collections/ai-content/previews/18.mp4",
+          "poster": "/collections/ai-content/index/18.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/19.mp4",
+          "poster": "/collections/ai-content/index/19.webp"
         },
         {
           "type": "image",
@@ -97,82 +267,187 @@
         },
         {
           "type": "image",
-          "src": "/collections/ai-content/index/21.webp"
+          "src": "/collections/ai-content/index/22.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/23.mp4",
+          "poster": "/collections/ai-content/index/23.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/24.mp4",
+          "poster": "/collections/ai-content/index/24.webp"
+        }
+      ]
+    },
+    "generative-video": {
+      "slug": "generative-video",
+      "label": "3D Generative",
+      "disciplines": [
+        "3D Generative"
+      ],
+      "index": [
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/01.mp4",
+          "poster": "/collections/generative-video/index/01.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/02.mp4",
+          "poster": "/collections/generative-video/index/02.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/03.mp4",
+          "poster": "/collections/generative-video/index/03.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/04.mp4",
+          "poster": "/collections/generative-video/index/04.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/05.mp4",
+          "poster": "/collections/generative-video/index/05.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/06.mp4",
+          "poster": "/collections/generative-video/index/06.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/07.mp4",
+          "poster": "/collections/generative-video/index/07.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/08.mp4",
+          "poster": "/collections/generative-video/index/08.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/09.mp4",
+          "poster": "/collections/generative-video/index/09.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/10.mp4",
+          "poster": "/collections/generative-video/index/10.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/11.mp4",
+          "poster": "/collections/generative-video/index/11.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/12.mp4",
+          "poster": "/collections/generative-video/index/12.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/generative-video/previews/13.mp4",
+          "poster": "/collections/generative-video/index/13.webp"
+        }
+      ]
+    },
+    "immersive-installation": {
+      "slug": "immersive-installation",
+      "label": "Immersive",
+      "disciplines": [
+        "Real-time AI",
+        "Installation Art"
+      ],
+      "index": [
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/01.mp4",
+          "poster": "/collections/immersive-installation/index/01.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/02.mp4",
+          "poster": "/collections/immersive-installation/index/02.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/03.mp4",
+          "poster": "/collections/immersive-installation/index/03.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/04.mp4",
+          "poster": "/collections/immersive-installation/index/04.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/05.mp4",
+          "poster": "/collections/immersive-installation/index/05.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/06.mp4",
+          "poster": "/collections/immersive-installation/index/06.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/07.mp4",
+          "poster": "/collections/immersive-installation/index/07.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/08.mp4",
+          "poster": "/collections/immersive-installation/index/08.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/09.mp4",
+          "poster": "/collections/immersive-installation/index/09.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/10.mp4",
+          "poster": "/collections/immersive-installation/index/10.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/11.mp4",
+          "poster": "/collections/immersive-installation/index/11.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/12.mp4",
+          "poster": "/collections/immersive-installation/index/12.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/13.mp4",
+          "poster": "/collections/immersive-installation/index/13.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/immersive-installation/previews/14.mp4",
+          "poster": "/collections/immersive-installation/index/14.webp"
         },
         {
           "type": "image",
-          "src": "/collections/ai-content/index/23.webp"
+          "src": "/collections/immersive-installation/index/15.webp"
         },
         {
           "type": "image",
-          "src": "/collections/ai-content/index/24.webp"
+          "src": "/collections/immersive-installation/index/17.webp"
         },
         {
           "type": "image",
-          "src": "/collections/ai-content/index/25.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/27.mp4",
-          "poster": "/collections/ai-content/index/27.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/28.mp4",
-          "poster": "/collections/ai-content/index/28.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/29.mp4",
-          "poster": "/collections/ai-content/index/29.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/30.mp4",
-          "poster": "/collections/ai-content/index/30.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/32.mp4",
-          "poster": "/collections/ai-content/index/32.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/33.mp4",
-          "poster": "/collections/ai-content/index/33.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/34.mp4",
-          "poster": "/collections/ai-content/index/34.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/35.mp4",
-          "poster": "/collections/ai-content/index/35.webp"
+          "src": "/collections/immersive-installation/index/18.webp"
         },
         {
           "type": "image",
-          "src": "/collections/ai-content/index/39.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/40.mp4",
-          "poster": "/collections/ai-content/index/40.webp"
-        },
-        {
-          "type": "image",
-          "src": "/collections/ai-content/index/41.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/42.mp4",
-          "poster": "/collections/ai-content/index/42.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/43.mp4",
-          "poster": "/collections/ai-content/index/43.webp"
+          "src": "/collections/immersive-installation/index/F2.jpg"
         }
       ]
     },
@@ -234,6 +509,38 @@
           "type": "video",
           "src": "/collections/projection-mapping/previews/11.mp4",
           "poster": "/collections/projection-mapping/index/11.webp"
+        }
+      ]
+    },
+    "sound": {
+      "slug": "sound",
+      "label": "Sound Sculpture",
+      "disciplines": [
+        "Sound Sculpture"
+      ],
+      "index": [
+        {
+          "type": "video",
+          "src": "/collections/sound/previews/01.mp4",
+          "poster": "/collections/sound/index/01.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/sound/index/02.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/sound/index/03.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/sound/previews/04.mp4",
+          "poster": "/collections/sound/index/04.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/sound/previews/05.mp4",
+          "poster": "/collections/sound/index/05.webp"
         }
       ]
     }

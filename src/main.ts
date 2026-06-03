@@ -4,6 +4,8 @@
 import './styles.css';
 import './colors_and_type.css';
 import './aaad-theme.css';
+import './site-footer-andata.css';
+import './presentations-expositions.css';
 import { initImmersiveIndex } from './immersive-index';
 import { mediaUrl } from './media';
 import projectMediaFile from './project-media.json';
@@ -43,8 +45,8 @@ interface Project {
   technologies: string[];
   concept: string;
   galleryItems: Array<{type: 'video' | 'image'; src: string; alt?: string}>;
-  /** Curated Index wall images from public/projects/{slug}/index/ (via projects:sync) */
-  indexImages?: string[];
+  /** Index tiles: work/{slug}.html gallery first, else public/projects/{slug}/index/ */
+  indexImages?: WorkGalleryItem[];
   credits: {
     direction: string;
     development: string;
@@ -377,11 +379,14 @@ const projects: Project[] = [
   }
 ];
 
+type WorkGalleryItem = string | { type: 'video'; src: string; poster?: string };
+
 type ProjectMediaEntry = {
   slug?: string;
   poster?: string;
   video?: string;
   index?: string[];
+  workGallery?: WorkGalleryItem[];
   gallery?: Array<{ type: 'video' | 'image'; src: string; alt?: string }>;
 };
 
@@ -391,11 +396,12 @@ function applyProjectMediaFromFolders(list: Project[]): void {
     const p = list[i];
     const m = map[p.id];
     if (!m) continue;
+    const indexFromWork = m.workGallery?.length ? [...m.workGallery] : undefined;
     list[i] = {
       ...p,
       videoUrl: m.video ?? p.videoUrl,
       poster: m.poster ?? p.poster,
-      indexImages: m.index?.length ? [...m.index] : p.indexImages,
+      indexImages: indexFromWork ?? (m.index?.length ? [...m.index] : p.indexImages),
       galleryItems: m.gallery?.length ? m.gallery : p.galleryItems,
     };
   }
@@ -408,7 +414,11 @@ function withMediaUrls(project: Project): Project {
     ...project,
     videoUrl: mediaUrl(project.videoUrl),
     poster: project.poster ? mediaUrl(project.poster) : undefined,
-    indexImages: project.indexImages?.map((src) => mediaUrl(src)),
+    indexImages: project.indexImages?.map((item) =>
+      typeof item === 'string'
+        ? mediaUrl(item)
+        : { ...item, src: mediaUrl(item.src), poster: item.poster ? mediaUrl(item.poster) : undefined }
+    ),
     galleryItems: project.galleryItems?.map((g) => ({ ...g, src: mediaUrl(g.src) })),
   };
 }
@@ -456,13 +466,6 @@ function getProjectSlug(project: Project): string {
   return slugMap[project.id] ?? generateSlug(project.title);
 }
 
-function getProjectYear(project: Project): string {
-  const dur = (project.credits?.duration || '').trim();
-  const exh = (project.credits?.exhibition || '').trim();
-  const m = dur.match(/^\d{4}$/) || exh.match(/\d{4}/);
-  return m ? m[0] : dur || '';
-}
-
 /** Safe ASCII for UI when host omits UTF-8 charset (cPanel/LiteSpeed). */
 function asciiUiText(text: string): string {
   return text
@@ -473,20 +476,13 @@ function asciiUiText(text: string): string {
     .replace(/[\u2018\u2019]/g, "'");
 }
 
-function renderWorkDetailStrip(project: Project): void {
-  const strip = document.getElementById('work-detail-strip');
-  if (!strip) return;
-  const href = `work/${getProjectSlug(project)}.html`;
-  const year = getProjectYear(project);
-  const teaser = project.description[0] || project.concept || '';
-  strip.innerHTML = `
-    <a class="work-detail-strip__link" href="${href}">
-      <span class="work-detail-strip__meta">${asciiUiText(`${year}${year ? ' - ' : ''}${project.tag}`)}</span>
-      <h3 class="work-detail-strip__title">${asciiUiText(project.title)}</h3>
-      <p class="work-detail-strip__teaser">${asciiUiText(teaser)}</p>
-      <span class="work-detail-strip__cta">View project -&gt;</span>
-    </a>
-  `;
+function projectCardTeaser(project: Project, maxLen = 96): string {
+  const raw = (project.description[0] || project.concept || '').replace(/\s+/g, ' ').trim();
+  if (!raw) return '';
+  if (raw.length <= maxLen) return raw;
+  const cut = raw.slice(0, maxLen);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${(lastSpace > 40 ? cut.slice(0, lastSpace) : cut).trim()}…`;
 }
 
 function getCenteredCarouselIndex(track: HTMLElement): number {
@@ -507,11 +503,9 @@ function getCenteredCarouselIndex(track: HTMLElement): number {
   return bestIdx;
 }
 
-function bindWorkDetailStrip(track: HTMLElement): void {
+function bindCarouselCenteredState(track: HTMLElement): void {
   const update = (): void => {
     const idx = getCenteredCarouselIndex(track);
-    const project = carouselProjects[idx];
-    if (project) renderWorkDetailStrip(project);
     track.querySelectorAll('.project-card').forEach((card, i) => {
       card.classList.toggle('is-centered', i === idx);
     });
@@ -595,7 +589,7 @@ function initSelectedWorkCarousel(): void {
 
   let mobileCarouselScrollBound = false;
   let carouselBreakpointBound = false;
-  let workDetailStripBound = false;
+  let carouselCenterBound = false;
 
   // Create project card with video
   const createCard = (project: Project, _index: number): HTMLElement => {
@@ -609,7 +603,11 @@ function initSelectedWorkCarousel(): void {
     
     const videoSrc = project.videoUrl || '';
     const posterSrc = project.poster || '';
-    
+    const teaser = asciiUiText(projectCardTeaser(project));
+    const teaserHtml = teaser
+      ? `<p class="project-card__desc">${teaser}</p>`
+      : '';
+
     // Desktop: todos los videos con src (comportamiento anterior). Móvil: data-src + poster; src solo al slide activo.
     card.innerHTML = `
       <div class="project-card__media">
@@ -641,11 +639,14 @@ function initSelectedWorkCarousel(): void {
             alt="${project.title}"
           />
         ` : ''}
-        <div class="project-card__overlay">
-          <p class="project-card__category">${asciiUiText(project.tag).toUpperCase()}</p>
-          <h3 class="project-card__title">${project.title}</h3>
+        <div class="project-card__overlay" aria-hidden="true">
           <p class="project-card__view-hint">View project</p>
         </div>
+      </div>
+      <div class="project-card__caption">
+        <p class="project-card__category">${asciiUiText(project.tag).toUpperCase()}</p>
+        <h3 class="project-card__title">${project.title}</h3>
+        ${teaserHtml}
       </div>
     `;
     
@@ -977,10 +978,9 @@ function initSelectedWorkCarousel(): void {
       });
     }
 
-    if (!workDetailStripBound && carouselProjects[0]) {
-      workDetailStripBound = true;
-      renderWorkDetailStrip(carouselProjects[0]);
-      bindWorkDetailStrip(trackElement);
+    if (!carouselCenterBound) {
+      carouselCenterBound = true;
+      bindCarouselCenteredState(trackElement);
     }
   };
   
@@ -1017,8 +1017,14 @@ updateClock();
 
 // ==========================================
 // SELECTED PRESENTATIONS (timeline) — Expositions
+
 function escapeTimelineAttr(value: string): string {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+}
+
+/** Recalc body min-height after dynamic sections (Expositions, Index) render. */
+function notifyPageLayout(): void {
+  window.dispatchEvent(new Event('airolax:layout'));
 }
 
 function getPresentationsTimeline(): Array<{
@@ -1054,12 +1060,17 @@ function initPresentationsTimeline(): void {
     return;
   }
   const items = getPresentationsTimeline();
-  container.innerHTML = items.map((item) => {
-    const tag = item.tag ? `<p>${item.tag}</p>` : '';
-    const pinSvg = '<svg class="timeline-venue-pin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
-    const venue = item.venue ? `<span class="timeline-venue">${pinSvg}${item.venue}</span>` : '';
-    return `
-      <a href="${escapeTimelineAttr(item.href)}" class="timeline-item" data-project-id="${item.id}">
+  const total = items.length;
+  container.innerHTML = items
+    .map((item, index) => {
+      const tag = item.tag ? `<p>${item.tag}</p>` : '';
+      const pinSvg =
+        '<svg class="timeline-venue-pin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+      const venue = item.venue ? `<span class="timeline-venue">${pinSvg}${item.venue}</span>` : '';
+      const progress = total <= 1 ? 1 : index / (total - 1);
+      const tone = progress < 0.48 ? 'light' : 'dark';
+      return `
+      <a href="${escapeTimelineAttr(item.href)}" class="timeline-item timeline-item--${tone}" data-project-id="${item.id}" data-expo-tone="${tone}">
         <div class="timeline-year">${item.year}</div>
         <div class="timeline-content">
           <h3>${item.title}</h3>
@@ -1068,7 +1079,91 @@ function initPresentationsTimeline(): void {
         </div>
       </a>
     `;
-  }).join('');
+    })
+    .join('');
+
+  initPresentationsAnimations();
+  notifyPageLayout();
+}
+
+function killPresentationsScrollTriggers(section: HTMLElement): void {
+  ScrollTrigger.getAll().forEach((st) => {
+    const trigger = st.trigger;
+    if (trigger instanceof Element && section.contains(trigger)) {
+      st.kill();
+    }
+  });
+}
+
+function revealPresentationsInView(header: Element | null, items: HTMLElement[]): void {
+  const vh = window.innerHeight;
+  if (header) {
+    const r = header.getBoundingClientRect();
+    if (r.top < vh * 0.9) {
+      gsap.to(header, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out', overwrite: true });
+    }
+  }
+  items.forEach((item) => {
+    const r = item.getBoundingClientRect();
+    if (r.top < vh * 0.92) {
+      gsap.to(item, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out', overwrite: true });
+    }
+  });
+}
+
+function initPresentationsAnimations(): void {
+  const section = document.getElementById('presentations-section');
+  if (!section) return;
+
+  const header = section.querySelector('.presentations-header');
+  const items = section.querySelectorAll<HTMLElement>('.timeline-item');
+  if (!items.length) {
+    if (header) gsap.set(header, { opacity: 1, y: 0 });
+    return;
+  }
+
+  killPresentationsScrollTriggers(section);
+  section.dataset.expoAnimated = '1';
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (header) gsap.set(header, { opacity: 1, y: 0 });
+    gsap.set(items, { opacity: 1, y: 0 });
+    return;
+  }
+
+  if (header) {
+    gsap.set(header, { opacity: 0, y: 22 });
+    gsap.to(header, {
+      opacity: 1,
+      y: 0,
+      duration: 0.85,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 78%',
+        toggleActions: 'play none none none',
+      },
+    });
+  }
+
+  items.forEach((item, index) => {
+    gsap.set(item, { opacity: 0, y: 28 });
+    gsap.to(item, {
+      opacity: 1,
+      y: 0,
+      duration: 0.75,
+      delay: Math.min(index * 0.06, 0.36),
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: item,
+        start: 'top 92%',
+        toggleActions: 'play none none none',
+      },
+    });
+  });
+
+  ScrollTrigger.refresh();
+  revealPresentationsInView(header, Array.from(items));
 }
 
 // Enhanced Capabilities animations with entrance effects
@@ -1097,6 +1192,37 @@ function initCapabilitiesAnimations(): void {
 
   capabilityCards.forEach((card) => {
     observer.observe(card);
+  });
+}
+
+// ==========================================
+// CV DOWNLOAD
+// ==========================================
+const CV_ASSET_URL = '/CV.pdf';
+const CV_DOWNLOAD_NAME = 'Argel-Erevan-Airola-CV-2027.pdf';
+
+function initCvDownload(): void {
+  document.querySelectorAll<HTMLAnchorElement>(`a[href="${CV_ASSET_URL}"]`).forEach((link) => {
+    link.addEventListener('click', async (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      closeMobileMenu();
+      try {
+        const res = await fetch(CV_ASSET_URL);
+        if (!res.ok) throw new Error('CV missing');
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = CV_DOWNLOAD_NAME;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      } catch {
+        window.location.assign(CV_ASSET_URL);
+      }
+    });
   });
 }
 
@@ -1150,6 +1276,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize mobile menu
   initMobileMenu();
+  initCvDownload();
 
   // index#projects: el navegador alinea #projects (sección + "SELECTED WORK"); corregir al vídeo.
   const syncProjectsHashScroll = (): void => {
@@ -1253,6 +1380,7 @@ function handleFooterFormSubmit(e: Event): void {
   const formData = new FormData(form);
   const name = (formData.get('name') as string) || '';
   const email = (formData.get('email') as string) || '';
+  const organization = (formData.get('organization') as string) || '';
   const message = (formData.get('message') as string) || '';
 
   if (!name || !email || !message) {
@@ -1260,8 +1388,10 @@ function handleFooterFormSubmit(e: Event): void {
     return;
   }
 
-  const subject = encodeURIComponent(`Contact from ${name}`);
-  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+  const subject = encodeURIComponent(`Project brief from ${name}`);
+  const body = encodeURIComponent(
+    `Name: ${name}\nEmail: ${email}${organization ? `\nOrganization: ${organization}` : ''}\n\nMessage:\n${message}`
+  );
   window.location.href = `mailto:airolaxx@gmail.com?subject=${subject}&body=${body}`;
   showFormMessage(messageDiv, 'Your email client will open. Send the message to reach us.', 'success');
   form.reset();
@@ -2947,6 +3077,34 @@ function updatePanelContentDirectly(container: HTMLElement, project: Project): v
 
 
 // ==========================================
+// SCROLL PROGRESS (top hairline — pairs with Andata Lab)
+// ==========================================
+function initScrollProgress(): void {
+  const fill = document.querySelector<HTMLElement>('[data-scroll-progress-fill]');
+  if (!fill) return;
+
+  let ticking = false;
+
+  const update = (): void => {
+    ticking = false;
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    fill.style.transform = `scaleX(${ratio})`;
+  };
+
+  const onScroll = (): void => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  };
+
+  update();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+}
+
+// ==========================================
 // HEADER SCROLL BEHAVIOR
 // ==========================================
 function initHeaderScrollBehavior(): void {
@@ -3186,6 +3344,7 @@ function initializeApp(): void {
   initInfoBannerAnimation();
   initFloatingWhatsAppButton();
   initHeaderScrollBehavior();
+  initScrollProgress();
   initMobileMenu();
   (window as any).toggleMobileMenu = toggleMobileMenu;
   console.log('✅ Application initialized');
@@ -4095,7 +4254,8 @@ function initFloatingWhatsAppButton(): void {
 // Initialize carousel on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
-    initImmersiveIndex(
+    initPresentationsTimeline();
+    void initImmersiveIndex(
       projects.map((p) => ({
         id: p.id,
         title: p.title,
@@ -4130,9 +4290,9 @@ document.addEventListener('DOMContentLoaded', () => {
           };
         }),
       }))
-    );
+    ).then(() => notifyPageLayout()).catch(() => notifyPageLayout());
     initSelectedWorkCarousel();
-    initPresentationsTimeline();
+    notifyPageLayout();
   }, 200);
 });
 

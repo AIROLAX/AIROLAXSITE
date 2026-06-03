@@ -8,22 +8,27 @@
  *     index/              → fotos del Index (01.jpg, 02.webp…)
  *     gallery/            → extras para ficha de proyecto
  */
-import { readdir, writeFile, mkdir } from 'fs/promises';
+import { readdir, readFile, writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, extname } from 'path';
 
 const ROOT = process.cwd();
 const PROJECTS_DIR = join(ROOT, 'public', 'projects');
 const COLLECTIONS_DIR = join(ROOT, 'public', 'collections');
+const WORK_DIR = join(ROOT, 'work');
 const OUT = join(ROOT, 'src', 'project-media.json');
+
+const IMG_EXT = /\.(jpe?g|png|webp|gif|avif)(\?|$)/i;
+const VID_EXT = /\.(mp4|mov|webm|m4v|mkv)(\?|$)/i;
 
 /** Colección → etiqueta Index + filtros "By Technique" */
 const COLLECTION_META = {
-  'ai-content': { label: 'AI Content', disciplines: ['AI Content', 'Real-time', 'Generative'] },
-  'generative-video': { label: 'Generative Video', disciplines: ['Generative'] },
+  'ai-content': { label: 'AI Content', disciplines: ['AI Content'] },
+  'generative-video': { label: '3D Generative', disciplines: ['3D Generative'] },
   'projection-mapping': { label: 'Projection Mapping', disciplines: ['Projection Mapping'] },
-  'immersive-installation': { label: 'Immersive', disciplines: ['Real-time', 'TouchDesigner'] },
-  experiments: { label: 'Experiments', disciplines: ['Generative', 'Real-time'] },
+  'immersive-installation': { label: 'Immersive', disciplines: ['Real-time AI', 'Installation Art'] },
+  sound: { label: 'Sound Sculpture', disciplines: ['Sound Sculpture'] },
+  experiments: { label: 'Experiments', disciplines: ['3D Generative'] },
 };
 
 /** Carpeta slug → id de proyecto (mismo mapa que getProjectSlug en main.ts) */
@@ -49,6 +54,83 @@ const VIDEO_NAMES = new Set(['video', 'hero', 'main']);
 
 function urlPath(...parts) {
   return '/' + parts.join('/').replace(/\\/g, '/');
+}
+
+/** Gallery + process images from work/{slug}.html (same as project pages). */
+function extractWorkPageGallery(html) {
+  const heroIdx = html.indexOf('class="project-hero"');
+  const body = heroIdx >= 0 ? html.slice(heroIdx) : html;
+  const afterHero = body.indexOf('</section>');
+  const content = afterHero >= 0 ? body.slice(afterHero) : body;
+
+  const items = [];
+  const seen = new Set();
+
+  const addImage = (src) => {
+    const s = src.trim();
+    if (!s || s.startsWith('data:')) return;
+    const key = decodeURIComponent(s).toLowerCase().split('?')[0];
+    if (seen.has(key)) return;
+    seen.add(key);
+    items.push(s);
+  };
+
+  const addVideo = (src, poster) => {
+    const s = src.trim();
+    if (!s) return;
+    const key = `v:${decodeURIComponent(s).toLowerCase().split('?')[0]}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    const entry = { type: 'video', src: s };
+    if (poster) entry.poster = poster;
+    items.push(entry);
+  };
+
+  for (const m of content.matchAll(/<div class="gallery-item">([\s\S]*?)<\/div>/gi)) {
+    const chunk = m[1];
+    const img = chunk.match(/<img[^>]+src=["']([^"']+)["']/i);
+    if (img) {
+      addImage(img[1]);
+      continue;
+    }
+    const poster = chunk.match(/<video[^>]*\sposter=["']([^"']+)["']/i);
+    const source = chunk.match(/<source[^>]+src=["']([^"']+)["']/i);
+    if (poster) {
+      addImage(poster[1]);
+      continue;
+    }
+    if (source) {
+      const src = source[1];
+      if (IMG_EXT.test(src)) addImage(src);
+      else if (VID_EXT.test(src)) addVideo(src, null);
+    }
+  }
+
+  return items;
+}
+
+async function scanWorkPages() {
+  if (!existsSync(WORK_DIR)) return {};
+
+  const idBySlug = Object.fromEntries(
+    Object.entries(SLUG_TO_ID).map(([slug, id]) => [slug, id])
+  );
+  const out = {};
+
+  for (const name of await readdir(WORK_DIR)) {
+    if (!name.endsWith('.html')) continue;
+    const slug = name.replace(/\.html$/, '');
+    const id = idBySlug[slug];
+    if (!id) continue;
+
+    const html = await readFile(join(WORK_DIR, name), 'utf8');
+    const gallery = extractWorkPageGallery(html);
+    if (gallery.length) {
+      out[id] = { slug, workGallery: gallery };
+    }
+  }
+
+  return out;
 }
 
 async function listFiles(dir) {
@@ -250,8 +332,18 @@ async function main() {
     await mkdir(PROJECTS_DIR, { recursive: true });
   }
 
+  const workPages = await scanWorkPages();
   const { projects, totalIndex } = await scanProjects();
   const { collections, total: totalCol } = await scanCollections();
+
+  for (const [id, wp] of Object.entries(workPages)) {
+    const entry = projects[id] ?? { slug: wp.slug };
+    entry.workGallery = wp.workGallery;
+    projects[id] = entry;
+    const n = wp.workGallery.filter((g) => typeof g === 'string' || g.type === 'image').length;
+    const v = wp.workGallery.filter((g) => typeof g === 'object').length;
+    console.log(`✓ work/${wp.slug}.html → gallery ${n} imgs${v ? `, ${v} videos` : ''}`);
+  }
 
   const out = {
     version: 1,

@@ -6,11 +6,15 @@
  *
  * Uso: node tools/optimizeCollection.mjs ai-content
  */
+import { execFile } from 'child_process';
+import { promisify } from 'util';
 import { readdir, writeFile, mkdir, rename, unlink, stat, readFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, extname, basename } from 'path';
 import sharp from 'sharp';
 import { posterFromVideo, previewFromVideo, hasFfmpeg } from './collectionVideoUtils.mjs';
+
+const execFileAsync = promisify(execFile);
 
 const slug = process.argv[2] || 'ai-content';
 const ROOT = join(process.cwd(), 'public', 'collections', slug);
@@ -22,6 +26,7 @@ const MAP_PATH = join(ROOT, 'video-map.json');
 const MAX_PX = 1400;
 const WEBP_Q = 82;
 const IMG = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif', '.tif', '.tiff']);
+const HEIC = new Set(['.heic', '.heif']);
 const VID = new Set(['.mp4', '.webm', '.mov', '.m4v', '.mkv']);
 const SKIP = new Set(['.gitkeep']);
 const OUTPUT_RE = /^\d{2,3}\.webp$/i;
@@ -51,6 +56,26 @@ async function optimizeImage(inputPath, outputPath) {
     .toFile(outputPath);
 }
 
+/** iPhone HEIC — sharp/libheif often missing on Windows; ffmpeg decodes first. */
+async function optimizeHeic(inputPath, outputPath) {
+  const tmp = outputPath.replace(/\.webp$/i, '-heic-tmp.jpg');
+  try {
+    await execFileAsync('ffmpeg', [
+      '-y',
+      '-i',
+      inputPath,
+      '-frames:v',
+      '1',
+      '-update',
+      '1',
+      tmp,
+    ]);
+    await optimizeImage(tmp, outputPath);
+  } finally {
+    if (existsSync(tmp)) await unlink(tmp);
+  }
+}
+
 async function listIncoming() {
   if (!existsSync(INDEX_DIR)) {
     await mkdir(INDEX_DIR, { recursive: true });
@@ -64,7 +89,7 @@ async function listIncoming() {
     const full = join(INDEX_DIR, name);
     const st = await stat(full);
     if (!st.isFile()) continue;
-    if (!IMG.has(ext) && !VID.has(ext)) continue;
+    if (!IMG.has(ext) && !HEIC.has(ext) && !VID.has(ext)) continue;
     files.push({ name, full, ext, size: st.size });
   }
   return files.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
@@ -117,6 +142,15 @@ async function main() {
         await optimizeImage(file.full, outPath);
         images += 1;
         console.log(`  ✓ ${file.name} → ${outName} (${(file.size / 1024 / 1024).toFixed(1)} MB)`);
+      } else if (HEIC.has(file.ext)) {
+        if (!ffmpegOk) {
+          console.warn(`  ⚠ skip HEIC (no ffmpeg): ${file.name}`);
+          skipped += 1;
+          continue;
+        }
+        await optimizeHeic(file.full, outPath);
+        images += 1;
+        console.log(`  ✓ ${file.name} → ${outName} (HEIC)`);
       } else if (VID.has(file.ext)) {
         if (!ffmpegOk) {
           console.warn(`  ⚠ skip video (no ffmpeg): ${file.name}`);

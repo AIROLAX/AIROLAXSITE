@@ -5,6 +5,35 @@
   --topbar-height: 66px;
 }
 
+/* Scroll progress — top edge (white, like Andata Lab) */
+[data-brand="airolax"] .scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1002;
+  height: 2px;
+  pointer-events: none;
+  background: transparent;
+}
+
+[data-brand="airolax"] .scroll-progress__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.45);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-brand="airolax"] .scroll-progress {
+    display: none;
+  }
+}
+
 [data-brand="airolax"] body {
   background: var(--bg);
   color: var(--ink);
@@ -112,14 +141,15 @@
   text-decoration: none;
   border-bottom: 1px solid var(--hair);
   padding-bottom: 1px;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition: color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
 }
 
 [data-brand="airolax"] .topbar__brand-link:hover {
   color: var(--ink);
-  border-image: var(--spectrum) 1;
-  border-bottom-width: 2px;
-  padding-bottom: 0;
+  border-image: none;
+  border-bottom: 1px solid var(--ink);
+  border-bottom-width: 1px;
+  padding-bottom: 1px;
 }
 
 [data-brand="airolax"] .topbar__brand-name {
@@ -177,13 +207,28 @@
 }
 
 [data-brand="airolax"] .hero-video-active .topbar .topbar__brand-link {
-  color: rgba(255, 255, 255, 0.82) !important;
-  border-bottom-color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.68) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.28);
 }
 
-[data-brand="airolax"] .hero-video-active .topbar .topbar__brand-link:hover,
-[data-brand="airolax"] .topbar.scrolled .topbar__brand-link:hover {
-  color: var(--ink) !important;
+[data-brand="airolax"] .hero-video-active .topbar .topbar__brand-link:hover {
+  color: #ffffff !important;
+  border-image: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.92) !important;
+  border-bottom-width: 1px !important;
+  padding-bottom: 1px !important;
+  opacity: 1;
+}
+
+body:not(.hero-video-active) [data-brand="airolax"] .topbar .topbar__brand-link {
+  color: #6e6e73 !important;
+  border-bottom-color: #d2d2d7;
+}
+
+body:not(.hero-video-active) [data-brand="airolax"] .topbar .topbar__brand-link:hover {
+  color: #111111 !important;
+  border-image: none !important;
+  border-bottom: 1px solid #111111 !important;
 }
 
 [data-brand="airolax"] .nav-link {
@@ -411,21 +456,23 @@
   position: relative;
 }
 
+/* Sin franja spectrum en tarjetas Selected Work — solo velo oscuro al hover (styles.css) */
 [data-brand="airolax"] .project-card__media::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 3px;
-  background: var(--spectrum);
+  height: 40%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 100%);
   opacity: 0;
-  transition: opacity 0.3s;
 }
 
-[data-brand="airolax"] .project-card:hover .project-card__media::after,
-[data-brand="airolax"] .project-card.is-centered .project-card__media::after {
-  opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+  [data-brand="airolax"] .project-card:hover .project-card__media::after {
+    opacity: 1;
+  }
+}
+
+@media (hover: none) {
+  [data-brand="airolax"] .project-card.is-centered .project-card__media::after {
+    opacity: 0;
+  }
 }
 
 [data-brand="airolax"] .project-card:not(:hover):not(.is-centered) video,
@@ -434,80 +481,29 @@
   transition: filter 0.3s;
 }
 
-[data-brand="airolax"] .project-card__overlay {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.75), transparent 55%) !important;
-}
-
-[data-brand="airolax"] .project-card__category {
+[data-brand="airolax"] .project-card__caption .project-card__category {
   font-size: 10.5px;
   letter-spacing: var(--tr-label);
   text-transform: uppercase;
   color: var(--ink-2);
 }
 
-[data-brand="airolax"] .project-card__title {
+[data-brand="airolax"] .project-card__caption .project-card__title {
   font-family: var(--font);
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--ink);
 }
 
+[data-brand="airolax"] .project-card__desc {
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 [data-brand="airolax"] .project-card__overlay,
 [data-brand="airolax"] .project-card__overlay * {
   pointer-events: none;
-}
-
-[data-brand="airolax"] .work-detail-strip {
-  padding: 44px 36px 0;
-  border-top: 1px solid var(--hair-2);
-  margin-top: 40px;
-}
-
-[data-brand="airolax"] .work-detail-strip__link {
-  display: block;
-  max-width: 720px;
-  text-decoration: none;
-  color: inherit;
-  transition: opacity 0.2s ease;
-}
-
-[data-brand="airolax"] .work-detail-strip__link:hover {
-  opacity: 0.88;
-}
-
-[data-brand="airolax"] .work-detail-strip__meta {
-  color: var(--ink-2);
-  font-size: var(--fs-label);
-  letter-spacing: var(--tr-label);
-  text-transform: uppercase;
-}
-
-[data-brand="airolax"] .work-detail-strip__title {
-  margin: 12px 0 0;
-  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  color: var(--ink);
-  line-height: 1.08;
-}
-
-[data-brand="airolax"] .work-detail-strip__teaser {
-  margin-top: 14px;
-  max-width: 560px;
-  font-size: var(--fs-lead);
-  line-height: 1.5;
-  color: var(--ink-2);
-}
-
-[data-brand="airolax"] .work-detail-strip__cta {
-  display: inline-block;
-  margin-top: 18px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
-  padding-bottom: 2px;
 }
 
 [data-brand="airolax"] .project-details-panel {
@@ -518,115 +514,9 @@
   display: none;
 }
 
-/* Expositions */
-[data-brand="airolax"] .presentations {
-  background: var(--bg);
-  padding: 90px 36px;
-}
+/* Expositions — gradient fade: presentations-expositions.css (.presentations--fade) */
 
-[data-brand="airolax"] .presentations-header {
-  margin-bottom: 40px;
-}
-
-[data-brand="airolax"] .presentations-title {
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-}
-
-[data-brand="airolax"] .presentations-subtitle {
-  color: var(--ink-2);
-  font-size: var(--fs-lead);
-  margin-top: 10px;
-}
-
-[data-brand="airolax"] .timeline {
-  max-width: none;
-  gap: 0;
-}
-
-[data-brand="airolax"] .timeline-item {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  min-height: auto;
-  padding: 20px 0;
-  margin: 0;
-  border-radius: 0;
-  border-top: 1px solid var(--hair-2);
-  background: transparent !important;
-}
-
-[data-brand="airolax"] .timeline-item__year {
-  font-size: var(--fs-label);
-  letter-spacing: var(--tr-label);
-  text-transform: uppercase;
-  color: var(--ink-2);
-  width: 70px;
-  flex: none;
-  font-variant-numeric: tabular-nums;
-}
-
-[data-brand="airolax"] .timeline-item__title {
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-}
-
-[data-brand="airolax"] .timeline-item__venue {
-  font-size: 13px;
-  color: var(--ink-2);
-}
-
-/* Footer */
-[data-brand="airolax"] .site-footer {
-  background: var(--bg);
-  border-top: 1px solid var(--hair);
-}
-
-[data-brand="airolax"] .footer-contact__title {
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-}
-
-[data-brand="airolax"] .footer-contact__intro,
-[data-brand="airolax"] .footer-identity__location,
-[data-brand="airolax"] .footer-contact__link,
-[data-brand="airolax"] .footer-artist-channels__link {
-  color: var(--ink-2);
-}
-
-[data-brand="airolax"] .footer-identity__name {
-  color: var(--ink);
-  font-weight: 600;
-}
-
-[data-brand="airolax"] .channels-title {
-  font-size: var(--fs-label);
-  letter-spacing: var(--tr-label);
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-
-[data-brand="airolax"] .footer-form-input,
-[data-brand="airolax"] .footer-form-textarea {
-  background: var(--field-bg);
-  border: 1px solid var(--hair);
-  color: var(--ink);
-  border-radius: var(--r-sm);
-}
-
-[data-brand="airolax"] .footer-form-submit {
-  background: var(--ink);
-  color: var(--on-accent);
-  border: none;
-  border-radius: var(--r-pill);
-  font-weight: 600;
-}
+/* Footer — light Andata surface: see site-footer-andata.css (.site-footer--andata) */
 
 [data-brand="airolax"] .floating-copyright {
   color: var(--ink-3);

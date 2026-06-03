@@ -3,13 +3,15 @@
  * Uso: node tools/curateCollection.mjs ai-content
  */
 import sharp from 'sharp';
-import { readdir, mkdir, rename, unlink, stat } from 'fs/promises';
+import { readdir, mkdir, rename, unlink, stat, copyFile, rm, readFile, writeFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, extname } from 'path';
 
 const slug = process.argv[2] || 'ai-content';
-const INDEX_DIR = join(process.cwd(), 'public', 'collections', slug, 'index');
-const REMOVED_DIR = join(process.cwd(), 'public', 'collections', slug, '_removed');
+const COLLECTION_ROOT = join(process.cwd(), 'public', 'collections', slug);
+const INDEX_DIR = join(COLLECTION_ROOT, 'index');
+const REMOVED_DIR = join(COLLECTION_ROOT, '_removed');
+const RENUMBER_DIR = join(COLLECTION_ROOT, '__renumber');
 const MIN_PX = 320;
 const MAX_PX = 1200;
 const WEBP_Q = 80;
@@ -28,7 +30,7 @@ async function dhash(path) {
   let bits = '';
   for (let y = 0; y < 8; y++) {
     for (let x = 0; x < 8; x++) {
-      bits += data[y * 9 + x]! < data[y * 9 + x + 1]! ? '1' : '0';
+      bits += (data[y * 9 + x] ?? 0) < (data[y * 9 + x + 1] ?? 0) ? '1' : '0';
     }
   }
   return bits;
@@ -50,10 +52,41 @@ async function archive(name) {
   const src = join(INDEX_DIR, name);
   let dest = join(REMOVED_DIR, name);
   if (existsSync(dest)) dest = join(REMOVED_DIR, name.replace('.webp', `-${Date.now()}.webp`));
-  await rename(src, dest);
+  try {
+    await rename(src, dest);
+  } catch {
+    try {
+      await copyFile(src, dest);
+      await unlink(src);
+    } catch {
+      console.warn(`  ⚠ locked, skipped: ${name}`);
+      return false;
+    }
+  }
+  return true;
+}
+
+async function safeUnlink(path, label) {
+  try {
+    await unlink(path);
+    return true;
+  } catch {
+    console.warn(`  ⚠ locked, skipped unlink: ${label}`);
+    return false;
+  }
 }
 
 async function main() {
+  const staleTmp = join(INDEX_DIR, '__tmp');
+  if (existsSync(staleTmp)) {
+    const stale = await readdir(staleTmp).catch(() => []);
+    for (const f of stale.filter((n) => /^\d+\.webp$/i.test(n))) {
+      const dest = join(INDEX_DIR, f);
+      if (!existsSync(dest)) await rename(join(staleTmp, f), dest);
+    }
+    await rm(staleTmp, { recursive: true, force: true });
+    console.log('  ✓ recovered stale index/__tmp');
+  }
   const files = await listWebps();
   const meta = [];
 
@@ -99,31 +132,74 @@ async function main() {
 
   for (const f of drop) {
     console.log(`  ✗ remove ${f}`);
-    await archive(f);
+    const ok = await archive(f);
+    if (!ok) drop.delete(f);
   }
 
-  const kept = (await listWebps()).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-  const tmpDir = join(INDEX_DIR, '__tmp');
-  await mkdir(tmpDir, { recursive: true });
+  const kept = (await listWebps())
+    .filter((f) => !drop.has(f))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
+  if (existsSync(RENUMBER_DIR)) await rm(RENUMBER_DIR, { recursive: true, force: true });
+  await mkdir(RENUMBER_DIR, { recursive: true });
+
+  const planned = [];
   let n = 1;
   for (const f of kept) {
     const src = join(INDEX_DIR, f);
-    const out = join(tmpDir, `${String(n).padStart(2, '0')}.webp`);
+    const out = join(RENUMBER_DIR, `${String(n).padStart(2, '0')}.webp`);
     await sharp(src)
       .rotate()
       .resize({ width: MAX_PX, height: MAX_PX, fit: 'inside', withoutEnlargement: true })
       .webp({ quality: WEBP_Q })
       .toFile(out);
-    await unlink(src);
+    planned.push({ src, oldName: f, newName: `${String(n).padStart(2, '0')}.webp` });
     n++;
   }
 
-  const tmpFiles = await readdir(tmpDir);
-  for (const f of tmpFiles.sort()) {
-    await rename(join(tmpDir, f), join(INDEX_DIR, f));
+  for (const { src, oldName } of planned) {
+    await safeUnlink(src, oldName);
   }
-  await unlink(tmpDir).catch(() => {});
+
+  const tmpFiles = await readdir(RENUMBER_DIR);
+  for (const f of tmpFiles.sort()) {
+    const dest = join(INDEX_DIR, f);
+    if (existsSync(dest)) await safeUnlink(dest, f);
+    await rename(join(RENUMBER_DIR, f), dest);
+  }
+  await rm(RENUMBER_DIR, { recursive: true, force: true }).catch(() => {});
+
+  const stemMap = new Map(
+    planned.map(({ oldName, newName }) => [
+      oldName.replace(/\.webp$/i, ''),
+      newName.replace(/\.webp$/i, ''),
+    ]),
+  );
+
+  const mapPath = join(COLLECTION_ROOT, 'video-map.json');
+  if (existsSync(mapPath) && stemMap.size) {
+    const map = JSON.parse(await readFile(mapPath, 'utf8'));
+    const next = {};
+    for (const [key, value] of Object.entries(map)) {
+      const nk = stemMap.get(key);
+      if (nk) next[nk] = value;
+    }
+    await writeFile(mapPath, JSON.stringify(next, null, 2) + '\n', 'utf8');
+  }
+
+  const previewDir = join(COLLECTION_ROOT, 'previews');
+  if (existsSync(previewDir) && stemMap.size) {
+    for (const p of await readdir(previewDir)) {
+      const stem = p.replace(/\.[^.]+$/, '');
+      const ext = extname(p);
+      const nk = stemMap.get(stem);
+      if (nk && nk !== stem) {
+        const dest = join(previewDir, `${nk}${ext}`);
+        if (existsSync(dest)) await safeUnlink(dest, `${nk}${ext}`);
+        await rename(join(previewDir, p), dest);
+      }
+    }
+  }
 
   let totalKb = 0;
   const final = await listWebps();

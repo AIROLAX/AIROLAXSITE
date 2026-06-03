@@ -1,0 +1,207 @@
+/**
+ * Expositions — section scroll: black (under carousel) → white (into contact footer).
+ * Timeline: texto blanco arriba / negro abajo (sin grises intermedios).
+ */
+
+.presentations--fade {
+  --expo-end: #f5f5f7;
+  position: relative;
+  padding: clamp(48px, 8vw, 72px) clamp(20px, 4vw, 48px) clamp(40px, 6vw, 56px);
+  background: linear-gradient(
+    180deg,
+    #000000 0%,
+    #000000 26%,
+    #141416 44%,
+    #2e2e32 58%,
+    #5a5a60 72%,
+    #a8a8ae 86%,
+    var(--expo-end) 100%
+  );
+}
+
+.presentations--fade .presentations-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 20px;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  will-change: opacity, transform;
+}
+
+.presentations--fade .presentations-title,
+.presentations--fade .presentations-subtitle {
+  text-shadow: none;
+}
+
+.presentations--fade .presentations-title {
+  margin: 0 0 6px;
+  font-size: clamp(22px, 3.2vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #ffffff;
+}
+
+.presentations--fade .presentations-subtitle {
+  margin: 0;
+  max-width: 680px;
+  font-size: clamp(13px, 1.4vw, 15px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.presentations--fade .timeline {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .presentations--fade .timeline-item,
+  .presentations--fade .presentations-header {
+    will-change: auto;
+  }
+}
+
+.presentations--fade .timeline-item,
+.presentations--fade .timeline-item * {
+  text-shadow: none !important;
+}
+
+.presentations--fade .timeline-item {
+  will-change: opacity, transform;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  min-height: 88px;
+  padding: 16px 18px;
+  margin: 0 -12px;
+  border-radius: 12px;
+  border: none;
+  background: transparent !important;
+  text-decoration: none;
+  box-shadow: none;
+  filter: none;
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Mitad superior — sobre fondo oscuro */
+.presentations--fade .timeline-item--light,
+.presentations--fade .timeline-item[data-expo-tone='light'] {
+  color: #ffffff;
+}
+
+.presentations--fade .timeline-item--light .timeline-year,
+.presentations--fade .timeline-item[data-expo-tone='light'] .timeline-year {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.presentations--fade .timeline-item--light .timeline-content h3,
+.presentations--fade .timeline-item[data-expo-tone='light'] .timeline-content h3 {
+  color: #ffffff;
+}
+
+.presentations--fade .timeline-item--light .timeline-content p,
+.presentations--fade .timeline-item--light .timeline-venue,
+.presentations--fade .timeline-item[data-expo-tone='light'] .timeline-content p,
+.presentations--fade .timeline-item[data-expo-tone='light'] .timeline-venue {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Mitad inferior — sobre fondo claro */
+.presentations--fade .timeline-item--dark,
+.presentations--fade .timeline-item[data-expo-tone='dark'] {
+  color: #111111;
+}
+
+.presentations--fade .timeline-item--dark .timeline-year,
+.presentations--fade .timeline-item[data-expo-tone='dark'] .timeline-year {
+  color: rgba(17, 17, 17, 0.45);
+}
+
+.presentations--fade .timeline-item--dark .timeline-content h3,
+.presentations--fade .timeline-item[data-expo-tone='dark'] .timeline-content h3 {
+  color: #111111;
+}
+
+.presentations--fade .timeline-item--dark .timeline-content p,
+.presentations--fade .timeline-item--dark .timeline-venue,
+.presentations--fade .timeline-item[data-expo-tone='dark'] .timeline-content p,
+.presentations--fade .timeline-item[data-expo-tone='dark'] .timeline-venue {
+  color: rgba(17, 17, 17, 0.58);
+}
+
+.presentations--fade .timeline-year {
+  flex: none;
+  min-width: 44px;
+  font-size: 12px;
+  opacity: 1;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.presentations--fade .timeline-content h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 2px;
+}
+
+.presentations--fade .timeline-content p {
+  font-size: 13px;
+  margin: 0 0 2px;
+  opacity: 1;
+}
+
+.presentations--fade .timeline-venue {
+  font-size: 12px;
+  opacity: 1;
+}
+
+.presentations--fade .timeline-venue-pin {
+  opacity: 0.85;
+  stroke: currentColor;
+}
+
+@media (min-width: 769px) {
+  .presentations--fade .timeline-item:hover {
+    transform: translateX(8px);
+  }
+}
+
+@media (max-width: 768px) {
+  .presentations--fade {
+    padding: 28px 20px 36px;
+  }
+
+  .presentations--fade .presentations-header {
+    margin-bottom: 16px;
+  }
+
+  .presentations--fade .timeline {
+    gap: 10px;
+  }
+
+  .presentations--fade .timeline-item {
+    gap: 12px;
+    min-height: 80px;
+    padding: 14px 16px;
+  }
+
+  .presentations--fade .timeline-content h3 {
+    font-size: 15px;
+  }
+
+  .presentations--fade .timeline-content p {
+    font-size: 12px;
+  }
+
+  .presentations--fade .timeline-item:active {
+    transform: translateX(8px);
+  }
+}

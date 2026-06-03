@@ -9,10 +9,11 @@ Usa estas carpetas para fotos **por técnica**, no ligadas a un solo proyecto.
 | Carpeta | Para qué | Filtro en Index |
 |---------|----------|-----------------|
 | `ai-content/` | IA, mirrors, contenido generativo | **Solo** aparece en Index → By Technique → **AI Content** |
-| `generative-video/` | Runway, video IA, motion | Generative |
+| `generative-video/` | 3D motion, renders, video generativo | **3D Generative** |
 | `projection-mapping/` | Fachadas, mapping, patrimonio | Projection Mapping |
-| `immersive-installation/` | Instalaciones, TouchDesigner | Real-time / TouchDesigner |
-| `experiments/` | Pruebas, R&D, lo que no encaja | Generative |
+| `immersive-installation/` | Instalaciones, live systems, arte en espacio | **Real-time AI** / **Installation Art** |
+| `sound/` | Escultura láser, síntesis, instalación sonora | **Sound Sculpture** |
+| `experiments/` | Pruebas, R&D, lo que no encaja | 3D Generative |
 
 ## Estructura (igual que proyectos)
 
@@ -43,5 +44,6 @@ npm run projects:sync
 | Foto de **Biointerface** específica | `projects/biointerface/index/` |
 | Foto tuya de **AI / generativo** sin un solo proyecto | `collections/ai-content/index/` |
 | **Mapping** en varios sitios | `collections/projection-mapping/index/` |
+| **Sonido / láser / Max·MSP** sin un solo proyecto | `collections/sound/index/` |
 
 Puedes usar **las dos** a la vez.
