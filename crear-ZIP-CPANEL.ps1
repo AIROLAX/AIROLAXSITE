@@ -30,8 +30,11 @@ foreach ($dir in @("videos", "videos-compressed", "images", "work")) {
     }
 }
 
-Write-Host "5. Adding .htaccess (DirectoryIndex index.html para LiteSpeed)..." -ForegroundColor Cyan
-"DirectoryIndex index.html" | Set-Content (Join-Path $stageFolder ".htaccess") -Encoding ASCII -NoNewline
+Write-Host "5. Adding .htaccess (UTF-8 + DirectoryIndex for LiteSpeed)..." -ForegroundColor Cyan
+@(
+  "AddDefaultCharset UTF-8"
+  "DirectoryIndex index.html"
+) | Set-Content (Join-Path $stageFolder ".htaccess") -Encoding ASCII
 
 Write-Host "6. Adding LEEME..." -ForegroundColor Cyan
 "Sube este ZIP a cPanel, extrae en public_html. Generado: $(Get-Date -Format "yyyy-MM-dd HH:mm")" | Set-Content (Join-Path $stageFolder "LEEME-CPANEL.txt") -Encoding UTF8

@@ -208,7 +208,7 @@ export async function initImmersiveIndex(projects: IndexProject[]): Promise<void
   root.innerHTML = `
     <div class="immersive-index__head">
       <div>
-        <p class="immersive-index__label">Index — Selected Work</p>
+        <p class="immersive-index__label">Index - Selected Work</p>
         <h2 class="immersive-index__title">Each frame, a line of light.</h2>
       </div>
       <div class="immersive-index__counter" aria-live="polite">
@@ -246,7 +246,7 @@ export async function initImmersiveIndex(projects: IndexProject[]): Promise<void
   grid.innerHTML = tiles
     .map(
       (t) => `
-    <figure class="immersive-index__tile" data-tile-id="${t.id}" data-proj="${t.proj}" data-disc="${t.disc.join('|')}" data-href="work/${t.slug}.html" tabindex="0" role="link" aria-label="${t.projName} — ${t.caption}">
+    <figure class="immersive-index__tile" data-tile-id="${t.id}" data-proj="${t.proj}" data-disc="${t.disc.join('|')}" data-href="work/${t.slug}.html" tabindex="0" role="link" aria-label="${t.projName} - ${t.caption}">
       <div class="gal-frame" style="aspect-ratio:${t.ar}">
         ${renderTileMedia(t)}
         <span class="gal-caption">
@@ -349,7 +349,7 @@ export async function initImmersiveIndex(projects: IndexProject[]): Promise<void
       <span class="immersive-index__ficha-title">${card.title}</span>
       <span class="immersive-index__ficha-meta">
         <span>${card.sub}</span>
-        <span>·</span>
+        <span>|</span>
         <span>${card.meta}</span>
       </span>
       <span class="immersive-index__ficha-bar"></span>`;

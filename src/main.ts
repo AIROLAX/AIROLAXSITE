@@ -419,6 +419,16 @@ function getProjectYear(project: Project): string {
   return m ? m[0] : dur || '';
 }
 
+/** Safe ASCII for UI when host omits UTF-8 charset (cPanel/LiteSpeed). */
+function asciiUiText(text: string): string {
+  return text
+    .replace(/\u2014/g, '-')
+    .replace(/\u2013/g, '-')
+    .replace(/\u00b7/g, ' / ')
+    .replace(/\u2192/g, '->')
+    .replace(/[\u2018\u2019]/g, "'");
+}
+
 function renderWorkDetailStrip(project: Project): void {
   const strip = document.getElementById('work-detail-strip');
   if (!strip) return;
@@ -427,10 +437,10 @@ function renderWorkDetailStrip(project: Project): void {
   const teaser = project.description[0] || project.concept || '';
   strip.innerHTML = `
     <a class="work-detail-strip__link" href="${href}">
-      <span class="work-detail-strip__meta">${year}${year ? ' — ' : ''}${project.tag}</span>
-      <h3 class="work-detail-strip__title">${project.title}</h3>
-      <p class="work-detail-strip__teaser">${teaser}</p>
-      <span class="work-detail-strip__cta">View project →</span>
+      <span class="work-detail-strip__meta">${asciiUiText(`${year}${year ? ' - ' : ''}${project.tag}`)}</span>
+      <h3 class="work-detail-strip__title">${asciiUiText(project.title)}</h3>
+      <p class="work-detail-strip__teaser">${asciiUiText(teaser)}</p>
+      <span class="work-detail-strip__cta">View project -&gt;</span>
     </a>
   `;
 }
@@ -588,7 +598,7 @@ function initSelectedWorkCarousel(): void {
           />
         ` : ''}
         <div class="project-card__overlay">
-          <p class="project-card__category">${project.tag.toUpperCase()}</p>
+          <p class="project-card__category">${asciiUiText(project.tag).toUpperCase()}</p>
           <h3 class="project-card__title">${project.title}</h3>
           <p class="project-card__view-hint">View project</p>
         </div>
@@ -3366,7 +3376,7 @@ function initHeroVideoAnimations(): void {
     if (role) {
       gsap.set(role, { opacity: 1, filter: 'blur(0px)' });
     }
-    const roleRaw = role?.dataset.matrixText?.trim() || 'AI Content · Live Installations';
+    const roleRaw = role?.dataset.matrixText?.trim() || 'AI Content / Live Installations';
     runHeroMatrixLine(role, roleRaw, {
       staggerMs: 38,
       lineClass: 'hero-video__role--matrix',
