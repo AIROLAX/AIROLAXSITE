@@ -21,6 +21,7 @@ type IndexTile = {
   tag: string;
   year: string;
   img: string | null;
+  poster?: string | null;
   mediaType?: 'image' | 'video';
   treat: string;
   pos: string;
@@ -101,6 +102,37 @@ function mediaTypeFromSrc(src: string, hint?: 'video' | 'image'): 'image' | 'vid
   return VIDEO_EXT.test(src) ? 'video' : 'image';
 }
 
+/** Skip formats that often stay black in grid tiles (no web preview). */
+function isIndexableVideo(src: string): boolean {
+  if (!VIDEO_EXT.test(src)) return false;
+  if (/_WEB\.(mp4|webm)/i.test(src)) return true;
+  if (/\.(mp4|webm|m4v)(\?|$)/i.test(src)) return true;
+  return false;
+}
+
+function firstImageFromProject(w: IndexProject): string | null {
+  for (const g of w.galleryItems || []) {
+    if (g.type === 'image' || !VIDEO_EXT.test(g.src)) return g.src;
+  }
+  if (w.poster && !VIDEO_EXT.test(w.poster)) return w.poster;
+  return null;
+}
+
+function fallbackTileMedia(w: IndexProject): { src: string | null; type: 'image' | 'video' } {
+  const img = firstImageFromProject(w);
+  if (img) return { src: img, type: 'image' };
+  if (w.poster) {
+    return {
+      src: w.poster,
+      type: mediaTypeFromSrc(w.poster),
+    };
+  }
+  if (w.id === '8') {
+    return { src: '/images/optimized/videos/OHM/3_compressed.webp', type: 'image' };
+  }
+  return { src: null, type: 'image' };
+}
+
 function buildTiles(projects: IndexProject[]): IndexTile[] {
   const globalSeen = new Set<string>();
   const tiles: IndexTile[] = [];
@@ -117,15 +149,22 @@ function buildTiles(projects: IndexProject[]): IndexTile[] {
 
     const add = (src: string, type?: 'video' | 'image'): boolean => {
       const s = src.trim();
+      const resolvedType = mediaTypeFromSrc(s, type);
+      if (resolvedType === 'video' && !isIndexableVideo(s)) return false;
       const key = normalizeSrc(s);
       if (!key || localSeen.has(key) || globalSeen.has(key)) return false;
       localSeen.add(key);
       globalSeen.add(key);
-      sources.push({ src: s, type: mediaTypeFromSrc(s, type) });
+      sources.push({ src: s, type: resolvedType });
       return true;
     };
 
-    for (const g of w.galleryItems || []) {
+    const gallery = w.galleryItems || [];
+    const gallerySorted = [
+      ...gallery.filter((g) => g.type === 'image' || !VIDEO_EXT.test(g.src)),
+      ...gallery.filter((g) => g.type === 'video' && VIDEO_EXT.test(g.src)),
+    ];
+    for (const g of gallerySorted) {
       add(g.src, g.type);
     }
 
@@ -137,8 +176,10 @@ function buildTiles(projects: IndexProject[]): IndexTile[] {
     }
 
     const picked = sources.slice(0, maxPerProj);
+    const tilePoster = firstImageFromProject(w);
 
     if (picked.length === 0) {
+      const fb = fallbackTileMedia(w);
       tiles.push({
         id: `${w.id}-0`,
         proj: w.id,
@@ -148,8 +189,9 @@ function buildTiles(projects: IndexProject[]): IndexTile[] {
         disc: DISC_BY_PROJ[w.id] || [],
         tag: w.tag,
         year: w.credits.duration,
-        img: null,
-        mediaType: 'image',
+        img: fb.src,
+        poster: tilePoster,
+        mediaType: fb.type,
         treat: TREAT[globalIdx % TREAT.length]!,
         pos: POS[globalIdx % POS.length]!,
         ar: AR[globalIdx % AR.length]!,
@@ -169,6 +211,7 @@ function buildTiles(projects: IndexProject[]): IndexTile[] {
         tag: w.tag,
         year: w.credits.duration,
         img: item.src,
+        poster: item.type === 'video' ? tilePoster : null,
         mediaType: item.type,
         treat: TREAT[globalIdx % TREAT.length]!,
         pos: POS[globalIdx % POS.length]!,
@@ -187,7 +230,8 @@ function renderTileMedia(t: IndexTile): string {
     return `<div style="width:100%;height:100%;min-height:120px;display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)">Image soon</div>`;
   }
   if (t.mediaType === 'video') {
-    return `<video src="${t.img}" muted loop playsinline preload="none" draggable="false" style="${style}" data-index-video></video>`;
+    const poster = t.poster ? ` poster="${t.poster}"` : '';
+    return `<video src="${t.img}"${poster} muted loop playsinline preload="metadata" draggable="false" style="${style}" data-index-video></video>`;
   }
   return `<img src="${t.img}" alt="${t.caption}" loading="lazy" decoding="async" draggable="false" style="${style}">`;
 }
@@ -516,12 +560,31 @@ export async function initImmersiveIndex(projects: IndexProject[]): Promise<void
   applyFilter();
 
   const indexVideos = grid.querySelectorAll<HTMLVideoElement>('[data-index-video]');
+  indexVideos.forEach((v) => {
+    v.addEventListener('error', () => {
+      const poster = v.getAttribute('poster');
+      if (!poster) return;
+      const img = document.createElement('img');
+      img.src = poster;
+      img.alt = '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.draggable = false;
+      img.style.cssText = v.style.cssText;
+      v.replaceWith(img);
+    });
+  });
   if (indexVideos.length > 0 && 'IntersectionObserver' in window) {
     const vidObs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const v = entry.target as HTMLVideoElement;
           if (entry.isIntersecting) {
+            if (!v.dataset.hydrated) {
+              v.dataset.hydrated = '1';
+              v.preload = 'auto';
+              v.load();
+            }
             void v.play().catch(() => {});
           } else {
             v.pause();
