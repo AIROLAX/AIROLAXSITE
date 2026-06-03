@@ -5,6 +5,7 @@ import './styles.css';
 import './colors_and_type.css';
 import './aaad-theme.css';
 import { initImmersiveIndex } from './immersive-index';
+import { mediaUrl } from './media';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -372,6 +373,19 @@ const projects: Project[] = [
     }
   }
 ];
+
+function withMediaUrls(project: Project): Project {
+  return {
+    ...project,
+    videoUrl: mediaUrl(project.videoUrl),
+    poster: project.poster ? mediaUrl(project.poster) : undefined,
+    galleryItems: project.galleryItems?.map((g) => ({ ...g, src: mediaUrl(g.src) })),
+  };
+}
+
+for (let i = 0; i < projects.length; i++) {
+  projects[i] = withMediaUrls(projects[i]);
+}
 
 const carouselProjects: Project[] = [...projects];
 
@@ -2031,7 +2045,7 @@ function setupLogoScene({
 
     // Create video element for LED screen (use lightweight variant + browser cache)
     videoElement = document.createElement('video');
-    videoElement.src = '/videos/home_WEB.mp4';
+    videoElement.src = mediaUrl('/videos/home_WEB.mp4');
     videoElement.muted = true;
     videoElement.loop = true;
     videoElement.playsInline = true;
@@ -2187,7 +2201,7 @@ function setupLogoScene({
         // Try alternative path if main path fails
         if (videoElement && videoElement.src.includes('home.mp4')) {
           console.log('🔄 Trying alternative video path...');
-          videoElement.src = '/videos/home.mp4?' + Date.now();
+          videoElement.src = mediaUrl('/videos/home.mp4') + '?' + Date.now();
           videoElement.load();
         }
       }
@@ -3121,6 +3135,12 @@ function initHeroVideoFastLoad(): void {
   const heroSection = document.querySelector('.hero-video') as HTMLElement;
   const heroVideo = document.querySelector('.hero-video__element') as HTMLVideoElement;
   if (!heroVideo) return;
+
+  const heroSource = heroVideo.querySelector('source');
+  const heroSrc = heroSource?.getAttribute('src') || '/videos/home_WEB.mp4';
+  const resolvedHeroSrc = mediaUrl(heroSrc);
+  if (heroSource) heroSource.src = resolvedHeroSrc;
+  else heroVideo.src = resolvedHeroSrc;
 
   const revealHeroVideo = (): void => {
     if (heroSection?.classList.contains('is-ready')) return;

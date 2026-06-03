@@ -11,6 +11,7 @@
 | Name | Required | Notes |
 |------|----------|--------|
 | `VITE_GA_MEASUREMENT_ID` | No | GA4 ID, e.g. `G-XXXXXXXXXX`. Omit to disable GA on the main app bundle. |
+| `VITE_MEDIA_BASE_URL` | **Yes (production)** | Base URL for `/videos/*` (Git LFS, too large for Vercel bundle). Example: `https://airolax.com` while cPanel still serves videos, then `https://media.airolax.com` after DNS points to Vercel. |
 
 Copy `.env.example` → `.env` locally. In Vercel: **Project → Settings → Environment Variables** for Production/Preview.
 
