@@ -225,29 +225,31 @@
   color: var(--ink);
 }
 
-/* Hero */
+/* Hero — clean full-bleed video like andatalab.art (no grain / color filter) */
 [data-brand="airolax"] .hero-video__element {
-  filter: saturate(1.15) contrast(1.05);
+  filter: none;
 }
 
 [data-brand="airolax"] .hero-video__overlay {
-  background: radial-gradient(120% 90% at 50% 40%, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.78)) !important;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.18) 36%,
+    rgba(0, 0, 0, 0.5) 70%,
+    rgba(0, 0, 0, 0.86) 100%
+  ) !important;
 }
 
 [data-brand="airolax"] .hero-video__grain {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  opacity: 0.5;
-  background:
-    repeating-linear-gradient(0deg, rgba(60, 220, 255, 0.018) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgba(255, 46, 138, 0.018) 0 1px, transparent 1px 3px);
+  display: none;
 }
 
 [data-brand="airolax"] .hero-video__shine {
-  opacity: 0.35;
+  opacity: 0;
+}
+
+[data-brand="airolax"] .hero-video__container:hover .hero-video__shine {
+  opacity: 0;
 }
 
 [data-brand="airolax"] .hero-video__content {
