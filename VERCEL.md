@@ -25,7 +25,7 @@ git commit -m "tu mensaje"
 git push origin main
 ```
 
-Vercel construye automáticamente (`git lfs pull` → `npm run build` → `dist/`).
+Vercel construye automáticamente (`npm install` → `npm run build` → `dist/`). Los vídeos LFS no se descargan en Vercel; se cargan desde `VITE_MEDIA_BASE_URL`.
 
 ## Local
 
