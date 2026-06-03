@@ -1,7 +1,21 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "npm install",
+  "installCommand": "node tools/vercelInstall.mjs",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": null
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/videos/:path*",
+      "destination": "http://198.54.115.129/videos/:path*"
+    },
+    {
+      "source": "/videos-compressed/:path*",
+      "destination": "http://198.54.115.129/videos-compressed/:path*"
+    },
+    {
+      "source": "/collections/:collection/previews/:path*",
+      "destination": "http://198.54.115.129/collections/:collection/previews/:path*"
+    }
+  ]
 }

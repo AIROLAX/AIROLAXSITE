@@ -1,5 +1,13 @@
-/** Base URL for large media (videos). Empty = same origin (cPanel local / preview). */
-const MEDIA_BASE = String(import.meta.env.VITE_MEDIA_BASE_URL || '').replace(/\/$/, '');
+/** Base URL for large media (videos). Empty = same origin (+ Vercel rewrites to cPanel when needed). */
+const MEDIA_BASE_RAW = String(import.meta.env.VITE_MEDIA_BASE_URL || '').replace(/\/$/, '');
+
+/** airolax.com on Vercel cannot serve LFS stubs — avoid looping media through the same deploy. */
+function isSelfSiteMediaBase(base: string): boolean {
+  return /^https:\/\/(www\.)?airolax\.com$/i.test(base);
+}
+
+const MEDIA_BASE =
+  MEDIA_BASE_RAW && !isSelfSiteMediaBase(MEDIA_BASE_RAW) ? MEDIA_BASE_RAW : '';
 
 function normalizeMediaPath(path: string): string {
   let p = path.trim().replace(/\\/g, '/');

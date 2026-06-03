@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run projects:sync && tsc && vite build",
-    "postbuild": "node -e \"const fs=require('fs'); const path=require('path'); if(fs.existsSync('work')) fs.cpSync('work','dist/work',{recursive:true}); if(fs.existsSync('contact.html')) fs.copyFileSync('contact.html',path.join('dist','contact.html'));\"",
+    "postbuild": "node tools/stripLfsVideoStubs.mjs && node -e \"const fs=require('fs'); const path=require('path'); if(fs.existsSync('work')) fs.cpSync('work','dist/work',{recursive:true}); if(fs.existsSync('contact.html')) fs.copyFileSync('contact.html',path.join('dist','contact.html'));\"",
     "preview": "vite preview",
     "compress:videos": "node tools/compressVideos.mjs",
     "projects:sync": "node tools/syncProjectMedia.mjs",
