@@ -1,0 +1,241 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-03T03:10:35.465Z",
+  "projects": {
+    "8": {
+      "slug": "ohm-1",
+      "poster": "/projects/ohm-1/51835853-acba-4058-a8cf-4c385bbcea80 (1).jpeg"
+    }
+  },
+  "collections": {
+    "ai-content": {
+      "slug": "ai-content",
+      "label": "AI Content",
+      "disciplines": [
+        "AI Content",
+        "Real-time",
+        "Generative"
+      ],
+      "index": [
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/01.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/02.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/03.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/04.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/06.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/07.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/08.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/09.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/10.mp4",
+          "poster": "/collections/ai-content/index/10.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/11.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/12.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/13.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/14.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/15.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/16.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/17.mp4",
+          "poster": "/collections/ai-content/index/17.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/18.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/19.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/20.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/21.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/23.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/24.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/25.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/27.mp4",
+          "poster": "/collections/ai-content/index/27.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/28.mp4",
+          "poster": "/collections/ai-content/index/28.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/29.mp4",
+          "poster": "/collections/ai-content/index/29.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/30.mp4",
+          "poster": "/collections/ai-content/index/30.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/32.mp4",
+          "poster": "/collections/ai-content/index/32.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/33.mp4",
+          "poster": "/collections/ai-content/index/33.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/34.mp4",
+          "poster": "/collections/ai-content/index/34.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/35.mp4",
+          "poster": "/collections/ai-content/index/35.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/39.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/40.mp4",
+          "poster": "/collections/ai-content/index/40.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/ai-content/index/41.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/42.mp4",
+          "poster": "/collections/ai-content/index/42.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/43.mp4",
+          "poster": "/collections/ai-content/index/43.webp"
+        }
+      ]
+    },
+    "projection-mapping": {
+      "slug": "projection-mapping",
+      "label": "Projection Mapping",
+      "disciplines": [
+        "Projection Mapping"
+      ],
+      "index": [
+        {
+          "type": "video",
+          "src": "/collections/projection-mapping/previews/01.mp4",
+          "poster": "/collections/projection-mapping/index/01.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/projection-mapping/previews/02.mp4",
+          "poster": "/collections/projection-mapping/index/02.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/projection-mapping/previews/03.mp4",
+          "poster": "/collections/projection-mapping/index/03.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/projection-mapping/previews/04.mp4",
+          "poster": "/collections/projection-mapping/index/04.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/projection-mapping/index/05.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/projection-mapping/index/06.webp"
+        },
+        {
+          "type": "image",
+          "src": "/collections/projection-mapping/index/07.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/projection-mapping/previews/08.mp4",
+          "poster": "/collections/projection-mapping/index/08.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/projection-mapping/previews/09.mp4",
+          "poster": "/collections/projection-mapping/index/09.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/projection-mapping/previews/10.mp4",
+          "poster": "/collections/projection-mapping/index/10.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/projection-mapping/previews/11.mp4",
+          "poster": "/collections/projection-mapping/index/11.webp"
+        }
+      ]
+    }
+  }
+}

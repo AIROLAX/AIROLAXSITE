@@ -8,17 +8,21 @@ function normalizeMediaPath(path: string): string {
   return p.startsWith('/') ? p : `/${p}`;
 }
 
-function isVideoPath(path: string): boolean {
-  return path.startsWith('/videos/') || path.startsWith('/videos-compressed/');
+const VIDEO_PATH = /\.(mp4|mov|webm|m4v|mkv)(\?|#|$)/i;
+
+function isHeavyMediaPath(path: string): boolean {
+  if (path.startsWith('/videos/') || path.startsWith('/videos-compressed/')) return true;
+  if (path.startsWith('/collections/') && VIDEO_PATH.test(path)) return true;
+  return false;
 }
 
-/** Prefix /videos/ paths when VITE_MEDIA_BASE_URL is set (required on Vercel). */
+/** Prefix heavy media when VITE_MEDIA_BASE_URL is set (Vercel → airolax.com / CDN). */
 export function mediaUrl(path: string): string {
   if (!path) return path;
   if (/^https?:\/\//i.test(path)) return path;
   const normalized = normalizeMediaPath(path);
   if (!MEDIA_BASE) return normalized;
-  if (isVideoPath(normalized)) {
+  if (isHeavyMediaPath(normalized)) {
     return `${MEDIA_BASE}${normalized}`;
   }
   return normalized;

@@ -8,9 +8,14 @@
 .DS_Store
 gallery-ingest.log
 /public/gallery/
+/public/collections/**/_source/
+/public/collections/**/_removed/
+/public/collections/**/__match/
+/public/collections/**/previews/
 
 # CARPETAS DE TRABAJO (Solo si NO las usas en la web)
 # /AI MIRROR/ 
 
 # NOTA: He quitado *.mp4, *.mov y las carpetas de videos 
 # para que Git LFS pueda subirlos ahora mismo.
+.vercel

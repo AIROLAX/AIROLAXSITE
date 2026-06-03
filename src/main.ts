@@ -6,6 +6,7 @@ import './colors_and_type.css';
 import './aaad-theme.css';
 import { initImmersiveIndex } from './immersive-index';
 import { mediaUrl } from './media';
+import projectMediaFile from './project-media.json';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -42,6 +43,8 @@ interface Project {
   technologies: string[];
   concept: string;
   galleryItems: Array<{type: 'video' | 'image'; src: string; alt?: string}>;
+  /** Curated Index wall images from public/projects/{slug}/index/ (via projects:sync) */
+  indexImages?: string[];
   credits: {
     direction: string;
     development: string;
@@ -374,11 +377,38 @@ const projects: Project[] = [
   }
 ];
 
+type ProjectMediaEntry = {
+  slug?: string;
+  poster?: string;
+  video?: string;
+  index?: string[];
+  gallery?: Array<{ type: 'video' | 'image'; src: string; alt?: string }>;
+};
+
+function applyProjectMediaFromFolders(list: Project[]): void {
+  const map = (projectMediaFile as { projects?: Record<string, ProjectMediaEntry> }).projects ?? {};
+  for (let i = 0; i < list.length; i++) {
+    const p = list[i];
+    const m = map[p.id];
+    if (!m) continue;
+    list[i] = {
+      ...p,
+      videoUrl: m.video ?? p.videoUrl,
+      poster: m.poster ?? p.poster,
+      indexImages: m.index?.length ? [...m.index] : p.indexImages,
+      galleryItems: m.gallery?.length ? m.gallery : p.galleryItems,
+    };
+  }
+}
+
+applyProjectMediaFromFolders(projects);
+
 function withMediaUrls(project: Project): Project {
   return {
     ...project,
     videoUrl: mediaUrl(project.videoUrl),
     poster: project.poster ? mediaUrl(project.poster) : undefined,
+    indexImages: project.indexImages?.map((src) => mediaUrl(src)),
     galleryItems: project.galleryItems?.map((g) => ({ ...g, src: mediaUrl(g.src) })),
   };
 }
@@ -987,51 +1017,6 @@ updateClock();
 
 // ==========================================
 // SELECTED PRESENTATIONS (timeline) — Expositions
-// ==========================================
-const TIMELINE_RASTER_EXT = /\.(jpe?g|png|gif|webp|avif|bmp|svg)(\?|#|$)/i;
-
-/** Rutas públicas (Vercel / static): siempre desde la raíz del sitio. */
-function normalizePresentationAssetPath(src: string): string {
-  const s = (src || '').trim();
-  if (!s) return '';
-  if (s.startsWith('/')) return s;
-  if (s.startsWith('./')) return '/' + s.slice(2).replace(/^\/+/, '');
-  return '/' + s.replace(/^\/+/, '');
-}
-
-function isTimelineRasterPath(url: string): boolean {
-  if (!url) return false;
-  const path = url.split('?')[0].split('#')[0];
-  return TIMELINE_RASTER_EXT.test(path);
-}
-
-/** Primera imagen usable (evita poster .mp4; acepta cualquier src del gallery con extensión de imagen). */
-function presentationRasterImageUrl(p: Project): string {
-  for (const g of p.galleryItems || []) {
-    if (g.type === 'image' && g.src && isTimelineRasterPath(g.src)) {
-      return normalizePresentationAssetPath(g.src);
-    }
-  }
-  for (const g of p.galleryItems || []) {
-    if (g.src && isTimelineRasterPath(g.src)) {
-      return normalizePresentationAssetPath(g.src);
-    }
-  }
-  const poster = (p.poster || '').trim();
-  if (poster && isTimelineRasterPath(poster)) {
-    return normalizePresentationAssetPath(poster);
-  }
-  return '';
-}
-
-function presentationPreviewVideoUrl(p: Project): string {
-  const v = (p.videoUrl || '').trim();
-  if (v) return normalizePresentationAssetPath(v);
-  const gv = (p.galleryItems || []).find((g) => g.type === 'video' && g.src);
-  if (gv?.src) return normalizePresentationAssetPath(gv.src);
-  return '';
-}
-
 function escapeTimelineAttr(value: string): string {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 }
@@ -1043,8 +1028,6 @@ function getPresentationsTimeline(): Array<{
   tag: string;
   venue: string;
   href: string;
-  imageUrl: string;
-  previewVideoUrl: string;
 }> {
   return projects.filter((p) => p.id !== '1b').map((p) => {
     const dur = (p.credits?.duration || '').trim();
@@ -1053,8 +1036,6 @@ function getPresentationsTimeline(): Array<{
     const year = yearMatch ? yearMatch[0] : '';
     const venue = exh.replace(/\s*—?\s*\d{4}\s*$/, '').trim() || exh;
     const slug = getProjectSlug(p);
-    const imageUrl = presentationRasterImageUrl(p);
-    const previewVideoUrl = imageUrl ? '' : presentationPreviewVideoUrl(p);
     return {
       id: p.id,
       year,
@@ -1062,8 +1043,6 @@ function getPresentationsTimeline(): Array<{
       tag: p.tag || '',
       venue,
       href: `work/${slug}.html`,
-      imageUrl,
-      previewVideoUrl
     };
   }).filter((t) => t.year).sort((a, b) => Number(b.year) - Number(a.year));
 }
@@ -1079,16 +1058,8 @@ function initPresentationsTimeline(): void {
     const tag = item.tag ? `<p>${item.tag}</p>` : '';
     const pinSvg = '<svg class="timeline-venue-pin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
     const venue = item.venue ? `<span class="timeline-venue">${pinSvg}${item.venue}</span>` : '';
-    const imgSrc = escapeTimelineAttr(item.imageUrl);
-    const vidSrc = escapeTimelineAttr(item.previewVideoUrl);
-    const bgMedia = item.imageUrl
-      ? `<img class="timeline-item__bg-media timeline-item__bg-media--img" src="${imgSrc}" alt="" loading="lazy" decoding="async" />`
-      : item.previewVideoUrl
-        ? `<video class="timeline-item__bg-media timeline-item__bg-media--video" src="${vidSrc}" muted playsinline preload="metadata" loop aria-hidden="true"></video>`
-        : '';
     return `
       <a href="${escapeTimelineAttr(item.href)}" class="timeline-item" data-project-id="${item.id}">
-        <div class="timeline-item__bg" aria-hidden="true">${bgMedia}</div>
         <div class="timeline-year">${item.year}</div>
         <div class="timeline-content">
           <h3>${item.title}</h3>
@@ -1098,41 +1069,6 @@ function initPresentationsTimeline(): void {
       </a>
     `;
   }).join('');
-
-  const playBgVideo = (root: HTMLElement): void => {
-    const vid = root.querySelector<HTMLVideoElement>('.timeline-item__bg-media--video');
-    if (vid) void vid.play().catch(() => {});
-  };
-
-  const pauseBgVideo = (root: HTMLElement): void => {
-    const vid = root.querySelector<HTMLVideoElement>('.timeline-item__bg-media--video');
-    if (vid) {
-      vid.pause();
-      try {
-        vid.currentTime = 0;
-      } catch {
-        /* ignore */
-      }
-    }
-  };
-
-  /* Hover (desktop): vídeo de fondo en play; touch: clase + play */
-  container.querySelectorAll('.timeline-item').forEach((el) => {
-    const item = el as HTMLElement;
-    const addOver = (): void => {
-      item.classList.add('timeline-item--over');
-      playBgVideo(item);
-    };
-    const removeOver = (): void => {
-      item.classList.remove('timeline-item--over');
-      pauseBgVideo(item);
-    };
-    item.addEventListener('mouseenter', addOver);
-    item.addEventListener('mouseleave', removeOver);
-    item.addEventListener('touchstart', addOver, { passive: true });
-    item.addEventListener('touchend', removeOver, { passive: true });
-    item.addEventListener('touchcancel', removeOver, { passive: true });
-  });
 }
 
 // Enhanced Capabilities animations with entrance effects
@@ -3398,7 +3334,7 @@ function initHeroVideoAnimations(): void {
     if (role) {
       gsap.set(role, { opacity: 1, filter: 'blur(0px)' });
     }
-    const roleRaw = role?.dataset.matrixText?.trim() || 'AI Content / Live Installations';
+    const roleRaw = role?.dataset.matrixText?.trim() || 'Real-Time · AI Installation · Generative — We Are AI Experts';
     runHeroMatrixLine(role, roleRaw, {
       staggerMs: 38,
       lineClass: 'hero-video__role--matrix',
@@ -4130,10 +4066,34 @@ document.addEventListener('DOMContentLoaded', () => {
         title: p.title,
         tag: p.tag,
         poster: p.poster,
+        indexImages: p.indexImages,
         galleryItems: p.galleryItems,
         technologies: p.technologies,
         credits: p.credits,
         slug: getProjectSlug(p),
+      })),
+      Object.values(
+        (projectMediaFile as {
+          collections?: Record<
+            string,
+            {
+              slug: string;
+              label: string;
+              disciplines: string[];
+              index?: Array<string | { type: 'image' | 'video'; src: string; poster?: string }>;
+            }
+          >;
+        }).collections ?? {}
+      ).map((c) => ({
+        ...c,
+        index: (c.index ?? []).map((item) => {
+          if (typeof item === 'string') return mediaUrl(item);
+          return {
+            ...item,
+            src: mediaUrl(item.src),
+            poster: item.poster ? mediaUrl(item.poster) : undefined,
+          };
+        }),
       }))
     );
     initSelectedWorkCarousel();
