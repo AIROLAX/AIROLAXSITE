@@ -157,7 +157,13 @@
           font-size: 11px;
         }
         body[data-brand="airolax"] .topbar__nav { display: none; }
-        body[data-brand="airolax"] .mobile-menu-toggle { display: flex; }
+        body[data-brand="airolax"] .topbar__brand-links { display: none; }
+        body[data-brand="airolax"] .topbar__brand-block { max-width: 72vw; }
+        body[data-brand="airolax"] .mobile-menu-toggle {
+          display: flex;
+          z-index: 5;
+          position: relative;
+        }
       }
       @media (min-width: 768px) {
         body[data-brand="airolax"] .mobile-menu-toggle { display: none; }
@@ -220,8 +226,6 @@
         </div>
 
         <nav class="topbar__nav" role="navigation" aria-label="Main navigation">
-          <a href="#immersive-index" class="nav-link">Index</a>
-          <a href="#projects" class="nav-link">Work</a>
           <a href="#presentations-section" class="nav-link nav-link--about">About</a>
           <a href="#contact" class="nav-link">Contact</a>
           <a href="https://www.andatalab.art" class="nav-link nav-link--cross" target="_blank" rel="noopener noreferrer">Andata Lab</a>
@@ -242,50 +246,13 @@
       <div class="mobile-menu" id="mobile-menu">
         <button type="button" class="mobile-menu__close" id="mobile-menu-close" aria-label="Cerrar menú">✕</button>
         <nav class="mobile-menu__nav" role="navigation" aria-label="Mobile navigation">
-          <a href="#immersive-index" class="mobile-menu__link">Index</a>
-          <a href="#projects" class="mobile-menu__link">Work</a>
-          <a href="#presentations-section" class="mobile-menu__link">About</a>
+          <a href="#immersive-index" class="mobile-menu__link">Work</a>
           <a href="#contact" class="mobile-menu__link">Contact</a>
           <a href="/CV.pdf" class="mobile-menu__link" download>CV</a>
           <a href="https://www.andatalab.art" class="mobile-menu__link" target="_blank" rel="noopener noreferrer">Andata Lab</a>
         </nav>
       </div>
     </header>
-    <script>
-      (function() {
-        var btn = document.getElementById('mobile-menu-toggle');
-        var menu = document.getElementById('mobile-menu');
-        var closeBtn = document.getElementById('mobile-menu-close');
-        if (!btn || !menu) return;
-        function openMenu() {
-          menu.classList.add('is-open');
-          btn.classList.add('active');
-          document.body.classList.add('mobile-menu-open');
-          btn.setAttribute('aria-expanded', 'true');
-          document.body.style.overflow = 'hidden';
-          document.body.style.position = 'fixed';
-          document.body.style.width = '100%';
-        }
-        function closeMenu() {
-          menu.classList.remove('is-open');
-          btn.classList.remove('active');
-          document.body.classList.remove('mobile-menu-open');
-          btn.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
-          document.body.style.position = '';
-          document.body.style.width = '';
-        }
-        function toggle() {
-          if (menu.classList.contains('is-open')) closeMenu();
-          else openMenu();
-        }
-        btn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); toggle(); });
-        if (closeBtn) closeBtn.addEventListener('click', function(e) { e.preventDefault(); closeMenu(); });
-        window.toggleMobileMenu = function(e) { if (e) { e.preventDefault(); e.stopPropagation(); } toggle(); };
-        window.closeMobileMenu = closeMenu;
-      })();
-    </script>
-
     <!-- Hero Video Section -->
     <section class="hero-video" id="hero-video">
       <div class="hero-video__container">
@@ -306,26 +273,20 @@
         <div class="hero-video__content">
           <div class="hero-video__text-container">
             <div class="hero-video__headline">
-              <div class="hero-video__name-cv">
-                <div
-                  class="hero-video__title-stack"
-                  id="hero-video-title-matrix"
-                  aria-label="Argel Erevan Airola, México, 1991"
-                >
-                  <p class="hero-video__title-line hero-video__title-row" data-matrix-text="ARGEL EREVAN AIROLA"></p>
-                  <p class="hero-video__title-line hero-video__title-row" data-matrix-text="MÉXICO"></p>
-                  <p class="hero-video__title-line hero-video__title-row" data-matrix-text="1991"></p>
-                </div>
-                <span class="hero-video__brand-links">
-                  <a href="#immersive-index" class="hero-video__brand-link">Portfolio</a>
-                  <a href="/CV.pdf" class="hero-video__brand-link" download aria-label="Download CV">CV</a>
-                </span>
+              <div
+                class="hero-video__title-stack"
+                id="hero-video-title-matrix"
+                aria-label="Argel Erevan Airola, México, Multimedia Artist, 1991"
+              >
+                <p class="hero-video__title-line hero-video__title-row" data-matrix-text="ARGEL EREVAN AIROLA"></p>
+                <p class="hero-video__title-line hero-video__title-row" data-matrix-text="MÉXICO"></p>
+                <p class="hero-video__title-line hero-video__title-row" data-matrix-text="MULTIMEDIA ARTIST · 1991"></p>
               </div>
               <p
                 class="hero-video__role"
                 id="hero-video-role-matrix"
-                data-matrix-text="Real-Time · AI Content · Interactive Creation in Light"
-                aria-label="Real-time AI content and interactive creation"
+                data-matrix-text="AI audiovisual real time installations and interactive design"
+                aria-label="AI audiovisual real time installations and interactive design"
               ></p>
             </div>
           </div>

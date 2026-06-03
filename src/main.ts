@@ -1114,13 +1114,16 @@ document.addEventListener('DOMContentLoaded', () => {
         closeMobileMenu();
         return;
       }
+      if (!href.startsWith('#')) {
+        closeMobileMenu();
+        return;
+      }
 
       e.preventDefault();
       e.stopPropagation();
 
       const targetId = href.substring(1);
-      
-      // Call scrollToSection which handles both vision-section and contact
+
       scrollToSection(targetId);
     });
   });
@@ -1280,83 +1283,96 @@ function showFormMessage(element: HTMLElement | null, message: string, type: 'su
 // ==========================================
 // MOBILE MENU
 // ==========================================
+let mobileMenuScrollY = 0;
+
 function initMobileMenu(): void {
   const toggle = document.getElementById('mobile-menu-toggle');
   const menu = document.getElementById('mobile-menu');
-  
+  const closeBtn = document.getElementById('mobile-menu-close');
+
   if (!toggle || !menu) {
     console.warn('Mobile menu elements not found');
     return;
   }
-  
-  /* El botón se maneja con el script inline en el HTML para que funcione siempre */
 
-  // Close menu when clicking outside
+  const onToggle = (e: Event): void => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleMobileMenu();
+  };
+
+  toggle.addEventListener('click', onToggle);
+  closeBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeMobileMenu();
+  });
+
+  menu.querySelectorAll<HTMLAnchorElement>('.mobile-menu__link').forEach((link) => {
+    link.addEventListener('click', () => closeMobileMenu());
+  });
+
   document.addEventListener('click', (e) => {
-    if (menu.classList.contains('is-open')) {
-      const target = e.target as HTMLElement;
-      if (!menu.contains(target) && !toggle.contains(target)) {
-        closeMobileMenu();
-      }
+    if (!menu.classList.contains('is-open')) return;
+    const target = e.target as HTMLElement;
+    if (!menu.contains(target) && !toggle.contains(target)) {
+      closeMobileMenu();
     }
   });
-  
-  // Close menu on window resize if switching to desktop
+
   window.addEventListener('resize', () => {
     if (window.innerWidth > 768 && menu.classList.contains('is-open')) {
       closeMobileMenu();
     }
   });
-  
-  // Prevent body scroll when menu is open
-  const observer = new MutationObserver(() => {
-    if (menu.classList.contains('is-open')) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  });
-  
-  observer.observe(menu, { attributes: true, attributeFilter: ['class'] });
+
+  const win = window as Window & {
+    toggleMobileMenu?: typeof toggleMobileMenu;
+    closeMobileMenu?: typeof closeMobileMenu;
+  };
+  win.toggleMobileMenu = toggleMobileMenu;
+  win.closeMobileMenu = closeMobileMenu;
 }
 
 function openMobileMenu(): void {
   const menu = document.getElementById('mobile-menu');
   const toggle = document.getElementById('mobile-menu-toggle');
-  if (menu && toggle) {
-    menu.classList.add('is-open');
-    toggle.classList.add('active');
-    toggle.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-    // Prevent scrolling on body
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-  }
+  if (!menu || !toggle) return;
+
+  mobileMenuScrollY = window.scrollY;
+  menu.classList.add('is-open');
+  toggle.classList.add('active');
+  toggle.setAttribute('aria-expanded', 'true');
+  document.body.classList.add('mobile-menu-open');
+  document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.width = '100%';
+  document.body.style.top = `-${mobileMenuScrollY}px`;
 }
 
 function closeMobileMenu(): void {
   const menu = document.getElementById('mobile-menu');
   const toggle = document.getElementById('mobile-menu-toggle');
-  if (menu && toggle) {
-    menu.classList.remove('is-open');
-    toggle.classList.remove('active');
-    toggle.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('mobile-menu-open');
-    document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.width = '';
-  }
+  if (!menu || !toggle) return;
+
+  menu.classList.remove('is-open');
+  toggle.classList.remove('active');
+  toggle.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('mobile-menu-open');
+  document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.width = '';
+  document.body.style.top = '';
+  window.scrollTo(0, mobileMenuScrollY);
 }
 
-/** Llamada directa desde onclick del botón (fallback para móvil) */
 function toggleMobileMenu(e?: Event): void {
   if (e) {
     e.preventDefault();
     e.stopPropagation();
   }
   const menu = document.getElementById('mobile-menu');
-  const toggle = document.getElementById('mobile-menu-toggle');
-  if (!menu || !toggle) return;
+  if (!menu) return;
   if (menu.classList.contains('is-open')) closeMobileMenu();
   else openMobileMenu();
 }
@@ -3240,13 +3256,13 @@ function runHeroMatrixLine(
     return;
   }
 
-  chars.forEach((targetChar, i) => {
+  const appendMatrixChar = (parent: HTMLElement, targetChar: string, charIndex: number): void => {
     const span = document.createElement('span');
     span.className = 'hero-video__matrix-char';
     span.setAttribute('aria-hidden', 'true');
-    el.appendChild(span);
+    parent.appendChild(span);
     const isSpace = targetChar === ' ';
-    const stagger = i * staggerMs;
+    const stagger = charIndex * staggerMs;
     const cycles = isSpace ? 1 : 8 + Math.floor(Math.random() * 8);
     window.setTimeout(() => {
       let n = 0;
@@ -3267,6 +3283,23 @@ function runHeroMatrixLine(
       };
       tick();
     }, stagger);
+  };
+
+  let charIndex = 0;
+  raw.split(/(\s+)/).forEach((token) => {
+    const isWhitespace = /^\s+$/.test(token);
+    const parent = isWhitespace
+      ? el
+      : (() => {
+          const word = document.createElement('span');
+          word.className = 'hero-video__matrix-word';
+          el.appendChild(word);
+          return word;
+        })();
+    Array.from(token).forEach((targetChar) => {
+      appendMatrixChar(parent, targetChar, charIndex);
+      charIndex += 1;
+    });
   });
 }
 
@@ -3334,7 +3367,9 @@ function initHeroVideoAnimations(): void {
     if (role) {
       gsap.set(role, { opacity: 1, filter: 'blur(0px)' });
     }
-    const roleRaw = role?.dataset.matrixText?.trim() || 'Real-Time · AI Content · Interactive Creation in Light';
+    const roleRaw =
+      role?.dataset.matrixText?.trim() ||
+      'AI audiovisual real time installations and interactive design';
     runHeroMatrixLine(role, roleRaw, {
       staggerMs: 38,
       lineClass: 'hero-video__role--matrix',

@@ -239,11 +239,11 @@
   }
 
   [data-brand="airolax"] .topbar__brand-block {
-    max-width: 58vw;
+    max-width: 72vw;
   }
 
   [data-brand="airolax"] .topbar__brand-links {
-    gap: 8px;
+    display: none;
   }
 
   [data-brand="airolax"] .topbar__brand-link {
@@ -262,6 +262,8 @@
 
   [data-brand="airolax"] .mobile-menu-toggle {
     display: flex;
+    z-index: 5;
+    position: relative;
   }
 }
 
@@ -326,9 +328,10 @@
 [data-brand="airolax"] .hero-video__role {
   font-family: var(--font) !important;
   color: var(--ink-2) !important;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: clamp(11px, 2.2vw, 13px);
+  max-width: min(40rem, 94vw);
 }
 
 [data-brand="airolax"] .hero-video__button {

@@ -416,7 +416,7 @@ export async function initImmersiveIndex(
   root.innerHTML = `
     <div class="immersive-index__head">
       <div>
-        <p class="immersive-index__label">Index - Selected Work</p>
+        <p class="immersive-index__label">Selected Work</p>
         <h2 class="immersive-index__title">Each frame, a line of light.</h2>
       </div>
       <div class="immersive-index__counter" aria-live="polite">
