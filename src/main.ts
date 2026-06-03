@@ -3334,7 +3334,7 @@ function initHeroVideoAnimations(): void {
     if (role) {
       gsap.set(role, { opacity: 1, filter: 'blur(0px)' });
     }
-    const roleRaw = role?.dataset.matrixText?.trim() || 'Real-Time · AI Installation · Generative — We Are AI Experts';
+    const roleRaw = role?.dataset.matrixText?.trim() || 'Real-Time · AI Content · Interactive Creation in Light';
     runHeroMatrixLine(role, roleRaw, {
       staggerMs: 38,
       lineClass: 'hero-video__role--matrix',
