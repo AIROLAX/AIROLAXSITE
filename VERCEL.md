@@ -13,7 +13,7 @@ Igual que Andata Lab: conectas el repo a Vercel y cada **`git push`** a `main` d
 | `VITE_MEDIA_BASE_URL` | *(leave empty)* — videos load from `/videos` via proxy to cPanel |
 | `VITE_GA_MEASUREMENT_ID` | `G-RWP8TWF8QX` (opcional) |
 
-Los vídeos pesados (`/videos/*`) y los previews (`/collections/*/previews/*.mp4`) se sirven desde **cPanel** (`198.54.115.129`) vía rewrites en `vercel.json`. Vercel sube el sitio + fotos `.webp`. **No** pongas `VITE_MEDIA_BASE_URL=https://airolax.com` en Vercel.
+Los vídeos pesados (`/videos/*`) y los previews (`/collections/*/previews/*.mp4`) se sirven desde **cPanel** vía rewrites a `https://mail.airolax.com/...` (mismo `public_html`). Vercel sube el sitio + fotos `.webp`. **No** pongas `VITE_MEDIA_BASE_URL=https://airolax.com` en Vercel.
 
 4. Dominio: en Vercel → **Domains** → `airolax.com` (o deja el `*.vercel.app` para probar).
 

@@ -417,7 +417,7 @@ export async function initImmersiveIndex(
     <div class="immersive-index__head">
       <div>
         <p class="immersive-index__label">Selected Work</p>
-        <h2 class="immersive-index__title">Each frame, a line of light.</h2>
+        <h2 class="immersive-index__title">An archive of installation, projection, and live media.</h2>
       </div>
       <div class="immersive-index__counter" aria-live="polite">
         <span class="immersive-index__counter-vis" data-counter-vis>${pad3(tiles.length)}</span>

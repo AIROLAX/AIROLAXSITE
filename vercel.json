@@ -7,15 +7,15 @@
   "rewrites": [
     {
       "source": "/videos/:path*",
-      "destination": "http://198.54.115.129/videos/:path*"
+      "destination": "https://mail.airolax.com/videos/:path*"
     },
     {
       "source": "/videos-compressed/:path*",
-      "destination": "http://198.54.115.129/videos-compressed/:path*"
+      "destination": "https://mail.airolax.com/videos-compressed/:path*"
     },
     {
       "source": "/collections/:collection/previews/:path*",
-      "destination": "http://198.54.115.129/collections/:collection/previews/:path*"
+      "destination": "https://mail.airolax.com/collections/:collection/previews/:path*"
     }
   ]
 }
