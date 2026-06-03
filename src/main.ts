@@ -3136,11 +3136,13 @@ function initHeroVideoFastLoad(): void {
   const heroVideo = document.querySelector('.hero-video__element') as HTMLVideoElement;
   if (!heroVideo) return;
 
-  const heroSource = heroVideo.querySelector('source');
-  const heroSrc = heroSource?.getAttribute('src') || '/videos/home_WEB.mp4';
-  const resolvedHeroSrc = mediaUrl(heroSrc);
-  if (heroSource) heroSource.src = resolvedHeroSrc;
-  else heroVideo.src = resolvedHeroSrc;
+  const heroSrc =
+    heroVideo.dataset.videoSrc ||
+    heroVideo.querySelector('source')?.getAttribute('src') ||
+    '/videos/home_WEB.mp4';
+  heroVideo.removeAttribute('data-video-src');
+  heroVideo.innerHTML = '';
+  heroVideo.src = mediaUrl(heroSrc);
 
   const revealHeroVideo = (): void => {
     if (heroSection?.classList.contains('is-ready')) return;
