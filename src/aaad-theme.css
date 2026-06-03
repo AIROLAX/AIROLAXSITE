@@ -68,25 +68,52 @@
   max-width: none;
 }
 
-[data-brand="airolax"] .topbar__brand {
+[data-brand="airolax"] .topbar__brand-block {
   grid-column: 1;
   justify-self: start;
   display: flex;
   align-items: center;
+  gap: 12px;
+  min-width: 0;
+  max-width: 48vw;
+}
+
+[data-brand="airolax"] .topbar__brand {
+  display: flex;
+  align-items: center;
   gap: 10px;
-  flex-shrink: 0;
+  flex: 1 1 auto;
+  min-width: 0;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--ink);
   text-decoration: none;
   transition: opacity 0.2s ease;
-  min-width: 0;
-  max-width: 42vw;
 }
 
 [data-brand="airolax"] .topbar__brand:hover {
   opacity: 0.85;
+}
+
+[data-brand="airolax"] .topbar__cv-link {
+  flex: none;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hair);
+  padding-bottom: 1px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+[data-brand="airolax"] .topbar__cv-link:hover {
+  color: var(--ink);
+  border-image: var(--spectrum) 1;
+  border-bottom-width: 2px;
+  padding-bottom: 0;
 }
 
 [data-brand="airolax"] .topbar__brand-name {
@@ -143,6 +170,16 @@
   color: var(--ink) !important;
 }
 
+[data-brand="airolax"] .hero-video-active .topbar .topbar__cv-link {
+  color: rgba(255, 255, 255, 0.82) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.35);
+}
+
+[data-brand="airolax"] .hero-video-active .topbar .topbar__cv-link:hover,
+[data-brand="airolax"] .topbar.scrolled .topbar__cv-link:hover {
+  color: var(--ink) !important;
+}
+
 [data-brand="airolax"] .nav-link {
   font-size: 14px;
   font-weight: 400;
@@ -195,8 +232,11 @@
     padding-right: 20px !important;
   }
 
+  [data-brand="airolax"] .topbar__brand-block {
+    max-width: 52vw;
+  }
+
   [data-brand="airolax"] .topbar__brand {
-    max-width: 34vw;
     font-size: 11px;
     letter-spacing: 0.02em;
   }

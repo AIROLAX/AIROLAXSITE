@@ -743,6 +743,39 @@ body:not(.hero-video-active) .topbar.scrolled .mobile-menu-toggle .hamburger-lin
   -webkit-tap-highlight-color: transparent;
 }
 
+.hero-video__name-cv {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.55em 0.75em;
+  width: 100%;
+  max-width: min(56rem, 100%);
+}
+
+.hero-video__cv-link {
+  flex: none;
+  font-size: clamp(0.58rem, 1.2vw, 0.7rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(227, 244, 255, 0.88);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  padding-bottom: 2px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.hero-video__cv-link:hover {
+  color: #fff;
+  border-bottom-color: transparent;
+  background: linear-gradient(90deg, var(--spec-cyan), var(--spec-magenta), var(--spec-orange));
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+}
+
 /* Tres renglones: móvil = columna (cada uno en una sola línea); desktop = fila con ">" */
 .hero-video__title-stack {
   position: relative;
