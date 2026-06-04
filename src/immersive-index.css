@@ -383,11 +383,15 @@
 
 @media (max-width: 768px) {
   .immersive-index {
-    padding: 8px 0 28px;
+    padding: 8px 0 20px;
   }
 
   .immersive-index__controls {
-    padding: 0 20px;
+    padding: 0 16px;
+    margin-bottom: 6px;
+  }
+
+  .immersive-index__intro {
     margin-bottom: 8px;
   }
 
@@ -396,20 +400,42 @@
     letter-spacing: 0.08em;
   }
 
+  .immersive-index__chips-scroll {
+    margin-bottom: 4px;
+  }
+
+  /* Compact window so users can scroll the page to carousel / contact below */
   .immersive-index__stage {
-    height: min(68dvh, calc(100dvh - 168px));
-    min-height: 280px;
+    height: min(44dvh, 260px);
+    min-height: 200px;
+    max-height: 260px;
+    margin-top: 4px;
+    touch-action: pan-y;
+    overscroll-behavior-y: auto;
+    cursor: default;
+  }
+
+  .immersive-index__stage.is-dragging {
     touch-action: none;
-    -webkit-overflow-scrolling: touch;
   }
 
   .immersive-index__grid {
-    padding: 8px 10px;
+    padding: 6px 8px;
+  }
+
+  .immersive-index__tile {
+    margin-bottom: 10px;
+  }
+
+  .gal-frame {
+    border-radius: 10px;
   }
 
   .immersive-index__hint {
-    bottom: calc(10px + env(safe-area-inset-bottom, 0));
-    font-size: 9px;
+    bottom: calc(8px + env(safe-area-inset-bottom, 0));
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    padding: 5px 10px;
   }
 }
 

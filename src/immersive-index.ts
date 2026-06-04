@@ -769,7 +769,7 @@ export async function initImmersiveIndex(
     </div>
     <div class="immersive-index__stage" data-stage>
       <div class="immersive-index__grid" data-grid></div>
-      <div class="immersive-index__hint" data-hint>✣ drag to explore</div>
+      <div class="immersive-index__hint" data-hint data-hint-desktop>✣ drag to explore</div>
     </div>
   `;
 
@@ -948,13 +948,21 @@ export async function initImmersiveIndex(
 
   root.dataset.indexReady = 'true';
 
+  const isMobileStage = (): boolean => window.matchMedia('(max-width: 768px)').matches;
+
+  if (hint) {
+    hint.textContent = isMobileStage()
+      ? '← swipe gallery · scroll down ↓'
+      : '✣ drag to explore';
+  }
+
   const relayout = (): void => {
     const visible = tiles.filter((t) => matches(t, active)).length || 1;
-    const mobile = window.matchMedia('(max-width: 768px)').matches;
-    const colW = mobile ? 228 : 312;
-    const gap = mobile ? 14 : 22;
+    const mobile = isMobileStage();
+    const colW = mobile ? 196 : 312;
+    const gap = mobile ? 10 : 22;
     const cols = mobile
-      ? Math.max(2, Math.min(4, Math.ceil(visible / 4)))
+      ? Math.max(2, Math.min(3, Math.ceil(visible / 6)))
       : Math.max(4, Math.min(9, Math.ceil(visible / 3)));
     const gridW = cols * colW + (cols - 1) * gap + 24;
     grid.style.setProperty('--gal-col-w', `${colW}px`);
@@ -997,26 +1005,47 @@ export async function initImmersiveIndex(
   let lastT = 0;
   let raf = 0;
   let moved = false;
+  let mobilePanMode: 'pending' | 'grid' | 'page-scroll' = 'pending';
 
-  const onDown = (e: PointerEvent): void => {
-    if (e.button !== 0) return;
+  const beginDrag = (e: PointerEvent): void => {
     dragging = true;
     moved = false;
     stage.classList.add('is-dragging');
     cancelAnimationFrame(raf);
-    sx = e.clientX;
-    sy = e.clientY;
-    ox = tx.x;
-    oy = tx.y;
     vx = 0;
     vy = 0;
     lastT = performance.now();
     hint.classList.add('is-gone');
-    stage.setPointerCapture(e.pointerId);
+    try {
+      stage.setPointerCapture(e.pointerId);
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const onDown = (e: PointerEvent): void => {
+    if (e.button !== 0) return;
+    sx = e.clientX;
+    sy = e.clientY;
+    ox = tx.x;
+    oy = tx.y;
+    mobilePanMode = isMobileStage() ? 'pending' : 'grid';
+    if (!isMobileStage()) beginDrag(e);
   };
 
   const onMove = (e: PointerEvent): void => {
-    if (!dragging) return;
+    if (isMobileStage() && mobilePanMode === 'pending') {
+      const dx = e.clientX - sx;
+      const dy = e.clientY - sy;
+      if (Math.abs(dx) + Math.abs(dy) < 12) return;
+      if (Math.abs(dy) > Math.abs(dx) * 1.05) {
+        mobilePanMode = 'page-scroll';
+        return;
+      }
+      mobilePanMode = 'grid';
+      beginDrag(e);
+    }
+    if (mobilePanMode === 'page-scroll' || !dragging) return;
     const dx = e.clientX - sx;
     const dy = e.clientY - sy;
     if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
@@ -1032,6 +1061,7 @@ export async function initImmersiveIndex(
   };
 
   const onUp = (e: PointerEvent): void => {
+    mobilePanMode = 'pending';
     if (!dragging) return;
     dragging = false;
     stage.classList.remove('is-dragging');
@@ -1070,6 +1100,11 @@ export async function initImmersiveIndex(
   );
 
   window.addEventListener('resize', () => {
+    if (hint) {
+      hint.textContent = isMobileStage()
+        ? '← swipe gallery · scroll down ↓'
+        : '✣ drag to explore';
+    }
     updateIndicator();
     relayout();
     alignGridView();
