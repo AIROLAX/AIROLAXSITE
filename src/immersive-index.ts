@@ -588,7 +588,7 @@ export async function initImmersiveIndex(
     <div class="immersive-index__controls">
       <div class="immersive-index__intro">
         <div class="immersive-index__intro-text">
-          <h2 class="immersive-index__title">Works that breathe in space — installation, projection, and live media.</h2>
+          <h2 class="immersive-index__title">AI audiovisual real time installations and interactive design</h2>
         </div>
         <div class="immersive-index__counter" aria-live="polite">
           <span class="immersive-index__counter-vis" data-counter-vis>${pad3(tiles.length)}</span>

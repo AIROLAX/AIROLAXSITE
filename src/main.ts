@@ -3571,12 +3571,16 @@ function initHeroVideoAnimations(): void {
   };
 
   runHeroTitleMatrix(() => {
-    if (role) {
-      gsap.set(role, { opacity: 1, filter: 'blur(0px)' });
+    if (!role) {
+      revealCta();
+      return;
     }
-    const roleRaw =
-      role?.dataset.matrixText?.trim() ||
-      'AI audiovisual real time installations and interactive design';
+    gsap.set(role, { opacity: 1, filter: 'blur(0px)' });
+    const roleRaw = role.dataset.matrixText?.trim() || '';
+    if (!roleRaw) {
+      revealCta();
+      return;
+    }
     runHeroMatrixLine(role, roleRaw, {
       staggerMs: 38,
       lineClass: 'hero-video__role--matrix',
