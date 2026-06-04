@@ -133,8 +133,10 @@ const COLLECTION_SLUG_ORDER = [
   'experiments',
 ];
 
-/** Cap collection clutter on “All” — full set still available per chip. */
-const ALL_VIEW_MAX_PER_PROJECT = 2;
+/** Tiles per flagship on “All” (spread with sampleEvenly, not consecutive frames). */
+const ALL_VIEW_MAX_PER_FEATURED = 2;
+/** One still per other project so “All” shows many distinct works. */
+const ALL_VIEW_MAX_PER_PROJECT = 1;
 /** Collection tiles only show under technique chips, not on “All” (avoids one-off frames). */
 const ALL_VIEW_SHOW_COLLECTIONS = false;
 const ALL_VIEW_MAX_PER_COLLECTION = 4;
@@ -302,7 +304,10 @@ const OPTIMIZED_STILL: Record<string, string> = {
   '3': '/images/optimized/videos/OHM/3_compressed.webp',
   '4': '/images/optimized/videos/edzna/1_compressed.webp',
   '5': '/images/optimized/videos/wavey/wavey-1.webp',
+  '7': '/collections/projection-mapping/index/01.webp',
   '8': '/images/optimized/videos/OHM/3_compressed.webp',
+  'breathing-space': '/videos/ASANA_YOGA/IMG_20260131_103426.jpg',
+  'ai-mirror-dia-de-muertos': '/collections/immersive-installation/index/06.webp',
 };
 
 function stillForProject(w: IndexProject): string | null {
@@ -444,15 +449,57 @@ function isExcludedFromAll(tile: IndexTile): boolean {
   return ALL_VIEW_EXCLUDE_PARTIAL.some((part) => key.includes(part.toLowerCase()));
 }
 
-/** Pick up to `limit` tiles, skipping paths in index-all-exclusions.json. */
+/** Prefer stills on “All” — avoids black video tiles and similar consecutive frames. */
+function preferStillTiles(list: IndexTile[]): IndexTile[] {
+  const stills = list.filter((t) => t.mediaType !== 'video');
+  return stills.length > 0 ? stills : list;
+}
+
+/** Pick up to `limit` tiles (evenly spaced), skipping index-all-exclusions.json. */
 function addTilesForAllView(list: IndexTile[], limit: number, ids: Set<string>): void {
-  let n = 0;
-  for (const t of list) {
-    if (n >= limit) break;
-    if (isExcludedFromAll(t)) continue;
-    ids.add(t.id);
-    n += 1;
+  const candidates = preferStillTiles(list.filter((t) => !isExcludedFromAll(t)));
+  for (const t of sampleEvenly(candidates, limit)) ids.add(t.id);
+}
+
+/** Round-robin by project so similar shots are not adjacent. */
+function interleaveByProject(tiles: IndexTile[]): IndexTile[] {
+  const projectTiles = tiles.filter((t) => !t.proj.startsWith('col-'));
+  const collectionTiles = tiles.filter((t) => t.proj.startsWith('col-'));
+  const order: string[] = [];
+  const seen = new Set<string>();
+  for (const pid of FEATURED_PROJECT_IDS) {
+    if (projectTiles.some((t) => t.proj === pid)) {
+      order.push(pid);
+      seen.add(pid);
+    }
   }
+  for (const t of projectTiles) {
+    if (!seen.has(t.proj)) {
+      order.push(t.proj);
+      seen.add(t.proj);
+    }
+  }
+  const buckets = new Map<string, IndexTile[]>();
+  for (const t of projectTiles) {
+    const list = buckets.get(t.proj) ?? [];
+    list.push(t);
+    buckets.set(t.proj, list);
+  }
+  const out: IndexTile[] = [];
+  let round = 0;
+  let more = true;
+  while (more) {
+    more = false;
+    for (const pid of order) {
+      const list = buckets.get(pid);
+      if (list && round < list.length) {
+        out.push(list[round]!);
+        more = true;
+      }
+    }
+    round += 1;
+  }
+  return [...out, ...orderCollectionTiles(collectionTiles)];
 }
 
 function pickIdsForAllView(tiles: IndexTile[]): Set<string> {
@@ -467,19 +514,11 @@ function pickIdsForAllView(tiles: IndexTile[]): Set<string> {
   for (const pid of FEATURED_PROJECT_IDS) {
     const list = byProj.get(pid);
     if (!list) continue;
-    addTilesForAllView(
-      list.sort((a, b) => tileIndexInProject(a.id) - tileIndexInProject(b.id)),
-      ALL_VIEW_MAX_PER_PROJECT,
-      ids
-    );
+    addTilesForAllView(list, ALL_VIEW_MAX_PER_FEATURED, ids);
     byProj.delete(pid);
   }
   for (const list of byProj.values()) {
-    addTilesForAllView(
-      list.sort((a, b) => tileIndexInProject(a.id) - tileIndexInProject(b.id)),
-      1,
-      ids
-    );
+    addTilesForAllView(list, ALL_VIEW_MAX_PER_PROJECT, ids);
   }
 
   if (ALL_VIEW_SHOW_COLLECTIONS) {
@@ -499,7 +538,7 @@ function pickIdsForAllView(tiles: IndexTile[]): Set<string> {
 }
 
 function composeIndexTiles(projectTiles: IndexTile[], collectionTiles: IndexTile[]): IndexTile[] {
-  return [...sortProjectTiles(projectTiles), ...orderCollectionTiles(collectionTiles)];
+  return interleaveByProject([...sortProjectTiles(projectTiles), ...collectionTiles]);
 }
 
 function sampleEvenly<T>(items: T[], limit: number): T[] {

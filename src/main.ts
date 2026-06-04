@@ -94,7 +94,7 @@ const projects: Project[] = [
     tag: 'AI-Assisted Projection · Cultural Installation',
     // Use original master video; compressed versions live under /videos but we avoid broken /videos/optimized paths
     videoUrl: '/videos/chapala_project/1.mp4',
-    poster: '/videos/chapala_project/1.mp4',
+    poster: '/collections/projection-mapping/index/01.webp',
     description: [
       'Large-scale projection mapping on a historic façade — AI-assisted visuals, generative layers, and spatial audio composed for a real public audience at Lake Chapala.',
       'Developed using 3D projection mapping, Blender for architectural modeling, After Effects for animation, AI-assisted visuals via Runway, TouchDesigner for real-time generative systems, and spatial audio design.',
@@ -118,7 +118,7 @@ const projects: Project[] = [
     title: 'Breathing Space',
     tag: 'Generative Video · Real Space',
     videoUrl: '/videos/ASANA_YOGA/elbueno.mp4',
-    poster: '/videos/ASANA_YOGA/elbueno.mp4',
+    poster: '/videos/ASANA_YOGA/IMG_20260131_103426.jpg',
     description: [
       'Real-time generative visuals projected into a physical yoga space — digital content that breathes with the room, not a screen-only piece.',
       'Using TouchDesigner and real-time generative systems, the space was transformed into a living environment of light and motion.',
@@ -510,20 +510,24 @@ function bindCarouselCenteredState(track: HTMLElement): void {
       card.classList.toggle('is-centered', i === idx);
     });
   };
-  update();
+  const tick = (): void => {
+    update();
+    syncCarouselVideos(track);
+  };
+  tick();
   let debounce: number | null = null;
   track.addEventListener(
     'scroll',
     () => {
       if (debounce != null) window.clearTimeout(debounce);
       debounce = window.setTimeout(() => {
-        update();
+        tick();
         debounce = null;
       }, 80);
     },
     { passive: true }
   );
-  track.addEventListener('scrollend', update as EventListener, { passive: true });
+  track.addEventListener('scrollend', tick as EventListener, { passive: true });
 }
 
 // ==========================================
@@ -535,9 +539,27 @@ function isCarouselMobileView(): boolean {
   return typeof window !== 'undefined' && window.matchMedia(CAROUSEL_MOBILE_MQ).matches;
 }
 
-/** Móvil: solo el slide más centrado en el track tiene src + play; el resto poster + data-src (ahorra memoria). */
-function syncMobileCarouselVideos(track: HTMLElement): void {
-  if (!isCarouselMobileView()) return;
+const VIDEO_POSTER_EXT = /\.(mp4|mov|webm|mkv|m4v)(\?|#|$)/i;
+
+const CAROUSEL_STILL_POSTER: Record<string, string> = {
+  '7': '/collections/projection-mapping/index/01.webp',
+  'breathing-space': '/videos/ASANA_YOGA/IMG_20260131_103426.jpg',
+};
+
+/** Still image for carousel cards — never use a video file as poster/fallback. */
+function carouselPosterFor(project: Project): string {
+  const poster = project.poster?.trim() || '';
+  if (poster && !VIDEO_POSTER_EXT.test(poster)) return poster;
+  if (CAROUSEL_STILL_POSTER[project.id]) return CAROUSEL_STILL_POSTER[project.id]!;
+  const still = project.galleryItems?.find(
+    (g) => g.type === 'image' || !VIDEO_POSTER_EXT.test(g.src)
+  );
+  if (still) return still.src;
+  return '/collections/immersive-installation/index/01.webp';
+}
+
+/** Solo el slide más centrado tiene src + play; el resto poster + data-src. */
+function syncCarouselVideos(track: HTMLElement): void {
   const cards = Array.from(track.querySelectorAll<HTMLElement>('.project-card'));
   if (cards.length === 0) return;
   const tr = track.getBoundingClientRect();
@@ -557,17 +579,31 @@ function syncMobileCarouselVideos(track: HTMLElement): void {
   cards.forEach((card, i) => {
     const video = card.querySelector('video') as HTMLVideoElement | null;
     if (!video) return;
+    const fallback = card.querySelector('.project-card__fallback-img') as HTMLImageElement | null;
     const dataSrc = video.dataset.src?.trim();
     if (!dataSrc) return;
 
     if (i === activeIdx) {
+      video.style.display = 'block';
+      video.style.opacity = '1';
+      if (fallback) fallback.style.display = video.readyState >= 2 ? 'none' : 'block';
       if (!video.getAttribute('src')) {
         video.src = dataSrc;
         video.load();
       }
+      const onReady = (): void => {
+        if (fallback) fallback.style.display = 'none';
+        video.style.opacity = '1';
+      };
+      video.addEventListener('loadeddata', onReady, { once: true });
       video.play().catch(() => {});
     } else {
       video.pause();
+      video.style.opacity = '0';
+      if (fallback) {
+        fallback.style.display = 'block';
+        fallback.style.opacity = '1';
+      }
       if (video.getAttribute('src')) {
         video.removeAttribute('src');
         video.load();
@@ -587,7 +623,6 @@ function initSelectedWorkCarousel(): void {
     return;
   }
 
-  let mobileCarouselScrollBound = false;
   let carouselBreakpointBound = false;
   let carouselCenterBound = false;
 
@@ -602,7 +637,7 @@ function initSelectedWorkCarousel(): void {
     card.setAttribute('aria-label', `View ${project.title} project page`);
     
     const videoSrc = project.videoUrl || '';
-    const posterSrc = project.poster || '';
+    const posterSrc = mediaUrl(carouselPosterFor(project));
     const teaser = asciiUiText(projectCardTeaser(project));
     const teaserHtml = teaser
       ? `<p class="project-card__desc">${teaser}</p>`
@@ -740,65 +775,6 @@ function initSelectedWorkCarousel(): void {
         // Log video source for debugging
         console.log(`Loading video for ${project.title}:`, videoSrc);
         
-        // Function to play video with retry logic for iOS
-        const ensureVideoSrc = (vid: HTMLVideoElement): void => {
-          const src = vid.dataset.src?.trim();
-          if (!src) return;
-          if (!vid.getAttribute('src')) {
-            vid.src = src;
-            vid.load();
-          }
-        };
-
-        const releaseVideoSrc = (vid: HTMLVideoElement): void => {
-          vid.pause();
-          vid.dataset.playing = '0';
-          if (vid.getAttribute('src')) {
-            vid.removeAttribute('src');
-            vid.load();
-          }
-        };
-
-        const playVideo = async (vid: HTMLVideoElement) => {
-          ensureVideoSrc(vid);
-          try {
-            await vid.play();
-          } catch (err) {
-            console.warn(`Autoplay failed for ${project.title}, retrying...`, err);
-            // Retry after a short delay (iOS sometimes needs this)
-            setTimeout(() => {
-              vid.play().catch(() => {
-                console.warn(`Autoplay retry failed for ${project.title}`);
-              });
-            }, 300);
-          }
-        };
-        
-        // Desktop: play/pause según visibilidad en viewport. Móvil: solo un video vía syncMobileCarouselVideos.
-        if (!mobileLayout) {
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-              const vid = entry.target as HTMLVideoElement;
-              if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
-                trackElement.querySelectorAll<HTMLVideoElement>('video').forEach((other) => {
-                  if (other !== vid && other.dataset.playing === '1') releaseVideoSrc(other);
-                });
-                playVideo(vid);
-                vid.dataset.playing = '1';
-              } else {
-                releaseVideoSrc(vid);
-              }
-            });
-          }, {
-            threshold: [0, 0.25, 0.45],
-            rootMargin: '40px',
-          });
-          observer.observe(video);
-        }
-        
-        // Mark first card for immediate autoplay
-        // We'll handle this in renderCards after all cards are appended
-        
         // Handle video load errors
         video.addEventListener('error', () => {
           console.error(`Error loading video for ${project.title}:`, videoSrc, video.error);
@@ -816,11 +792,6 @@ function initSelectedWorkCarousel(): void {
           }
           video.style.display = 'block';
           video.style.opacity = '1';
-          if (!mobileLayout) {
-            video.play().catch((err) => {
-              console.warn(`Play failed for ${project.title}:`, err);
-            });
-          }
         });
         
         video.addEventListener('canplay', () => {
@@ -831,10 +802,6 @@ function initSelectedWorkCarousel(): void {
           video.style.display = 'block';
           video.style.opacity = '1';
         });
-        
-        if (!mobileLayout) {
-          video.load();
-        }
         
         // Set initial styles to ensure video is visible
       video.style.display = 'block';
@@ -871,7 +838,7 @@ function initSelectedWorkCarousel(): void {
       behavior: 'smooth'
     });
     if (isCarouselMobileView()) {
-      window.setTimeout(() => syncMobileCarouselVideos(trackElement), 360);
+      window.setTimeout(() => syncCarouselVideos(trackElement), 360);
     }
   };
 
@@ -882,7 +849,7 @@ function initSelectedWorkCarousel(): void {
       behavior: 'smooth'
     });
     if (isCarouselMobileView()) {
-      window.setTimeout(() => syncMobileCarouselVideos(trackElement), 360);
+      window.setTimeout(() => syncCarouselVideos(trackElement), 360);
     }
   };
 
@@ -894,28 +861,6 @@ function initSelectedWorkCarousel(): void {
       const card = createCard(project, index);
       trackElement.appendChild(card);
       
-      // Desktop: primer video con autoplay. Móvil: un solo video activo vía syncMobileCarouselVideos.
-      if (index === 0 && !isCarouselMobileView()) {
-        const video = card.querySelector('video') as HTMLVideoElement;
-        if (video) {
-          setTimeout(() => {
-            video.play().catch((err) => {
-              console.warn('First video autoplay failed, retrying...', err);
-              setTimeout(() => {
-                video.play().catch(() => {
-                  console.warn('First video autoplay retry failed');
-                });
-              }, 500);
-            });
-          }, 100);
-
-          video.addEventListener('canplaythrough', () => {
-            if (video.paused) {
-              video.play().catch(() => {});
-            }
-          }, { once: true });
-        }
-      }
     });
     
     console.log('✅ Selected Work carousel initialized with arrow navigation');
@@ -940,59 +885,15 @@ function initSelectedWorkCarousel(): void {
     forceVideoAttributes();
     setTimeout(forceVideoAttributes, 300);
 
-    if (isCarouselMobileView()) {
-      const runSync = (): void => {
-        syncMobileCarouselVideos(trackElement);
-      };
-      runSync();
-      setTimeout(runSync, 120);
-      setTimeout(runSync, 400);
-
-      if (!mobileCarouselScrollBound) {
-        mobileCarouselScrollBound = true;
-        let scrollDebounce: number | null = null;
-        const onScroll = (): void => {
-          if (scrollDebounce != null) window.clearTimeout(scrollDebounce);
-          scrollDebounce = window.setTimeout(() => {
-            runSync();
-            scrollDebounce = null;
-          }, 110);
-        };
-        trackElement.addEventListener('scroll', onScroll, { passive: true });
-        trackElement.addEventListener('scrollend', runSync as EventListener, { passive: true });
-        let resizeT: number | null = null;
-        window.addEventListener(
-          'resize',
-          () => {
-            if (!isCarouselMobileView()) return;
-            if (resizeT != null) window.clearTimeout(resizeT);
-            resizeT = window.setTimeout(() => {
-              runSync();
-              resizeT = null;
-            }, 150);
-          },
-          { passive: true }
-        );
-      }
-    }
+    const runSync = (): void => syncCarouselVideos(trackElement);
+    runSync();
+    setTimeout(runSync, 120);
+    setTimeout(runSync, 400);
 
     if (!carouselBreakpointBound) {
       carouselBreakpointBound = true;
       const mq = window.matchMedia(CAROUSEL_MOBILE_MQ);
-      mq.addEventListener('change', (ev) => {
-        if (ev.matches) {
-          syncMobileCarouselVideos(trackElement);
-        } else {
-          trackElement.querySelectorAll('video').forEach((node) => {
-            const el = node as HTMLVideoElement;
-            const ds = el.dataset.src?.trim();
-            if (ds && el.getAttribute('src') !== ds) {
-              el.src = ds;
-              el.load();
-            }
-          });
-        }
-      });
+      mq.addEventListener('change', () => syncCarouselVideos(trackElement));
     }
 
     if (!carouselCenterBound) {
