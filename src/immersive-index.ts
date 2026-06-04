@@ -133,13 +133,12 @@ const COLLECTION_SLUG_ORDER = [
   'experiments',
 ];
 
-/** Tiles per flagship on “All” (spread with sampleEvenly, not consecutive frames). */
-const ALL_VIEW_MAX_PER_FEATURED = 2;
-/** Stills per other project page. */
-const ALL_VIEW_MAX_PER_PROJECT = 2;
+/** One strong still per project on “All” — more distinct works, less repetition. */
+const ALL_VIEW_MAX_PER_FEATURED = 1;
+const ALL_VIEW_MAX_PER_PROJECT = 1;
 /** Sample collection stills on “All” — technique chips still show the full set. */
 const ALL_VIEW_SHOW_COLLECTIONS = true;
-const ALL_VIEW_MAX_PER_COLLECTION = 6;
+const ALL_VIEW_MAX_PER_COLLECTION = 5;
 
 const ALL_VIEW_EXCLUDE_EXACT = new Set(
   (allExclusions.paths as string[]).map((p) => normalizeSrc(p))
@@ -449,6 +448,103 @@ function isExcludedFromAll(tile: IndexTile): boolean {
   return ALL_VIEW_EXCLUDE_PARTIAL.some((part) => key.includes(part.toLowerCase()));
 }
 
+function tileMediaSrc(tile: IndexTile): string {
+  return normalizeSrc(tile.img || tile.poster || tile.videoSrc || '');
+}
+
+/** Group lookalikes (e.g. OHM 3 + OHM 8 red lasers) so All does not show both. */
+function tileVisualFamily(tile: IndexTile): string {
+  const src = tileMediaSrc(tile);
+  if (src.includes('/collections/')) {
+    const m = src.match(/\/collections\/([^/]+)/);
+    return m ? `col:${m[1]}` : tile.proj;
+  }
+  if (/\/ohm|\/OHM/i.test(src) || tile.proj === '3' || tile.proj === '8') return 'family:ohm';
+  if (/\/biointerface|\/BIOINTERFACE/i.test(src) || tile.proj === '1' || tile.proj === '1b') {
+    return 'family:bio';
+  }
+  if (/\/museo/i.test(src) || tile.proj === '2') return 'family:museo';
+  if (/\/edzna/i.test(src) || tile.proj === '4') return 'family:edzna';
+  if (/\/wavey/i.test(src) || tile.proj === '5') return 'family:wavey';
+  if (/\/chapala/i.test(src) || tile.proj === '7') return 'family:chapala';
+  if (/\/asana/i.test(src) || tile.proj === 'breathing-space') return 'family:breathing';
+  return `proj:${tile.proj}`;
+}
+
+function tilesConflict(a: IndexTile, b: IndexTile): boolean {
+  const sa = tileMediaSrc(a);
+  const sb = tileMediaSrc(b);
+  if (sa && sb && sa === sb) return true;
+  if (a.proj === b.proj) return true;
+  if (!a.proj.startsWith('col-') && !b.proj.startsWith('col-')) {
+    if (tileVisualFamily(a) === tileVisualFamily(b)) return true;
+  }
+  return false;
+}
+
+function dedupeTilesByMedia(list: IndexTile[]): IndexTile[] {
+  const seen = new Set<string>();
+  return list.filter((t) => {
+    const key = tileMediaSrc(t);
+    if (!key) return true;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function estimateColumnCount(visible: number): number {
+  const mobile =
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+  return mobile
+    ? Math.max(2, Math.min(4, Math.ceil(visible / 4)))
+    : Math.max(4, Math.min(9, Math.ceil(visible / 3)));
+}
+
+/** Masonry fills columns top-down — penalize lookalikes in same row/column neighbors. */
+function spreadTilesForWall(list: IndexTile[], colCount: number): IndexTile[] {
+  if (list.length <= 1) return list;
+  const cols = Math.max(2, colCount);
+  const remaining = [...list];
+  const placed: IndexTile[] = [];
+
+  const neighborPenalty = (pos: number, j: number): number => {
+    const colP = pos % cols;
+    const colJ = j % cols;
+    const rowP = Math.floor(pos / cols);
+    const rowJ = Math.floor(j / cols);
+    const colDist = Math.abs(colP - colJ);
+    const rowDist = Math.abs(rowP - rowJ);
+    if (colDist === 0 && rowDist <= 1) return 320;
+    if (rowDist === 0 && colDist <= 1) return 260;
+    if (rowDist <= 1 && colDist <= 1) return 140;
+    return Math.max(0, 70 - (rowDist + colDist) * 12);
+  };
+
+  while (remaining.length > 0) {
+    const pos = placed.length;
+    let bestIdx = 0;
+    let bestScore = -Infinity;
+
+    for (let i = 0; i < remaining.length; i++) {
+      const candidate = remaining[i]!;
+      let score = 0;
+      for (let j = 0; j < placed.length; j++) {
+        if (!tilesConflict(candidate, placed[j]!)) continue;
+        score -= neighborPenalty(pos, j);
+      }
+      if (score > bestScore) {
+        bestScore = score;
+        bestIdx = i;
+      }
+    }
+
+    placed.push(remaining.splice(bestIdx, 1)[0]!);
+  }
+
+  return placed;
+}
+
 /** Prefer stills on “All” — avoids black video tiles and similar consecutive frames. */
 function preferStillTiles(list: IndexTile[]): IndexTile[] {
   const stills = list.filter((t) => t.mediaType !== 'video');
@@ -456,9 +552,25 @@ function preferStillTiles(list: IndexTile[]): IndexTile[] {
 }
 
 /** Pick up to `limit` tiles (evenly spaced), skipping index-all-exclusions.json. */
-function addTilesForAllView(list: IndexTile[], limit: number, ids: Set<string>): void {
-  const candidates = preferStillTiles(list.filter((t) => !isExcludedFromAll(t)));
-  for (const t of sampleEvenly(candidates, limit)) ids.add(t.id);
+function addTilesForAllView(
+  list: IndexTile[],
+  limit: number,
+  ids: Set<string>,
+  usedSrc: Set<string>,
+  usedFamilies: Set<string>
+): void {
+  const candidates = preferStillTiles(list.filter((t) => !isExcludedFromAll(t))).filter((t) => {
+    const src = tileMediaSrc(t);
+    if (src && usedSrc.has(src)) return false;
+    if (!t.proj.startsWith('col-') && usedFamilies.has(tileVisualFamily(t))) return false;
+    return true;
+  });
+  for (const t of sampleEvenly(candidates, limit)) {
+    ids.add(t.id);
+    const src = tileMediaSrc(t);
+    if (src) usedSrc.add(src);
+    if (!t.proj.startsWith('col-')) usedFamilies.add(tileVisualFamily(t));
+  }
 }
 
 /** Round-robin by project/collection so similar shots are not adjacent. */
@@ -511,6 +623,8 @@ function interleaveByProject(tiles: IndexTile[]): IndexTile[] {
 
 function pickIdsForAllView(tiles: IndexTile[]): Set<string> {
   const ids = new Set<string>();
+  const usedSrc = new Set<string>();
+  const usedFamilies = new Set<string>();
   const projects = sortProjectTiles(tiles.filter((t) => !t.proj.startsWith('col-')));
   const byProj = new Map<string, IndexTile[]>();
   for (const t of projects) {
@@ -521,11 +635,11 @@ function pickIdsForAllView(tiles: IndexTile[]): Set<string> {
   for (const pid of FEATURED_PROJECT_IDS) {
     const list = byProj.get(pid);
     if (!list) continue;
-    addTilesForAllView(list, ALL_VIEW_MAX_PER_FEATURED, ids);
+    addTilesForAllView(list, ALL_VIEW_MAX_PER_FEATURED, ids, usedSrc, usedFamilies);
     byProj.delete(pid);
   }
   for (const list of byProj.values()) {
-    addTilesForAllView(list, ALL_VIEW_MAX_PER_PROJECT, ids);
+    addTilesForAllView(list, ALL_VIEW_MAX_PER_PROJECT, ids, usedSrc, usedFamilies);
   }
 
   if (ALL_VIEW_SHOW_COLLECTIONS) {
@@ -533,7 +647,7 @@ function pickIdsForAllView(tiles: IndexTile[]): Set<string> {
     for (const slug of COLLECTION_SLUG_ORDER) {
       const list = byCol.get(slug);
       if (!list) continue;
-      addTilesForAllView(list, ALL_VIEW_MAX_PER_COLLECTION, ids);
+      addTilesForAllView(list, ALL_VIEW_MAX_PER_COLLECTION, ids, usedSrc, usedFamilies);
     }
   }
 
@@ -541,7 +655,12 @@ function pickIdsForAllView(tiles: IndexTile[]): Set<string> {
 }
 
 function composeIndexTiles(projectTiles: IndexTile[], collectionTiles: IndexTile[]): IndexTile[] {
-  return interleaveByProject([...sortProjectTiles(projectTiles), ...collectionTiles]);
+  const merged = dedupeTilesByMedia([
+    ...sortProjectTiles(projectTiles),
+    ...collectionTiles,
+  ]);
+  const interleaved = interleaveByProject(merged);
+  return spreadTilesForWall(interleaved, estimateColumnCount(interleaved.length));
 }
 
 function sampleEvenly<T>(items: T[], limit: number): T[] {
@@ -679,7 +798,8 @@ export async function initImmersiveIndex(
     )
     .join('');
 
-  const tileEls = Array.from(grid.querySelectorAll<HTMLElement>('[data-tile-id]'));
+  const tileById = new Map(tiles.map((t) => [t.id, t]));
+  let tileEls = Array.from(grid.querySelectorAll<HTMLElement>('[data-tile-id]'));
 
   tileEls.forEach((el) => {
     el.querySelectorAll<HTMLImageElement>('img.gal-media').forEach((img) => {
@@ -779,16 +899,28 @@ export async function initImmersiveIndex(
     });
   };
 
+  const reorderVisibleTiles = (visibleTiles: IndexTile[]): void => {
+    const cols = estimateColumnCount(visibleTiles.length);
+    const ordered = spreadTilesForWall(visibleTiles, cols);
+    const elById = new Map(tileEls.map((el) => [el.dataset.tileId || '', el]));
+    for (const t of ordered) {
+      const el = elById.get(t.id);
+      if (el) grid.appendChild(el);
+    }
+    tileEls = Array.from(grid.querySelectorAll<HTMLElement>('[data-tile-id]'));
+  };
+
   const applyFilter = (): void => {
     pauseAllIndexVideos();
-    let visible = 0;
-    tileEls.forEach((el, i) => {
-      const tile = tiles[i]!;
+    const visibleTiles: IndexTile[] = [];
+    tileEls.forEach((el) => {
+      const tile = tileById.get(el.dataset.tileId || '')!;
       const show = matches(tile, active);
       el.style.display = show ? '' : 'none';
-      if (show) visible++;
+      if (show) visibleTiles.push(tile);
     });
-    counterVis.textContent = pad3(visible);
+    if (visibleTiles.length > 1) reorderVisibleTiles(visibleTiles);
+    counterVis.textContent = pad3(visibleTiles.length);
     relayout();
     alignGridView();
   };
