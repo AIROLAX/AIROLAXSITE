@@ -1157,34 +1157,38 @@ function initCapabilitiesAnimations(): void {
 }
 
 // ==========================================
-// CV DOWNLOAD
+// PDF DOWNLOADS (Portfolio + CV)
 // ==========================================
-const CV_ASSET_URL = '/CV.pdf';
-const CV_DOWNLOAD_NAME = 'Argel-Erevan-Airola-CV-2027.pdf';
+const PDF_DOWNLOADS: Array<{ assetUrl: string; fileName: string }> = [
+  { assetUrl: '/Portfolio.pdf', fileName: 'Argel-Erevan-Airola-Portfolio.pdf' },
+  { assetUrl: '/CV.pdf', fileName: 'Argel-Erevan-Airola-CV-2027.pdf' },
+];
 
-function initCvDownload(): void {
-  document.querySelectorAll<HTMLAnchorElement>(`a[href="${CV_ASSET_URL}"]`).forEach((link) => {
-    link.addEventListener('click', async (e) => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      e.preventDefault();
-      closeMobileMenu();
-      try {
-        const res = await fetch(CV_ASSET_URL);
-        if (!res.ok) throw new Error('CV missing');
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = CV_DOWNLOAD_NAME;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-      } catch {
-        window.location.assign(CV_ASSET_URL);
-      }
+function initPdfDownloads(): void {
+  for (const { assetUrl, fileName } of PDF_DOWNLOADS) {
+    document.querySelectorAll<HTMLAnchorElement>(`a[href="${assetUrl}"]`).forEach((link) => {
+      link.addEventListener('click', async (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        closeMobileMenu();
+        try {
+          const res = await fetch(assetUrl);
+          if (!res.ok) throw new Error('PDF missing');
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+        } catch {
+          window.location.assign(assetUrl);
+        }
+      });
     });
-  });
+  }
 }
 
 // ==========================================
@@ -1237,7 +1241,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize mobile menu
   initMobileMenu();
-  initCvDownload();
+  initPdfDownloads();
 
   // index#projects: el navegador alinea #projects (sección + "SELECTED WORK"); corregir al vídeo.
   const syncProjectsHashScroll = (): void => {
