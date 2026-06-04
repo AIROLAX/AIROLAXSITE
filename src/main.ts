@@ -542,20 +542,53 @@ function isCarouselMobileView(): boolean {
 const VIDEO_POSTER_EXT = /\.(mp4|mov|webm|mkv|m4v)(\?|#|$)/i;
 
 const CAROUSEL_STILL_POSTER: Record<string, string> = {
+  '1': '/videos/BIOINTERFACE/1.JPG',
   '7': '/collections/projection-mapping/index/01.webp',
   'breathing-space': '/videos/ASANA_YOGA/IMG_20260131_103426.jpg',
 };
 
-/** Still image for carousel cards — never use a video file as poster/fallback. */
+/** Hero reel per project (carousel) — Biointerface must stay pro1, not process stills. */
+const CAROUSEL_HERO_VIDEO: Record<string, string[]> = {
+  '1': [
+    '/videos/compressed/pro1.mp4',
+    '/videos/compressed/pro1_WEB.mp4',
+    '/videos/BIOINTERFACE/videofinal_WEB.mp4',
+    '/videos-compressed/videos/pro1.mp4',
+  ],
+};
+
+function isProcessStillPath(src: string): boolean {
+  return /\/F\d+\.(jpe?g|png|webp)$/i.test(src);
+}
+
+function carouselVideoSources(project: Project): string[] {
+  const chain = CAROUSEL_HERO_VIDEO[project.id];
+  if (chain?.length) return chain.map((p) => mediaUrl(p));
+  return project.videoUrl ? [mediaUrl(project.videoUrl)] : [];
+}
+
+/** Still image for carousel cards — never use process F1–F8 or a video file as poster. */
 function carouselPosterFor(project: Project): string {
   const poster = project.poster?.trim() || '';
-  if (poster && !VIDEO_POSTER_EXT.test(poster)) return poster;
+  if (poster && !VIDEO_POSTER_EXT.test(poster) && !isProcessStillPath(poster)) return poster;
   if (CAROUSEL_STILL_POSTER[project.id]) return CAROUSEL_STILL_POSTER[project.id]!;
   const still = project.galleryItems?.find(
-    (g) => g.type === 'image' || !VIDEO_POSTER_EXT.test(g.src)
+    (g) =>
+      (g.type === 'image' || !VIDEO_POSTER_EXT.test(g.src)) && !isProcessStillPath(g.src)
   );
   if (still) return still.src;
   return '/collections/immersive-installation/index/01.webp';
+}
+
+function tryNextCarouselVideoSource(video: HTMLVideoElement): boolean {
+  const rest = (video.dataset.srcFallbacks || '').split('|').filter(Boolean);
+  if (!rest.length) return false;
+  const next = rest.shift()!;
+  video.dataset.srcFallbacks = rest.join('|');
+  video.src = next;
+  video.load();
+  video.play().catch(() => {});
+  return true;
 }
 
 /** Solo el slide más centrado tiene src + play; el resto poster + data-src. */
@@ -596,6 +629,7 @@ function syncCarouselVideos(track: HTMLElement): void {
         video.style.opacity = '1';
       };
       video.addEventListener('loadeddata', onReady, { once: true });
+      video.addEventListener('playing', onReady, { once: true });
       video.play().catch(() => {});
     } else {
       video.pause();
@@ -636,7 +670,12 @@ function initSelectedWorkCarousel(): void {
     card.href = `work/${slug}.html`;
     card.setAttribute('aria-label', `View ${project.title} project page`);
     
-    const videoSrc = project.videoUrl || '';
+    const videoSources = carouselVideoSources(project);
+    const videoSrc = videoSources[0] || '';
+    const videoFallbackAttr =
+      videoSources.length > 1
+        ? ` data-src-fallbacks="${videoSources.slice(1).join('|')}"`
+        : '';
     const posterSrc = mediaUrl(carouselPosterFor(project));
     const teaser = asciiUiText(projectCardTeaser(project));
     const teaserHtml = teaser
@@ -648,8 +687,8 @@ function initSelectedWorkCarousel(): void {
       <div class="project-card__media">
         ${videoSrc ? `
           <video
-            data-src="${videoSrc}"
-            preload="none"
+            data-src="${videoSrc}"${videoFallbackAttr}
+            preload="metadata"
             muted
             loop
             playsinline
@@ -777,6 +816,10 @@ function initSelectedWorkCarousel(): void {
         
         // Handle video load errors
         video.addEventListener('error', () => {
+          if (tryNextCarouselVideoSource(video)) {
+            console.warn(`Carousel video fallback for ${project.title}:`, video.src);
+            return;
+          }
           console.error(`Error loading video for ${project.title}:`, videoSrc, video.error);
           if (fallbackImg && posterSrc) {
             video.style.display = 'none';
