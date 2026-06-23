@@ -1175,7 +1175,7 @@ export async function initImmersiveIndex(
       v.addEventListener('playing', () => setTileLoading(v, false));
       v.addEventListener('error', () => setTileLoading(v, false));
 
-      const frame = v.closest('.gal-frame');
+      const frame = v.closest<HTMLElement>('.gal-frame');
       if (!frame) return;
       frame.classList.add('gal-frame--video');
       frame.style.cursor = 'pointer';

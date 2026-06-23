@@ -9,13 +9,14 @@ const DIST = join(process.cwd(), 'dist');
 const VIDEO_EXT = new Set(['.mp4', '.mov', '.webm', '.m4v', '.mkv', '.MP4', '.MOV']);
 const MAX_BYTES = 2048;
 
-async function walk(dir) {
+async function walk(dir, skipPrefix = '') {
   let removed = 0;
   const entries = await readdir(dir, { withFileTypes: true });
   for (const ent of entries) {
     const full = join(dir, ent.name);
+    if (skipPrefix && full.startsWith(skipPrefix)) continue;
     if (ent.isDirectory()) {
-      removed += await walk(full);
+      removed += await walk(full, skipPrefix);
       continue;
     }
     const ext = extname(ent.name);
@@ -32,10 +33,11 @@ async function walk(dir) {
 
 async function main() {
   const targets = [join(DIST, 'videos'), join(DIST, 'collections')];
+  const skipDir = `${join(DIST, 'collections', 'ai-content', 'previews')}${process.platform === 'win32' ? '\\' : '/'}`;
   let total = 0;
   for (const t of targets) {
     try {
-      total += await walk(t);
+      total += await walk(t, skipDir);
     } catch (e) {
       if (e && e.code !== 'ENOENT') throw e;
     }

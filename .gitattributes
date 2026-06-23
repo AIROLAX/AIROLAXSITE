@@ -3,3 +3,5 @@
 *.mov filter=lfs diff=lfs merge=lfs -text
 *.MOV filter=lfs diff=lfs merge=lfs -text
 *.glb filter=lfs diff=lfs merge=lfs -text
+# Small gallery hover clips — must ship inside Vercel deploy (not LFS stubs)
+public/collections/ai-content/previews/** -filter -diff -merge
