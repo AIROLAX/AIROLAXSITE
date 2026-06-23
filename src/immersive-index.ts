@@ -104,9 +104,13 @@ const TECHNIQUE_CHIP_ORDER = [
 /** Max tiles per project when using work/{slug}.html gallery images */
 const MAX_TILES_PER_PROJ = 12;
 const MAX_TILES_MOBILE = 6;
-/** Collection tiles in the Index grid (Todos + AI Content) — full set stays on disk */
+/** Collection tiles in the Index grid — “All” stays curated; technique chips use full set. */
 const MAX_COLLECTION_TILES = 20;
 const MAX_COLLECTION_TILES_MOBILE = 12;
+/** Show every item when filtering these collections (e.g. AI Content has 50+ pieces). */
+const COLLECTION_FULL_INDEX: Record<string, number> = {
+  'ai-content': 999,
+};
 
 /** First row on “All”: flagship projects (edit order anytime). */
 const FEATURED_PROJECT_IDS = [
@@ -497,8 +501,8 @@ function estimateColumnCount(visible: number): number {
   const mobile =
     typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
   return mobile
-    ? Math.max(2, Math.min(4, Math.ceil(visible / 4)))
-    : Math.max(4, Math.min(9, Math.ceil(visible / 3)));
+    ? Math.max(3, Math.min(5, Math.ceil(visible / 7)))
+    : Math.max(6, Math.min(14, Math.ceil(visible / 4)));
 }
 
 /** Masonry fills columns top-down — penalize lookalikes in same row/column neighbors. */
@@ -672,16 +676,20 @@ function sampleEvenly<T>(items: T[], limit: number): T[] {
   return out;
 }
 
+function collectionTileCap(slug: string): number {
+  if (COLLECTION_FULL_INDEX[slug] != null) return COLLECTION_FULL_INDEX[slug]!;
+  const mobile =
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+  return mobile ? MAX_COLLECTION_TILES_MOBILE : MAX_COLLECTION_TILES;
+}
+
 function buildCollectionTiles(collections: CollectionMedia[], startIdx: number): IndexTile[] {
   const tiles: IndexTile[] = [];
   let globalIdx = startIdx;
-  const maxCol =
-    typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
-      ? MAX_COLLECTION_TILES_MOBILE
-      : MAX_COLLECTION_TILES;
 
   for (const col of collections) {
-    const picked = sampleEvenly(col.index, maxCol);
+    const cap = collectionTileCap(col.slug);
+    const picked = cap >= col.index.length ? col.index : sampleEvenly(col.index, cap);
     picked.forEach((raw, k) => {
       const item = normalizeCollectionItem(raw);
       const stillKey = normalizeSrc(item.poster || item.src);
@@ -818,7 +826,8 @@ export async function initImmersiveIndex(
   tileEls.forEach((el) => {
     const href = el.dataset.href;
     if (!href) return;
-    el.style.cursor = 'pointer';
+    const hasVideo = !!el.querySelector('video.gal-media--video');
+    el.style.cursor = hasVideo ? 'default' : 'pointer';
     const go = (): void => {
       const target = el.dataset.href || href;
       if (target.startsWith('#')) {
@@ -829,6 +838,7 @@ export async function initImmersiveIndex(
     };
     el.addEventListener('click', (e) => {
       if (stage.classList.contains('is-dragging')) return;
+      if ((e.target as Element).closest('video.gal-media--video, .gal-frame--video')) return;
       go();
     });
     el.addEventListener('keydown', (e) => {
@@ -959,11 +969,11 @@ export async function initImmersiveIndex(
   const relayout = (): void => {
     const visible = tiles.filter((t) => matches(t, active)).length || 1;
     const mobile = isMobileStage();
-    const colW = mobile ? 196 : 312;
-    const gap = mobile ? 10 : 22;
+    const colW = mobile ? 132 : 200;
+    const gap = mobile ? 8 : 12;
     const cols = mobile
-      ? Math.max(2, Math.min(3, Math.ceil(visible / 6)))
-      : Math.max(4, Math.min(9, Math.ceil(visible / 3)));
+      ? Math.max(3, Math.min(5, Math.ceil(visible / 7)))
+      : Math.max(6, Math.min(14, Math.ceil(visible / 4)));
     const gridW = cols * colW + (cols - 1) * gap + 24;
     grid.style.setProperty('--gal-col-w', `${colW}px`);
     grid.style.setProperty('--gal-gap', `${gap}px`);
@@ -1110,11 +1120,11 @@ export async function initImmersiveIndex(
     alignGridView();
   });
 
-  const MAX_INDEX_VIDEOS_PLAYING = 2;
-
   const initVideoTiles = (): void => {
     const videos = Array.from(grid.querySelectorAll<HTMLVideoElement>('video.gal-media--video'));
     if (!videos.length) return;
+
+    const hoverPlay = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     const setTileLoading = (v: HTMLVideoElement, loading: boolean): void => {
       v.closest('.gal-frame')?.classList.toggle('is-media-loading', loading);
@@ -1133,17 +1143,17 @@ export async function initImmersiveIndex(
       v.dataset.playing = '0';
     };
 
+    const unloadOthers = (except: HTMLVideoElement): void => {
+      videos.forEach((v) => {
+        if (v !== except) unload(v);
+      });
+    };
+
     const play = (v: HTMLVideoElement): void => {
       const src = v.dataset.videoSrc || '';
-      if (!src || !tileVisible(v)) return;
+      if (!src || !tileVisible(v) || stage.classList.contains('is-dragging')) return;
 
-      const playing = videos.filter((x) => x.dataset.playing === '1');
-      if (playing.length >= MAX_INDEX_VIDEOS_PLAYING && v.dataset.playing !== '1') {
-        const farthest = playing.reduce((a, b) =>
-          (a.getBoundingClientRect().top > b.getBoundingClientRect().top ? a : b)
-        );
-        unload(farthest);
-      }
+      unloadOthers(v);
 
       if (v.dataset.playing === '1' && v.src) return;
       v.src = src;
@@ -1164,26 +1174,31 @@ export async function initImmersiveIndex(
       v.addEventListener('canplay', () => setTileLoading(v, false));
       v.addEventListener('playing', () => setTileLoading(v, false));
       v.addEventListener('error', () => setTileLoading(v, false));
+
+      const frame = v.closest('.gal-frame');
+      if (!frame) return;
+      frame.classList.add('gal-frame--video');
+      frame.style.cursor = 'pointer';
+
+      const toggle = (): void => {
+        if (stage.classList.contains('is-dragging')) return;
+        if (v.dataset.playing === '1') unload(v);
+        else play(v);
+      };
+
+      if (hoverPlay) {
+        frame.addEventListener('mouseenter', () => play(v));
+        frame.addEventListener('mouseleave', () => unload(v));
+      }
+
+      frame.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggle();
+      });
     });
 
-    const syncFromEntries = (entries: IntersectionObserverEntry[]): void => {
-      entries.forEach((e) => {
-        const v = e.target as HTMLVideoElement;
-        const wantPlay = e.isIntersecting && e.intersectionRatio >= 0.4 && tileVisible(v);
-        if (wantPlay) play(v);
-        else unload(v);
-      });
-    };
-
     if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(syncFromEntries, {
-        root: null,
-        rootMargin: '80px 0px',
-        threshold: [0, 0.25, 0.4, 0.55],
-      });
-      videos.forEach((v) => io.observe(v));
-
-      const section = root;
       const sectionIo = new IntersectionObserver(
         (entries) => {
           if (entries[0]?.isIntersecting) return;
@@ -1191,7 +1206,7 @@ export async function initImmersiveIndex(
         },
         { root: null, threshold: 0.05 }
       );
-      sectionIo.observe(section);
+      sectionIo.observe(root);
     }
   };
 

@@ -14,7 +14,7 @@ export const POSTER_MAX_PX = 1600;
 export const POSTER_WEBP_Q = 90;
 export const PREVIEW_MAX_W = 960;
 export const PREVIEW_CRF = 24;
-export const PREVIEW_MAX_SEC = 2;
+export const PREVIEW_MAX_SEC = 8;
 
 export async function hasFfmpeg() {
   try {

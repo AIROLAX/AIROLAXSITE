@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-23T16:08:56.227Z",
+  "generatedAt": "2026-06-23T16:16:49.267Z",
   "projects": {
     "1": {
       "slug": "biointerface",
@@ -394,31 +394,56 @@
           "poster": "/collections/ai-content/index/45.webp"
         },
         {
-          "type": "video",
-          "src": "/collections/ai-content/previews/46.mp4",
-          "poster": "/collections/ai-content/index/46.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/47.mp4",
-          "poster": "/collections/ai-content/index/47.webp"
-        },
-        {
-          "type": "video",
-          "src": "/collections/ai-content/previews/48.mp4",
-          "poster": "/collections/ai-content/index/48.webp"
+          "type": "image",
+          "src": "/collections/ai-content/index/46.webp"
         },
         {
           "type": "image",
-          "src": "/collections/ai-content/index/49.webp"
+          "src": "/collections/ai-content/index/47.webp"
         },
         {
           "type": "image",
-          "src": "/collections/ai-content/index/50.webp"
+          "src": "/collections/ai-content/index/48.webp"
         },
         {
-          "type": "image",
-          "src": "/collections/ai-content/index/51.webp"
+          "type": "video",
+          "src": "/collections/ai-content/previews/49.mp4",
+          "poster": "/collections/ai-content/index/49.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/50.mp4",
+          "poster": "/collections/ai-content/index/50.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/51.mp4",
+          "poster": "/collections/ai-content/index/51.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/52.mp4",
+          "poster": "/collections/ai-content/index/52.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/53.mp4",
+          "poster": "/collections/ai-content/index/53.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/54.mp4",
+          "poster": "/collections/ai-content/index/54.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/55.mp4",
+          "poster": "/collections/ai-content/index/55.webp"
+        },
+        {
+          "type": "video",
+          "src": "/collections/ai-content/previews/56.mp4",
+          "poster": "/collections/ai-content/index/56.webp"
         }
       ]
     },

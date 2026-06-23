@@ -213,16 +213,16 @@
   position: absolute;
   top: 0;
   left: 0;
-  column-gap: var(--gal-gap, 22px);
+  column-gap: var(--gal-gap, 12px);
   column-fill: balance;
-  padding: 12px 16px 12px 12px;
+  padding: 8px 12px 8px 8px;
   will-change: transform;
 }
 
 .immersive-index__tile {
   break-inside: avoid;
-  width: var(--gal-col-w, 312px);
-  margin: 0 0 var(--gal-gap, 22px);
+  width: var(--gal-col-w, 200px);
+  margin: 0 0 var(--gal-gap, 12px);
 }
 
 .gal-frame {
@@ -231,7 +231,7 @@
   width: 100%;
   aspect-ratio: var(--tile-ar, 1);
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #000;
   outline: 1px solid rgba(255, 255, 255, 0.08);
   outline-offset: -1px;
@@ -253,6 +253,10 @@
 
 .gal-frame video.gal-media {
   background: #000;
+}
+
+.gal-frame--video {
+  cursor: pointer;
 }
 
 .gal-frame--natural .gal-media {
@@ -286,7 +290,7 @@
   grid-area: 1 / 1;
   align-self: end;
   z-index: 2;
-  margin: 0 10px 8px;
+  margin: 0 6px 5px;
   display: flex;
   flex-direction: row;
   align-items: baseline;
@@ -428,7 +432,7 @@
   }
 
   .gal-frame {
-    border-radius: 10px;
+    border-radius: 6px;
   }
 
   .immersive-index__hint {
