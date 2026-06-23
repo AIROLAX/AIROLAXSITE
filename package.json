@@ -15,6 +15,7 @@
     "collections:optimize": "node tools/optimizeCollection.mjs",
     "collections:curate": "node tools/curateCollection.mjs",
     "collections:clean": "node tools/cleanCollection.mjs",
+    "collections:ingest": "node tools/ingestAiContentCandidates.mjs",
     "collections:videos": "node tools/rebuildCollectionVideos.mjs",
     "ingest:gallery": "node tools/ingestGallery.mjs",
     "optimize:model": "node tools/model-optimize/optimizeModel.mjs"

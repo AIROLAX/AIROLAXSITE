@@ -12,6 +12,7 @@ gallery-ingest.log
 /public/collections/**/_removed/
 /public/collections/**/__match/
 /public/collections/**/previews/
+!/public/collections/ai-content/previews/
 
 # CARPETAS DE TRABAJO (Solo si NO las usas en la web)
 # /AI MIRROR/ 
