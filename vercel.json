@@ -14,8 +14,20 @@
       "destination": "https://mail.airolax.com/videos-compressed/:path*"
     },
     {
-      "source": "/collections/:collection/previews/:path*",
-      "destination": "https://mail.airolax.com/collections/:collection/previews/:path*"
+      "source": "/collections/generative-video/previews/:path*",
+      "destination": "https://mail.airolax.com/collections/generative-video/previews/:path*"
+    },
+    {
+      "source": "/collections/immersive-installation/previews/:path*",
+      "destination": "https://mail.airolax.com/collections/immersive-installation/previews/:path*"
+    },
+    {
+      "source": "/collections/projection-mapping/previews/:path*",
+      "destination": "https://mail.airolax.com/collections/projection-mapping/previews/:path*"
+    },
+    {
+      "source": "/collections/sound/previews/:path*",
+      "destination": "https://mail.airolax.com/collections/sound/previews/:path*"
     }
   ]
 }
