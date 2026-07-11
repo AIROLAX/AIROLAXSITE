@@ -1,0 +1,28 @@
+<!-- @dsCard group="Components" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  html,body{margin:0}
+  .wrap{display:grid;grid-template-columns:1fr 1fr;gap:0;font-family:'Inter',sans-serif}
+  .pane{padding:26px 28px}
+  .light{background:#fff}.dark{background:#000}
+  .mc{border-radius:16px;overflow:hidden}
+  .light .mc{background:#F5F5F7;box-shadow:0 8px 28px rgba(0,0,0,.06)}
+  .dark .mc{background:#161617;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+  .mc img{display:block;width:100%;height:128px;object-fit:cover}
+  .body{padding:14px 16px}
+  .tag{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
+  .light .tag{color:#8E8E93}.dark .tag{color:#A1A1A6}
+  .ttl{font-size:15px;font-weight:600;letter-spacing:-.01em;margin:6px 0 0}
+  .light .ttl{color:#111}.dark .ttl{color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="pane light"><div class="mc"><img src="../assets/proj-museo.webp" alt=""><div class="body"><div class="tag">Interactive Museum</div><p class="ttl">Museo Descubre</p></div></div></div>
+  <div class="pane dark"><div class="mc"><img src="../assets/proj-ohm.webp" alt=""><div class="body"><div class="tag">Laser Sound Sculpture</div><p class="ttl">OHM</p></div></div></div>
+</div>
+</body>
+</html>

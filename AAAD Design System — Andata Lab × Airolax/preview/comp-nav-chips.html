@@ -1,0 +1,35 @@
+<!-- @dsCard group="Components" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  html,body{margin:0}
+  .card{background:#fff;padding:30px 34px;font-family:'Inter',sans-serif;display:flex;flex-direction:column;gap:18px}
+  .nav{display:flex;align-items:center;gap:26px}
+  .logo{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.06em}
+  .logo img{width:22px;height:22px}
+  .star{font-size:.6em;vertical-align:super}
+  .links{display:flex;gap:22px;margin-left:auto}
+  .links a{font-size:14px;color:#6E6E73;text-decoration:none;transition:.2s}
+  .links a.active{color:#111;font-weight:500}
+  .links a:hover{color:#111}
+  .chips{display:flex;gap:9px;flex-wrap:wrap}
+  .chip{font-size:11px;font-weight:500;letter-spacing:.04em;padding:7px 14px;border-radius:999px;background:#F5F5F7;color:#111;border:1px solid #E5E5EA}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="nav">
+    <span class="logo"><img src="../assets/logo-mark-black.png" alt="">Andata&nbsp;Lab<span class="star">*</span></span>
+    <span class="links"><a class="active">Work</a><a>About</a><a>Contact</a><a>LAB*</a></span>
+  </div>
+  <div class="chips">
+    <span class="chip">Architectural Mapping</span>
+    <span class="chip">Generative Art</span>
+    <span class="chip">Interactive</span>
+    <span class="chip">Spatial Sound</span>
+  </div>
+</div>
+</body>
+</html>
