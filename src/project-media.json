@@ -1,21 +1,13 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-23T16:16:49.267Z",
+  "generatedAt": "2026-07-11T20:40:42.208Z",
   "projects": {
     "1": {
       "slug": "biointerface",
       "workGallery": [
-        "/videos/BIOINTERFACE/F2.jpg",
-        {
-          "type": "video",
-          "src": "/videos/BIOINTERFACE/F6.mov"
-        },
-        {
-          "type": "video",
-          "src": "/videos/BIOINTERFACE/F7.mov"
-        },
         "/videos/BIOINTERFACE/F1.jpg",
-        "/videos/BIOINTERFACE/F3.jpg",
+        "/videos/BIOINTERFACE/F8.jpg",
+        "/videos/BIOINTERFACE/F2.jpg",
         {
           "type": "video",
           "src": "/videos/BIOINTERFACE/F4.mov"
@@ -24,7 +16,14 @@
           "type": "video",
           "src": "/videos/BIOINTERFACE/F5.mp4"
         },
-        "/videos/BIOINTERFACE/F8.jpg"
+        {
+          "type": "video",
+          "src": "/videos/BIOINTERFACE/F6.mov"
+        },
+        {
+          "type": "video",
+          "src": "/videos/BIOINTERFACE/F7.mov"
+        }
       ]
     },
     "2": {

@@ -3,9 +3,8 @@
    ========================================== */
 :root {
   --font-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Space Grotesk', var(--font-base);
-  /* Hero display — futuristic / experimental (Syne, index.html) */
-  --font-hero: 'Syne', var(--font-base);
+  --font-display: var(--font-base);
+  --font-hero: var(--font-base);
   
   --topbar-height: 72px;
   --info-banner-height: 32px;
@@ -2316,8 +2315,12 @@ body:not(.hero-video-active) .topbar.scrolled .mobile-menu-toggle .hamburger-lin
 }
 
 /* Menos aire encima del bloque Work: al hacer clic en Work el vídeo llena mejor la vista */
-section#projects.carousel-section {
+section#projects.carousel-section:not(.carousel-section--lead) {
   padding-top: 28px;
+}
+
+section#projects.carousel-section.carousel-section--lead {
+  padding-top: calc(66px + env(safe-area-inset-top, 0) + 36px);
 }
 
 #projects .section-label {

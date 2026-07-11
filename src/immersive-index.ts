@@ -13,10 +13,20 @@ type IndexProject = {
   credits: { duration: string };
 };
 
-/** Collection stills that belong to a project page (open #concept, not #projects). */
+/** Collection stills that belong to a project page. */
 const COLLECTION_STILL_TO_PROJECT: Record<string, string> = {
   '/images/optimized/videos/wavey/wavey-1.webp': 'wavey-runway',
   '/collections/ai-content/index/06.webp': 'wavey-runway',
+};
+
+/** Default work page when a collection tile has no still-specific mapping. */
+const COLLECTION_DEFAULT_PROJECT: Record<string, string> = {
+  'ai-content': 'biointerface',
+  'immersive-installation': 'breathing-space',
+  'projection-mapping': 'whispers-of-the-lake-digital-immersive-experience',
+  'generative-video': 'ethereal-motion-digital-poetry',
+  'sound': 'ohm-interactive-laser-sculpture',
+  'experiments': 'biointerface-2',
 };
 
 type IndexTile = {
@@ -683,7 +693,26 @@ function collectionTileCap(slug: string): number {
   return mobile ? MAX_COLLECTION_TILES_MOBILE : MAX_COLLECTION_TILES;
 }
 
-function buildCollectionTiles(collections: CollectionMedia[], startIdx: number): IndexTile[] {
+function slugToLabel(projects: IndexProject[], slug: string): string {
+  const p = projects.find((x) => x.slug === slug);
+  return p ? shortName(p.id, p.title) : slug;
+}
+
+function resolveCollectionLink(
+  projects: IndexProject[],
+  colSlug: string,
+  stillKey: string
+): { linkSlug: string; label: string } {
+  const linkSlug = COLLECTION_STILL_TO_PROJECT[stillKey] || COLLECTION_DEFAULT_PROJECT[colSlug] || '';
+  const label = linkSlug ? slugToLabel(projects, linkSlug) : '';
+  return { linkSlug, label };
+}
+
+function buildCollectionTiles(
+  collections: CollectionMedia[],
+  projects: IndexProject[],
+  startIdx: number
+): IndexTile[] {
   const tiles: IndexTile[] = [];
   let globalIdx = startIdx;
 
@@ -693,13 +722,13 @@ function buildCollectionTiles(collections: CollectionMedia[], startIdx: number):
     picked.forEach((raw, k) => {
       const item = normalizeCollectionItem(raw);
       const stillKey = normalizeSrc(item.poster || item.src);
-      const linkSlug = COLLECTION_STILL_TO_PROJECT[stillKey];
+      const { linkSlug, label } = resolveCollectionLink(projects, col.slug, stillKey);
       tiles.push({
         id: `col-${col.slug}-${k}`,
         proj: `col-${col.slug}`,
-        projName: linkSlug ? shortName('5', 'Wavey') : col.label,
-        caption: linkSlug ? shortName('5', 'Wavey') : col.label,
-        slug: linkSlug || '',
+        projName: label || col.label,
+        caption: label || col.label,
+        slug: linkSlug,
         linkSlug,
         disc: col.disciplines,
         tag: col.label,
@@ -720,9 +749,9 @@ function buildCollectionTiles(collections: CollectionMedia[], startIdx: number):
 }
 
 function tileHref(t: IndexTile): string {
-  if (t.linkSlug) return `work/${t.linkSlug}.html#concept`;
-  if (t.proj.startsWith('col-')) return '#projects';
-  return `work/${t.slug}.html`;
+  const slug = t.linkSlug || t.slug;
+  if (slug) return `work/${slug}.html`;
+  return '#projects';
 }
 
 function renderTileMedia(t: IndexTile): string {
@@ -744,7 +773,7 @@ export async function initImmersiveIndex(
   if (!root || projects.length === 0) return;
 
   const projectTiles = buildTiles(projects);
-  const collectionTiles = buildCollectionTiles(collections, projectTiles.length);
+  const collectionTiles = buildCollectionTiles(collections, projects, projectTiles.length);
   const tiles = composeIndexTiles(projectTiles, collectionTiles);
   const allViewTileIds = pickIdsForAllView(tiles);
   const discs = deriveDisciplines(projects, collections);
@@ -826,8 +855,9 @@ export async function initImmersiveIndex(
   tileEls.forEach((el) => {
     const href = el.dataset.href;
     if (!href) return;
+    const hasProjectLink = !!href && !href.startsWith('#');
     const hasVideo = !!el.querySelector('video.gal-media--video');
-    el.style.cursor = hasVideo ? 'default' : 'pointer';
+    el.style.cursor = hasProjectLink ? 'pointer' : 'default';
     const go = (): void => {
       const target = el.dataset.href || href;
       if (target.startsWith('#')) {
@@ -838,7 +868,13 @@ export async function initImmersiveIndex(
     };
     el.addEventListener('click', (e) => {
       if (stage.classList.contains('is-dragging')) return;
+      if ((e.target as Element).closest('.gal-caption')) return;
       if ((e.target as Element).closest('video.gal-media--video, .gal-frame--video')) return;
+      go();
+    });
+    el.querySelector('.gal-caption')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (stage.classList.contains('is-dragging')) return;
       go();
     });
     el.addEventListener('keydown', (e) => {
@@ -1196,6 +1232,16 @@ export async function initImmersiveIndex(
         e.stopPropagation();
         toggle();
       });
+
+      const tileEl = v.closest<HTMLElement>('.immersive-index__tile');
+      const projectHref = tileEl?.dataset.href || '';
+      if (projectHref && !projectHref.startsWith('#')) {
+        frame.addEventListener('dblclick', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = projectHref;
+        });
+      }
     });
 
     if ('IntersectionObserver' in window) {

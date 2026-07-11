@@ -9,6 +9,14 @@ import './presentations-expositions.css';
 import { initImmersiveIndex } from './immersive-index';
 import { mediaUrl } from './media';
 import projectMediaFile from './project-media.json';
+import {
+  getLang,
+  getProjectCardSize,
+  initI18n,
+  localizeProject,
+  onLangChange,
+  projectCardSubtitle,
+} from './i18n';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -41,6 +49,9 @@ interface Project {
   tag: string;
   videoUrl: string;
   poster?: string;
+  /** Native video frame ratio [width, height] — drives card & hero layout */
+  mediaAspect?: [number, number];
+  cardSubtitle?: string;
   description: string[];
   technologies: string[];
   concept: string;
@@ -67,16 +78,18 @@ const projects: Project[] = [
   {
     id: '1',
     title: 'Biointerface',
-    tag: 'AI Content · Interactive Installation',
+    tag: 'AI + Interactive Installation',
     videoUrl: '/videos/compressed/pro1.mp4',
     poster: '/videos/BIOINTERFACE/1.JPG',
+    mediaAspect: [1080, 1920],
     description: [
-      'AI-driven visuals and biometric data translated into a live interactive installation — digital content made tangible for audiences in the room.',
-      'Developed using machine learning algorithms, biometric sensors, real-time processing with Python and OpenCV, and interactive visualization systems.',
-      'Deliverables: Real-time interactive system, biometric data visualization, and immersive installation design.'
+      'An interactive installation at the intersection of AI, biological data and digital art — where living plants become capacitive instruments and the audience\'s touch drives a real-time, multi-screen environment.',
+      'A TouchDesigner engine turns sensor and biometric data into a responsive environment projected across a 3240 × 1920 px three-screen canvas — a living dialogue between human, plant and machine.',
+      'Deliverables: Capacitive plant sensing, real-time visuals, multi-screen mapping, show control and on-site installation.'
     ],
-    technologies: ['Machine Learning', 'Biometric Sensors', 'Real-time Processing', 'Interactive Visualization', 'Python', 'OpenCV'],
-    concept: 'The concept explores how technology can serve as a mirror to our internal biological processes, making the invisible visible through art. By translating physiological data into aesthetic experiences, Biointerface creates a new form of human-computer interaction that is both intimate and universal.',
+    technologies: ['TouchDesigner', 'GLSL Shaders', 'Kinect', 'Capacitive Touch Sensors', 'MIDI / OSC', 'NDI / Spout', 'Machine Learning', 'Python · OpenCV', 'Real-time Graphics'],
+    concept: 'Biointerface explores the bridge between artificial intelligence, biological data and digital art. Living plants wired as capacitive sensors turn a visitor\'s touch — and their own physiology — into the input that shapes the visuals in real time.',
+    cardSubtitle: 'Interactive AI Installation · Mexico City',
     galleryItems: [
       { type: 'image', src: '/videos/BIOINTERFACE/F2.jpg', alt: 'Biointerface Installation' },
       { type: 'video', src: '/videos/compressed/BIOINTERFACE/4.mp4', alt: 'Biointerface Detail' }
@@ -95,6 +108,7 @@ const projects: Project[] = [
     // Use original master video; compressed versions live under /videos but we avoid broken /videos/optimized paths
     videoUrl: '/videos/chapala_project/1.mp4',
     poster: '/collections/projection-mapping/index/01.webp',
+    mediaAspect: [688, 720],
     description: [
       'Large-scale projection mapping on a historic façade — AI-assisted visuals, generative layers, and spatial audio composed for a real public audience at Lake Chapala.',
       'Developed using 3D projection mapping, Blender for architectural modeling, After Effects for animation, AI-assisted visuals via Runway, TouchDesigner for real-time generative systems, and spatial audio design.',
@@ -119,6 +133,7 @@ const projects: Project[] = [
     tag: 'Generative Video · Real Space',
     videoUrl: '/videos/ASANA_YOGA/elbueno.mp4',
     poster: '/videos/ASANA_YOGA/IMG_20260131_103426.jpg',
+    mediaAspect: [1080, 1738],
     description: [
       'Real-time generative visuals projected into a physical yoga space — digital content that breathes with the room, not a screen-only piece.',
       'Using TouchDesigner and real-time generative systems, the space was transformed into a living environment of light and motion.',
@@ -149,6 +164,7 @@ const projects: Project[] = [
     tag: 'AI Content · Real-Time Mirror',
     videoUrl: '/videos/Chapala/export%287%29.MP4',
     poster: '/videos/Chapala/export%287%29.MP4',
+    mediaAspect: [2160, 2700],
     description: [
       'Live AI-generated calavera textures and generative portraits composited in real time on visitors — AI content as a physical altar experience.',
       'When a visitor approaches the mirror, a real-time camera captures their silhouette and merges it with AI-generated calavera textures, neon smoke patterns, and glitch-driven spiritual motifs.',
@@ -175,6 +191,7 @@ const projects: Project[] = [
     tag: 'AI Content · Multiscreen',
     videoUrl: '/videos/BIOINTERFACE/4.MOV',
     poster: '/videos/BIOINTERFACE/1.JPG',
+    mediaAspect: [1280, 2276],
     description: [
       'Generative visual line traveling across multiple screens with spatial sound — AI-driven motion designed for a physical multiscreen environment.',
       'Features real-time generative visuals, spatial sound design, and a continuous flowing line that moves between screens, creating a unified audiovisual experience across multiple displays.',
@@ -198,7 +215,8 @@ const projects: Project[] = [
     title: 'MUSEO DESCUBRE',
     tag: 'Interactive · Built for Museum',
     videoUrl: '/videos/museo/DESCUBRE.mkv', // First video from gallery as main carousel video
-    poster: '/videos/museo/1.png',                                                                                                                                                                                 
+    poster: '/videos/museo/1.png',
+    mediaAspect: [1280, 720],                                                                                                                                                                                 
     description: [
       'Interactive museum experience built on site — motion tracking, touch surfaces, and real-time graphics deployed in a living exhibition space.',
       'Developed using projection mapping, motion tracking with Kinect sensors, touch interactive surfaces, Unity3D for 3D environments, and real-time graphics processing.',
@@ -225,6 +243,7 @@ const projects: Project[] = [
     tag: 'Physical Installation · Light & Sound',
     videoUrl: '/videos/compressed/OHM/ohmfinal.MP4',
     poster: '/videos/OHM/2.png',
+    mediaAspect: [1920, 1080],
     description: [
       'Kinetic laser sculpture in physical space — precision light, photonic sensors, and live sound synthesis; no screen, fully built and presented on site.',
       'Developed using laser technology, photonic sensors, kinetic sculpture mechanics, sound synthesis with Arduino and Max/MSP, and real-time audio-visual processing.',
@@ -251,6 +270,7 @@ const projects: Project[] = [
     tag: 'Projection Mapping · Heritage Site',
     videoUrl: '/videos/compressed/edzna/ednzapyramid.mp4',
     poster: '/videos/edzna/1.png',
+    mediaAspect: [1280, 720],
     description: [
       'Mayan pyramid as canvas — projection mapping, 3D animation, and narrative content produced for a real archaeological site and night-time public show.',
       'Developed using projection mapping, 3D modeling with Blender, animation in After Effects, TouchDesigner for real-time content, camera mapping techniques, and historical research integration.',
@@ -277,6 +297,7 @@ const projects: Project[] = [
     videoUrl: '/videos/waveytiktok.mp4',
     // Use compressed hero still
     poster: '/images/optimized/videos/wavey/wavey-1.webp',
+    mediaAspect: [576, 1024],
     description: [
       'Generative AI visuals on the runway — each look becomes a live canvas; real-time VFX and motion-responsive content for a fashion show audience.',
       'Developed using generative AI tools, real-time VFX, motion capture systems, LED technology, machine learning algorithms, and TouchDesigner for live visual generation.',
@@ -314,6 +335,7 @@ const projects: Project[] = [
     tag: 'Interactive · Sensor-Driven',
     videoUrl: '/videos/thermosense.mp4',
     poster: '/videos/thermosense.mp4',
+    mediaAspect: [1280, 720],
     description: [
       'Thermal sensors and generative visuals in a physical installation — invisible body heat made visible for visitors in real space.',
       'Developed using infrared sensors, thermal imaging technology, generative art algorithms, real-time processing with Processing and Arduino, and interactive sound design.',
@@ -335,6 +357,7 @@ const projects: Project[] = [
     tag: 'Physical Installation · Lasers',
     videoUrl: '/videos/compressed/OHM/1.MP4',
     poster: '/videos/compressed/OHM/1.MP4',
+    mediaAspect: [1920, 1080],
     description: [
       'Early laser sound sculpture — geometric light compositions in three-dimensional space, built and presented as a physical audiovisual work.',
       'Developed using laser technology, photonic sensors, sound synthesis with Arduino and Max/MSP, and real-time audio-visual processing.',
@@ -358,6 +381,7 @@ const projects: Project[] = [
     tag: 'Generative Video · 3D Motion',
     videoUrl: '/videos/compressed/demo2.mp4',
     poster: '/videos/compressed/demo2.mp4',
+    mediaAspect: [600, 1080],
     description: [
       'Generative 3D motion piece — abstract digital poetry where form, light, and movement carry the narrative; content-first video work.',
       'This piece explores the fluid boundaries between form and void, light and shadow, creating a meditative experience through kinetic 3D compositions.',
@@ -427,7 +451,28 @@ for (let i = 0; i < projects.length; i++) {
   projects[i] = withMediaUrls(projects[i]);
 }
 
-const carouselProjects: Project[] = [...projects];
+const CAROUSEL_PROJECT_ORDER: string[] = [
+  // Primera línea — videos largos (retrato)
+  '9',
+  '1b',
+  '1',
+  'breathing-space',
+  'ai-mirror-dia-de-muertos',
+  '5',
+  '7',
+  // Abajo — landscape y tamaños variados (masonry)
+  '2',
+  '3',
+  '6',
+  '8',
+  '4',
+];
+
+/** First row: 4 tall portrait tiles; rest render 2-up (half width). */
+const SELECTED_WORK_FIRST_ROW_COUNT = 4;
+
+const carouselProjects: Project[] = CAROUSEL_PROJECT_ORDER.map((id) => projects.find((p) => p.id === id))
+  .filter((p): p is Project => p != null);
 
 // Selected project state
 let selectedProject: Project | null = null;
@@ -476,13 +521,21 @@ function asciiUiText(text: string): string {
     .replace(/[\u2018\u2019]/g, "'");
 }
 
-function projectCardTeaser(project: Project, maxLen = 96): string {
+function projectCardTeaser(project: Project, maxLen = 140): string {
   const raw = (project.description[0] || project.concept || '').replace(/\s+/g, ' ').trim();
   if (!raw) return '';
   if (raw.length <= maxLen) return raw;
   const cut = raw.slice(0, maxLen);
   const lastSpace = cut.lastIndexOf(' ');
   return `${(lastSpace > 40 ? cut.slice(0, lastSpace) : cut).trim()}…`;
+}
+
+function projectMediaAspect(project: Project): [number, number] {
+  return project.mediaAspect ?? [16, 9];
+}
+
+function isPortraitAspect(aspect: [number, number]): boolean {
+  return aspect[1] > aspect[0];
 }
 
 function getCenteredCarouselIndex(track: HTMLElement): number {
@@ -501,6 +554,97 @@ function getCenteredCarouselIndex(track: HTMLElement): number {
     }
   });
   return bestIdx;
+}
+
+/** Grid layout: play preview for every tile intersecting the viewport (max 4). */
+function syncGridVideos(track: HTMLElement): void {
+  const cards = Array.from(track.querySelectorAll<HTMLElement>('.project-card'));
+  if (!cards.length) return;
+
+  const visible: Array<{ card: HTMLElement; ratio: number }> = [];
+  cards.forEach((card) => {
+    const r = card.getBoundingClientRect();
+    const vh = window.innerHeight || 1;
+    const overlap = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+    const ratio = overlap / Math.max(1, r.height);
+    if (ratio >= 0.28) visible.push({ card, ratio });
+  });
+
+  visible.sort((a, b) => b.ratio - a.ratio);
+  const playSet = new Set(visible.slice(0, 4).map((v) => v.card));
+
+  cards.forEach((card) => {
+    const video = card.querySelector('video') as HTMLVideoElement | null;
+    if (!video) return;
+    const fallback = card.querySelector('.project-card__fallback-img') as HTMLImageElement | null;
+    const dataSrc = video.dataset.src?.trim();
+    if (!dataSrc) return;
+
+    if (playSet.has(card)) {
+      video.style.display = 'block';
+      video.style.opacity = '1';
+      if (fallback) fallback.style.display = video.readyState >= 2 ? 'none' : 'block';
+      if (!video.getAttribute('src')) {
+        video.src = dataSrc;
+        video.load();
+      }
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+      video.style.opacity = '0';
+      if (fallback) {
+        fallback.style.display = 'block';
+        fallback.style.opacity = '1';
+      }
+      if (video.getAttribute('src')) {
+        video.removeAttribute('src');
+        video.load();
+      }
+    }
+  });
+}
+
+function bindGridVideoSync(track: HTMLElement): void {
+  const tick = (): void => syncGridVideos(track);
+  tick();
+  let debounce: number | null = null;
+  const onScroll = (): void => {
+    if (debounce != null) window.clearTimeout(debounce);
+    debounce = window.setTimeout(() => {
+      tick();
+      debounce = null;
+    }, 60);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+}
+
+function initProjectCardReveal(track: HTMLElement): void {
+  const cards = track.querySelectorAll<HTMLElement>('.project-card');
+  if (!cards.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    cards.forEach((c) => c.classList.add('is-revealed'));
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target as HTMLElement;
+        const idx = Number(el.dataset.revealIndex || 0);
+        window.setTimeout(() => el.classList.add('is-revealed'), idx * 55);
+        io.unobserve(el);
+      });
+    },
+    { root: null, threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+  );
+
+  cards.forEach((card, i) => {
+    card.dataset.revealIndex = String(i % 6);
+    io.observe(card);
+  });
 }
 
 function bindCarouselCenteredState(track: HTMLElement): void {
@@ -651,6 +795,7 @@ function initSelectedWorkCarousel(): void {
   const trackElement = document.getElementById('carousel-track');
   const leftArrow = document.querySelector('.carousel-arrow--left') as HTMLButtonElement;
   const rightArrow = document.querySelector('.carousel-arrow--right') as HTMLButtonElement;
+  const isGrid = carouselContainer?.classList.contains('selected-work-carousel--grid') ?? false;
   
   if (!carouselContainer || !trackElement) {
     setTimeout(initSelectedWorkCarousel, 100);
@@ -659,16 +804,27 @@ function initSelectedWorkCarousel(): void {
 
   let carouselBreakpointBound = false;
   let carouselCenterBound = false;
+  let gridSyncBound = false;
 
   // Create project card with video
-  const createCard = (project: Project, _index: number): HTMLElement => {
+  const createCard = (project: Project, index: number): HTMLElement => {
     const mobileLayout = isCarouselMobileView();
+    const localized = localizeProject(project, getLang());
+    const aspect = projectMediaAspect(project);
+    const portrait = isPortraitAspect(aspect);
+    const cardSize = getProjectCardSize(project.id, index, portrait);
     const card = document.createElement('a');
-    card.className = 'project-card';
+    card.className = `project-card project-card--size-${cardSize}${portrait ? ' project-card--portrait' : ' project-card--landscape'}`;
+    if (index >= SELECTED_WORK_FIRST_ROW_COUNT) {
+      card.classList.add('project-card--grid-half');
+    } else {
+      card.classList.add('project-card--first-row');
+    }
+    card.style.setProperty('--card-aspect', `${aspect[0]} / ${aspect[1]}`);
     card.setAttribute('data-project-id', project.id);
     const slug = getProjectSlug(project);
     card.href = `work/${slug}.html`;
-    card.setAttribute('aria-label', `View ${project.title} project page`);
+    card.setAttribute('aria-label', `View ${localized.title} project page`);
     
     const videoSources = carouselVideoSources(project);
     const videoSrc = videoSources[0] || '';
@@ -677,9 +833,13 @@ function initSelectedWorkCarousel(): void {
         ? ` data-src-fallbacks="${videoSources.slice(1).join('|')}"`
         : '';
     const posterSrc = mediaUrl(carouselPosterFor(project));
-    const teaser = asciiUiText(projectCardTeaser(project));
+    const teaser = asciiUiText(projectCardTeaser(localized));
     const teaserHtml = teaser
       ? `<p class="project-card__desc">${teaser}</p>`
+      : '';
+    const subtitle = asciiUiText(projectCardSubtitle(localized));
+    const subtitleHtml = subtitle
+      ? `<p class="project-card__subtitle">${subtitle}</p>`
       : '';
 
     // data-src + poster; src solo cuando el slide está visible (móvil y desktop).
@@ -698,14 +858,14 @@ function initSelectedWorkCarousel(): void {
           ${posterSrc ? `
             <img
               src="${posterSrc}"
-              alt="${project.title}"
+              alt="${localized.title}"
               class="project-card__fallback-img"
             />
           ` : ''}
         ` : posterSrc ? `
           <img
             src="${posterSrc}"
-            alt="${project.title}"
+            alt="${localized.title}"
           />
         ` : ''}
         <div class="project-card__overlay" aria-hidden="true">
@@ -713,8 +873,9 @@ function initSelectedWorkCarousel(): void {
         </div>
       </div>
       <div class="project-card__caption">
-        <p class="project-card__category">${asciiUiText(project.tag).toUpperCase()}</p>
-        <h3 class="project-card__title">${project.title}</h3>
+        <p class="project-card__category ds-label">${asciiUiText(localized.tag).toUpperCase()}</p>
+        <h3 class="project-card__title">${localized.title}</h3>
+        ${subtitleHtml}
         ${teaserHtml}
       </div>
     `;
@@ -739,11 +900,58 @@ function initSelectedWorkCarousel(): void {
         // Ensure video is visible and styled correctly
         video.style.display = 'block';
         video.style.opacity = '1';
-        video.style.width = '100%';
-        video.style.height = '100%';
+
+        const applyGridNativeVideo = (): void => {
+          video.style.objectFit = 'cover';
+          video.style.objectPosition = 'center center';
+          video.style.position = 'absolute';
+          video.style.inset = '0';
+          video.style.top = '0';
+          video.style.left = '0';
+          video.style.width = '100%';
+          video.style.height = '100%';
+          video.style.minWidth = '100%';
+          video.style.minHeight = '100%';
+          video.style.transform = 'none';
+          video.style.maxWidth = 'none';
+          video.style.maxHeight = 'none';
+          if (fallbackImg) {
+            fallbackImg.style.objectFit = 'cover';
+            fallbackImg.style.objectPosition = 'center center';
+          }
+        };
+
+        if (isGrid) {
+          applyGridNativeVideo();
+          video.addEventListener(
+            'loadedmetadata',
+            () => {
+              const w = video.videoWidth;
+              const h = video.videoHeight;
+              if (w > 0 && h > 0) {
+                card.style.setProperty('--card-aspect', `${w} / ${h}`);
+                if (h > w) {
+                  card.classList.add('project-card--portrait');
+                  card.classList.remove('project-card--landscape');
+                } else {
+                  card.classList.add('project-card--landscape');
+                  card.classList.remove('project-card--portrait');
+                }
+              }
+            },
+            { once: true }
+          );
+        } else {
+          video.style.width = '100%';
+          video.style.height = '100%';
+        }
         
         // Apply mobile-specific styles using media query detection
         const updateVideoStyles = () => {
+          if (isGrid) {
+            applyGridNativeVideo();
+            return;
+          }
           const isMobile = window.innerWidth < 768;
           
           if (isMobile) {
@@ -928,28 +1136,41 @@ function initSelectedWorkCarousel(): void {
     forceVideoAttributes();
     setTimeout(forceVideoAttributes, 300);
 
-    const runSync = (): void => syncCarouselVideos(trackElement);
-    runSync();
-    setTimeout(runSync, 120);
-    setTimeout(runSync, 400);
+    initProjectCardReveal(trackElement);
 
-    if (!carouselBreakpointBound) {
-      carouselBreakpointBound = true;
-      const mq = window.matchMedia(CAROUSEL_MOBILE_MQ);
-      mq.addEventListener('change', () => syncCarouselVideos(trackElement));
-    }
+    if (isGrid) {
+      const runGridSync = (): void => syncGridVideos(trackElement);
+      runGridSync();
+      setTimeout(runGridSync, 120);
+      setTimeout(runGridSync, 400);
+      if (!gridSyncBound) {
+        gridSyncBound = true;
+        bindGridVideoSync(trackElement);
+      }
+    } else {
+      const runSync = (): void => syncCarouselVideos(trackElement);
+      runSync();
+      setTimeout(runSync, 120);
+      setTimeout(runSync, 400);
 
-    if (!carouselCenterBound) {
-      carouselCenterBound = true;
-      bindCarouselCenteredState(trackElement);
+      if (!carouselBreakpointBound) {
+        carouselBreakpointBound = true;
+        const mq = window.matchMedia(CAROUSEL_MOBILE_MQ);
+        mq.addEventListener('change', () => syncCarouselVideos(trackElement));
+      }
+
+      if (!carouselCenterBound) {
+        carouselCenterBound = true;
+        bindCarouselCenteredState(trackElement);
+      }
     }
   };
   
-  // Setup arrow buttons (only once, outside renderCards to avoid duplicate listeners)
-  if (leftArrow) {
+  // Setup arrow buttons (carousel mode only)
+  if (!isGrid && leftArrow) {
     leftArrow.addEventListener('click', handlePrev);
   }
-  if (rightArrow) {
+  if (!isGrid && rightArrow) {
     rightArrow.addEventListener('click', handleNext);
   }
 
@@ -957,6 +1178,10 @@ function initSelectedWorkCarousel(): void {
   setTimeout(() => {
     renderCards();
   }, 100);
+
+  onLangChange(() => {
+    renderCards();
+  });
 }
 
 // ==========================================
@@ -997,8 +1222,9 @@ function getPresentationsTimeline(): Array<{
   href: string;
 }> {
   return projects.filter((p) => p.id !== '1b').map((p) => {
-    const dur = (p.credits?.duration || '').trim();
-    const exh = (p.credits?.exhibition || '').trim();
+    const lp = localizeProject(p, getLang());
+    const dur = (lp.credits?.duration || p.credits?.duration || '').trim();
+    const exh = (lp.credits?.exhibition || p.credits?.exhibition || '').trim();
     const yearMatch = dur.match(/^\d{4}$/) || exh.match(/\d{4}/);
     const year = yearMatch ? yearMatch[0] : '';
     const venue = exh.replace(/\s*—?\s*\d{4}\s*$/, '').trim() || exh;
@@ -1006,13 +1232,15 @@ function getPresentationsTimeline(): Array<{
     return {
       id: p.id,
       year,
-      title: p.title,
-      tag: p.tag || '',
+      title: lp.title,
+      tag: lp.tag || '',
       venue,
       href: `work/${slug}.html`,
     };
   }).filter((t) => t.year).sort((a, b) => Number(b.year) - Number(a.year));
 }
+
+let presentationsI18nBound = false;
 
 function initPresentationsTimeline(): void {
   const container = document.getElementById('presentations-timeline');
@@ -1045,6 +1273,11 @@ function initPresentationsTimeline(): void {
 
   initPresentationsAnimations();
   notifyPageLayout();
+
+  if (!presentationsI18nBound) {
+    presentationsI18nBound = true;
+    onLangChange(() => initPresentationsTimeline());
+  }
 }
 
 function killPresentationsScrollTriggers(section: HTMLElement): void {
@@ -3094,8 +3327,7 @@ function initHeaderScrollBehavior(): void {
   function updateHeaderState(): void {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const heroRect = heroVideo.getBoundingClientRect();
-    const heroBottom = heroRect.bottom + scrollTop;
-    const isOverHero = scrollTop < heroBottom - 100; // 100px buffer before transition
+    const isOverHero = heroRect.top < 72 && heroRect.bottom > 72;
     const isScrolled = scrollTop > 50;
 
     // Add/remove scrolled class for solid background
@@ -3105,11 +3337,18 @@ function initHeaderScrollBehavior(): void {
       topbar.classList.remove('scrolled');
     }
 
-    // Add/remove hero-video-active class for white text
+    // Add/remove hero-video-active class for white text on hero
     if (isOverHero) {
       document.body.classList.add('hero-video-active');
+      document.documentElement.style.background = '#000';
     } else {
       document.body.classList.remove('hero-video-active');
+      const projectsSection = document.getElementById('projects');
+      const overProjects =
+        projectsSection &&
+        projectsSection.getBoundingClientRect().top <= 72 &&
+        projectsSection.getBoundingClientRect().bottom > 72;
+      document.documentElement.style.background = overProjects ? '#fff' : '#000';
     }
   }
 
@@ -3310,6 +3549,7 @@ function initHeroVideoFastLoad(): void {
 // Function to initialize everything
 function initializeApp(): void {
   console.log('🚀 Initializing application...');
+  initI18n();
   
   // Initialize hero video fast load FIRST (critical for mobile)
   initHeroVideoFastLoad();
@@ -3333,6 +3573,7 @@ function initializeApp(): void {
   initVisionAnimations();
   initContactAnimations();
   initScrollDownIndicator();
+  initViewportScrollHint();
   initLiquidMetallicBackground();
   
   // Initialize other features
@@ -3991,31 +4232,49 @@ function initArtistBioMobileActive(): void {
 // SCROLL DOWN INDICATOR
 // ==========================================
 function initScrollDownIndicator(): void {
-  const indicator = document.querySelector('.scroll-down-indicator');
-  const arrow = document.querySelector('.scroll-down-arrow');
-  if (!indicator) return;
-
-  // Subtle floating animation for arrow only (museum-style, very slow, not distracting)
-  if (arrow) {
-    gsap.to(arrow, {
-      y: 6,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut'
+  document.querySelectorAll<HTMLAnchorElement>('.scroll-down-indicator--in-projects').forEach((indicator) => {
+    indicator.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('hero-video')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-  }
-  
-  // Click handler - scroll to Expositions section
-  indicator.addEventListener('click', () => {
-    const presentationsSection = document.getElementById('presentations-section');
-    if (presentationsSection) {
-      presentationsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
   });
-  
-  // Make it clickable
-  (indicator as HTMLElement).style.cursor = 'pointer';
+
+  document.querySelectorAll<HTMLAnchorElement>('.scroll-down-indicator:not(.scroll-down-indicator--in-projects)').forEach((indicator) => {
+    indicator.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('presentations-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+}
+
+function initViewportScrollHint(): void {
+  const hint = document.getElementById('scroll-hint-viewport');
+  const projects = document.getElementById('projects');
+  if (!hint || !projects) return;
+
+  const updateVisibility = (): void => {
+    const rect = projects.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const inFirstView =
+      rect.top < vh * 0.35 &&
+      rect.bottom > vh * 0.45 &&
+      window.scrollY < vh * 1.1;
+    hint.classList.toggle('is-visible', inFirstView);
+  };
+
+  hint.addEventListener('click', (e) => {
+    e.preventDefault();
+    const firstBelow = document.querySelector<HTMLElement>('.project-card--grid-half');
+    if (firstBelow) {
+      firstBelow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    document.getElementById('hero-video')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  updateVisibility();
+  window.addEventListener('scroll', updateVisibility, { passive: true });
+  window.addEventListener('resize', updateVisibility, { passive: true });
 }
 
 // ==========================================

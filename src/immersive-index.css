@@ -314,6 +314,17 @@
   color: rgba(255, 255, 255, 0.92);
 }
 
+.immersive-index__tile[data-href]:not([data-href='#projects']) .gal-caption {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.35);
+  text-underline-offset: 2px;
+}
+
+.immersive-index__tile[data-href]:not([data-href='#projects']) .gal-caption:hover {
+  text-decoration-color: rgba(255, 255, 255, 0.85);
+}
+
 .gal-caption__disc {
   font-size: 7px;
   font-weight: 400;

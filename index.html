@@ -37,20 +37,68 @@
     <link rel="stylesheet" href="./src/aaad-theme.css">
     <style>
       /* Critical paint — topbar + hero before JS bundle (prevents logo/menu FOUC) */
-      html { background: #000; }
+      html { background: #fff; }
       body[data-brand="airolax"] {
-        background: #000 !important;
-        color: #fff;
+        background: #fff !important;
+        color: #111;
         margin: 0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       }
-      body[data-brand="airolax"] .topbar {
+      body[data-brand="airolax"] .topbar--liquid {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         z-index: 1001;
-        background: rgba(0, 0, 0, 0.35);
+        padding: calc(10px + env(safe-area-inset-top, 0)) 16px 0;
+        background: transparent !important;
+        border: none !important;
+        pointer-events: none;
+      }
+      body[data-brand="airolax"] .topbar__liquid-track {
+        max-width: 1280px;
+        margin: 0 auto;
         pointer-events: auto;
+      }
+      body[data-brand="airolax"] .topbar__liquid-glass {
+        border-radius: 999px;
+        background: transparent;
+        backdrop-filter: blur(40px) saturate(160%);
+        -webkit-backdrop-filter: blur(40px) saturate(160%);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: none;
+      }
+      body[data-brand="airolax"] .topbar__mark {
+        filter: invert(1);
+      }
+      body[data-brand="airolax"] .topbar__brand,
+      body[data-brand="airolax"] .topbar__brand-name,
+      body[data-brand="airolax"] .topbar__brand-link,
+      body[data-brand="airolax"] .nav-link,
+      body[data-brand="airolax"] .clock-text {
+        color: #111 !important;
+      }
+      body.hero-video-active[data-brand="airolax"] {
+        background: #000 !important;
+        color: #fff;
+      }
+      body.hero-video-active[data-brand="airolax"] .topbar__liquid-glass {
+        background: transparent;
+        border-color: rgba(255, 255, 255, 0.12);
+        box-shadow: none;
+      }
+      body.hero-video-active[data-brand="airolax"] .topbar__mark {
+        filter: none;
+      }
+      body.hero-video-active[data-brand="airolax"] .topbar__brand,
+      body.hero-video-active[data-brand="airolax"] .topbar__brand-name,
+      body.hero-video-active[data-brand="airolax"] .topbar__brand-link,
+      body.hero-video-active[data-brand="airolax"] .nav-link,
+      body.hero-video-active[data-brand="airolax"] .clock-text {
+        color: rgba(255, 255, 255, 0.92) !important;
+      }
+      body.hero-video-active[data-brand="airolax"] .mobile-menu-toggle .hamburger-line {
+        background: #fff !important;
       }
       body[data-brand="airolax"] .topbar__inner {
         position: relative;
@@ -58,9 +106,9 @@
         grid-template-columns: 1fr 1fr;
         align-items: center;
         gap: 0;
-        height: calc(66px + env(safe-area-inset-top, 0));
-        min-height: 66px;
-        padding: env(safe-area-inset-top, 0) 40px 0;
+        height: 52px;
+        min-height: 52px;
+        padding: 0 18px;
         max-width: none;
       }
       body[data-brand="airolax"] .topbar__brand-block {
@@ -75,7 +123,7 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        color: #fff;
+        color: #111;
         font-size: 14px;
         font-weight: 600;
         text-decoration: none;
@@ -94,15 +142,22 @@
         font-weight: 600;
         letter-spacing: 0.18em;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.85);
+        color: #111;
         text-decoration: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      }
+      body[data-brand="airolax"] .topbar__brand-text {
+        display: flex;
+        align-items: baseline;
+        gap: 0.45em;
+        min-width: 0;
+        overflow: hidden;
       }
       body[data-brand="airolax"] .topbar__brand-name {
-        color: #fff;
+        color: #111;
+        font-weight: 600;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        flex-shrink: 0;
       }
       body[data-brand="airolax"] .topbar__mark {
         width: 22px !important;
@@ -122,7 +177,7 @@
         z-index: 1;
       }
       body[data-brand="airolax"] .clock-text {
-        color: rgba(255, 255, 255, 0.72);
+        color: #111;
         font-size: 12px;
         font-weight: 500;
         letter-spacing: 0.22em;
@@ -136,7 +191,7 @@
         gap: 26px;
       }
       body[data-brand="airolax"] .nav-link {
-        color: rgba(255, 255, 255, 0.72);
+        color: #111;
         font-size: 14px;
         text-decoration: none;
       }
@@ -144,6 +199,9 @@
         grid-column: 2;
         justify-self: end;
         display: none;
+      }
+      body[data-brand="airolax"] .mobile-menu-toggle .hamburger-line {
+        background: #111 !important;
       }
       @media (max-width: 767px) {
         body[data-brand="airolax"] .topbar__inner {
@@ -210,17 +268,23 @@
     <!-- GA4: cargado desde src/main.ts con VITE_GA_MEASUREMENT_ID (.env / Vercel). Ver .env.example -->
     
   </head>
-  <body data-brand="airolax" class="hero-video-active">
+  <body data-brand="airolax">
     <div class="scroll-progress" aria-hidden="true">
       <div class="scroll-progress__fill" data-scroll-progress-fill></div>
     </div>
-    <!-- Header Fixed -->
-    <header class="topbar" role="banner">
-      <div class="topbar__inner">
+    <!-- Header — Apple liquid glass -->
+    <header class="topbar topbar--liquid" role="banner">
+      <div class="topbar__liquid-track">
+        <div class="topbar__liquid-glass">
+          <div class="topbar__inner">
         <div class="topbar__brand-block">
-          <a href="#hero-video" class="topbar__brand" aria-label="Argel Erevan Airola - home">
+          <a href="#projects" class="topbar__brand" aria-label="Argel Erevan Airola — Multimedia Artist">
             <img class="topbar__mark" src="/images/aaad-mark-white.png" width="22" height="22" alt="">
-            <span class="topbar__brand-name">Argel Erevan Airola</span>
+            <span class="topbar__brand-text">
+              <span class="topbar__brand-name">Argel Erevan Airola</span>
+              <span class="topbar__brand-sep" aria-hidden="true">·</span>
+              <span class="topbar__brand-role" data-i18n="brand.role">Multimedia Artist</span>
+            </span>
           </a>
           <span class="topbar__brand-links">
             <a href="/Portfolio.pdf" class="topbar__brand-link" download="Argel-Erevan-Airola-Portfolio.pdf">Portfolio</a>
@@ -228,10 +292,11 @@
           </span>
         </div>
 
-        <nav class="topbar__nav" role="navigation" aria-label="Main navigation">
-          <a href="#immersive-index" class="nav-link">Work</a>
-          <a href="#contact" class="nav-link">Contact</a>
-          <a href="https://www.andatalab.art" class="nav-link nav-link--cross" target="_blank" rel="noopener noreferrer">Andata Lab</a>
+        <nav class="topbar__nav topbar__nav--liquid" role="navigation" aria-label="Main navigation">
+          <a href="#projects" class="nav-link" data-i18n="nav.work">Work</a>
+          <a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
+          <a href="https://www.andatalab.art" class="nav-link nav-link--cross" target="_blank" rel="noopener noreferrer" data-i18n="nav.andataLab">Andata Lab</a>
+          <button type="button" class="lang-toggle lang-toggle--liquid" id="lang-toggle" aria-label="Switch to Spanish">ES</button>
         </nav>
 
         <span class="topbar__clock" aria-hidden="true">
@@ -243,20 +308,52 @@
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
         </button>
+          </div>
+        </div>
       </div>
       
-      <!-- Mobile Menu -->
-      <div class="mobile-menu" id="mobile-menu">
-        <button type="button" class="mobile-menu__close" id="mobile-menu-close" aria-label="Cerrar menú">✕</button>
-        <nav class="mobile-menu__nav" role="navigation" aria-label="Mobile navigation">
-          <a href="#immersive-index" class="mobile-menu__link">Work</a>
-          <a href="#contact" class="mobile-menu__link">Contact</a>
-          <a href="/Portfolio.pdf" class="mobile-menu__link" download="Argel-Erevan-Airola-Portfolio.pdf">Portfolio</a>
-          <a href="/CV.pdf" class="mobile-menu__link" download="Argel-Erevan-Airola-CV-2027.pdf">CV</a>
-          <a href="https://www.andatalab.art" class="mobile-menu__link" target="_blank" rel="noopener noreferrer">Andata Lab</a>
-        </nav>
+      <!-- Mobile Menu — liquid glass -->
+      <div class="mobile-menu mobile-menu--liquid" id="mobile-menu">
+        <div class="mobile-menu__glass">
+          <button type="button" class="mobile-menu__close" id="mobile-menu-close" aria-label="Cerrar menú">✕</button>
+          <nav class="mobile-menu__nav" role="navigation" aria-label="Mobile navigation">
+            <a href="#projects" class="mobile-menu__link" data-i18n="nav.work">Work</a>
+            <a href="#contact" class="mobile-menu__link" data-i18n="nav.contact">Contact</a>
+            <a href="/Portfolio.pdf" class="mobile-menu__link" download="Argel-Erevan-Airola-Portfolio.pdf">Portfolio</a>
+            <a href="/CV.pdf" class="mobile-menu__link" download="Argel-Erevan-Airola-CV-2027.pdf">CV</a>
+            <a href="https://www.andatalab.art" class="mobile-menu__link" target="_blank" rel="noopener noreferrer">Andata Lab</a>
+          </nav>
+        </div>
       </div>
     </header>
+
+    <!-- Selected Work — first (Andata Lab light surface) -->
+    <section class="carousel-section carousel-section--lead surface-andata" id="projects">
+      <div class="carousel-wrap carousel-wrap--andata">
+        <header class="selected-work-header">
+          <h2 class="selected-work-eyebrow ds-label" data-i18n="sections.selectedWork">Selected work</h2>
+        </header>
+        <!-- Selected Work — vertical grid (scroll to explore) -->
+        <div class="selected-work-carousel selected-work-carousel--grid">
+          <div class="carousel-track" id="carousel-track">
+            <!-- Cards will be injected by JavaScript -->
+          </div>
+        </div>
+        <a href="#hero-video" class="scroll-down-indicator scroll-down-indicator--in-projects scroll-down-indicator--elegant" data-i18n-aria="sections.scroll" aria-label="Scroll down">
+          <span class="scroll-down-indicator__stem" aria-hidden="true"></span>
+          <svg class="scroll-down-arrow scroll-down-arrow--elegant" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M6 9.5L12 15.5L18 9.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+      <a href="#" class="scroll-hint scroll-hint--viewport" id="scroll-hint-viewport" data-i18n-aria="sections.scrollDown" aria-label="Scroll down">
+        <span class="scroll-hint__stem" aria-hidden="true"></span>
+        <svg class="scroll-hint__chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M6 9.5L12 15.5L18 9.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </section>
+
     <!-- Hero Video Section -->
     <section class="hero-video" id="hero-video">
       <div class="hero-video__container">
@@ -283,16 +380,16 @@
                 aria-label="Argel Erevan Airola, México, Multimedia Artist, 1991"
               >
                 <p class="hero-video__title-line hero-video__title-row" data-matrix-text="ARGEL EREVAN AIROLA"></p>
-                <p class="hero-video__title-line hero-video__title-row" data-matrix-text="MÉXICO"></p>
-                <p class="hero-video__title-line hero-video__title-row" data-matrix-text="MULTIMEDIA ARTIST · 1991"></p>
+                <p class="hero-video__title-line hero-video__title-row" data-i18n-matrix="hero.line2" data-matrix-text="MÉXICO"></p>
+                <p class="hero-video__title-line hero-video__title-row" data-i18n-matrix="hero.line3" data-matrix-text="MULTIMEDIA ARTIST · 1991"></p>
               </div>
             </div>
           </div>
           <div class="hero-video__cta">
             <a href="#immersive-index" class="hero-video__button">
-              <span>Selected Work</span>
+              <span data-i18n="sections.exploreIndex">Explore Index</span>
             </a>
-            <a href="#immersive-index" class="hero-video__scroll-hint" aria-label="Scroll down">
+            <a href="#immersive-index" class="hero-video__scroll-hint" aria-label="Scroll to index">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M7 10l5 5 5-5"/>
               </svg>
@@ -305,33 +402,9 @@
     <!-- Immersive Index (AAAD — full archive wall) -->
     <section class="immersive-index" id="immersive-index" aria-label="Work"></section>
 
-    <!-- Carousel Section -->
-    <section class="carousel-section" id="projects">
-      <div class="carousel-wrap">
-        <h2 class="section-label">SELECTED WORK</h2>
-        
-        <!-- Selected Work Carousel -->
-        <div class="selected-work-carousel">
-          <button class="carousel-arrow carousel-arrow--left" aria-label="Previous project">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M15 18l-6-6 6-6"/>
-            </svg>
-          </button>
-          <div class="carousel-track" id="carousel-track">
-            <!-- Cards will be injected by JavaScript -->
-          </div>
-          <button class="carousel-arrow carousel-arrow--right" aria-label="Next project">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 18l6-6-6-6"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </section>
-
     <!-- Scroll Down Indicator (links to Expositions) -->
-    <a href="#presentations-section" class="scroll-down-indicator" aria-label="Scroll to Expositions">
-      <span class="scroll-down-text">Scroll down</span>
+    <a href="#presentations-section" class="scroll-down-indicator" data-i18n-aria="sections.scrollDown" aria-label="Scroll to Expositions">
+      <span class="scroll-down-text" data-i18n="sections.scrollDown">Scroll down</span>
       <svg class="scroll-down-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
@@ -340,8 +413,8 @@
     <!-- Expositions (timeline) -->
     <section class="presentations presentations--fade" id="presentations-section">
       <div class="presentations-header">
-        <h2 class="presentations-title">Expositions</h2>
-        <p class="presentations-subtitle">AI-assisted visuals, generative content, and large-scale work delivered on site - museums, festivals, and public space.</p>
+        <h2 class="presentations-title" data-i18n="sections.expositions">Expositions</h2>
+        <p class="presentations-subtitle" data-i18n="sections.expositionsSub">AI-assisted visuals, generative content, and large-scale work delivered on site - museums, festivals, and public space.</p>
       </div>
       <div class="timeline" id="presentations-timeline">
         <!-- Timeline items injected by JavaScript -->
@@ -354,15 +427,15 @@
       <section class="site-footer__cta" aria-labelledby="footer-contact-heading">
         <div class="site-footer__cta-inner">
           <div class="site-footer__lead">
-            <h2 class="site-footer__headline" id="footer-contact-heading">Let&apos;s collab</h2>
-            <p class="site-footer__sub">Get in contact.</p>
+            <h2 class="site-footer__headline" id="footer-contact-heading" data-i18n="footer.headline">Let&apos;s collab</h2>
+            <p class="site-footer__sub" data-i18n="footer.sub">Get in contact.</p>
             <div class="site-footer__details">
               <div class="site-footer__detail">
-                <span class="site-footer__label">Email</span>
+                <span class="site-footer__label" data-i18n="footer.email">Email</span>
                 <a href="mailto:airolaxx@gmail.com" class="site-footer__detail-value site-footer__detail-value--plain">airolaxx@gmail.com</a>
               </div>
               <div class="site-footer__detail">
-                <span class="site-footer__label">Based</span>
+                <span class="site-footer__label" data-i18n="footer.based">Based</span>
                 <div class="site-footer__location-row">
                   <span class="site-footer__location-pill">
                     <svg class="site-footer__flag" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
@@ -373,7 +446,7 @@
                         <rect x="12" width="6" height="18" fill="#ce1126"/>
                       </g>
                     </svg>
-                    <span class="site-footer__location-pill-text">Mexico</span>
+                    <span class="site-footer__location-pill-text" data-i18n="footer.mexico">Mexico</span>
                   </span>
                   <span class="site-footer__location-sep" aria-hidden="true">·</span>
                   <span class="site-footer__location-wide">
@@ -381,7 +454,7 @@
                       <circle cx="12" cy="12" r="9"/>
                       <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>
                     </svg>
-                    Working worldwide
+                    <span data-i18n="footer.worldwide">Working worldwide</span>
                   </span>
                 </div>
               </div>
@@ -403,13 +476,13 @@
           </div>
           <form class="site-footer__form" id="footer-contact-form">
             <div class="site-footer__form-row">
-              <input type="text" name="name" class="site-footer__field" placeholder="Name" required aria-label="Name">
-              <input type="email" name="email" class="site-footer__field" placeholder="Email" required aria-label="Email">
+              <input type="text" name="name" class="site-footer__field" data-i18n-placeholder="footer.name" placeholder="Name" required data-i18n-aria="footer.name" aria-label="Name">
+              <input type="email" name="email" class="site-footer__field" data-i18n-placeholder="footer.email" placeholder="Email" required data-i18n-aria="footer.email" aria-label="Email">
             </div>
-            <input type="text" name="organization" class="site-footer__field" placeholder="Museum, brand, festival, studio…" aria-label="Organization">
-            <textarea name="message" class="site-footer__field site-footer__field--area" rows="4" placeholder="The space, the mood, the timeline — what should people feel?" required aria-label="Message"></textarea>
-            <button type="submit" class="site-footer__submit">Send a note</button>
-            <p class="site-footer__form-note">No pressure — if it isn&apos;t the right match, I&apos;ll tell you straight.</p>
+            <input type="text" name="organization" class="site-footer__field" data-i18n-placeholder="footer.org" placeholder="Museum, brand, festival, studio…" data-i18n-aria="footer.org" aria-label="Organization">
+            <textarea name="message" class="site-footer__field site-footer__field--area" rows="4" data-i18n-placeholder="footer.message" placeholder="The space, the mood, the timeline — what should people feel?" required data-i18n-aria="footer.message" aria-label="Message"></textarea>
+            <button type="submit" class="site-footer__submit" data-i18n="footer.send">Send a note</button>
+            <p class="site-footer__form-note" data-i18n="footer.note">No pressure — if it isn&apos;t the right match, I&apos;ll tell you straight.</p>
             <div class="footer-form-message" id="footer-form-message"></div>
           </form>
         </div>
@@ -418,7 +491,7 @@
         <img class="site-footer__mark" src="/images/aaad-mark-black.png" width="26" height="26" alt="">
         <span class="site-footer__brand">Argel Erevan Airola</span>
         <a href="https://www.andatalab.art" class="site-footer__cross" target="_blank" rel="noopener noreferrer">Andata Lab ↗</a>
-        <span class="site-footer__legal">© 2026 — Multimedia Artist &amp; Immersive Installation</span>
+        <span class="site-footer__legal" data-i18n="footer.legal">© 2026 — Multimedia Artist &amp; Immersive Installation</span>
       </div>
     </footer>
 
