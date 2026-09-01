@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-11T20:40:42.208Z",
+  "generatedAt": "2026-09-01T19:43:30.313Z",
   "projects": {
     "1": {
       "slug": "biointerface",
@@ -45,14 +45,11 @@
     },
     "3": {
       "slug": "ohm-interactive-laser-sculpture",
+      "poster": "/projects/ohm-interactive-laser-sculpture/ohm-2.jpg",
       "workGallery": [
         {
           "type": "video",
           "src": "/videos/compressed/OHM/1.MP4"
-        },
-        {
-          "type": "video",
-          "src": "/videos/compressed/OHM/ohmfinal.MP4"
         },
         {
           "type": "video",
@@ -61,9 +58,7 @@
         {
           "type": "video",
           "src": "/videos/compressed/OHM/ohm2.mp4"
-        },
-        "/videos/OHM/2.png",
-        "/videos/OHM/3.png"
+        }
       ]
     },
     "4": {
@@ -108,18 +103,16 @@
       "poster": "/projects/ohm-1/51835853-acba-4058-a8cf-4c385bbcea80 (1).jpeg",
       "workGallery": [
         "/videos/OHM/2.png",
-        "/videos/OHM/3.png"
+        "/videos/OHM/3.png",
+        "/images/luminex/ohm-1-source.jpg",
+        "/projects/ohm-1/51835853-acba-4058-a8cf-4c385bbcea80 (1).jpeg"
       ]
     },
     "9": {
       "slug": "particle-system",
-      "poster": "/projects/particle-system/hero-poster.webp",
+      "poster": "/projects/particle-system/hero-poster.png",
       "video": "/projects/particle-system/hero.mp4",
       "workGallery": [
-        {
-          "type": "video",
-          "src": "/projects/particle-system/hero.mp4"
-        },
         {
           "type": "video",
           "src": "/projects/particle-system/export-10.mp4"
@@ -133,6 +126,10 @@
           "src": "/projects/particle-system/export-6.mp4"
         }
       ]
+    },
+    "resonance-of-contact": {
+      "slug": "resonance-of-contact",
+      "poster": "/projects/resonance-of-contact/diagrama_tecnico-800.webp"
     },
     "ai-mirror-dia-de-muertos": {
       "slug": "ai-mirror-dia-de-muertos",
