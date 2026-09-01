@@ -619,50 +619,55 @@ function getCenteredCarouselIndex(track: HTMLElement): number {
   return bestIdx;
 }
 
+function armCardVideo(video: HTMLVideoElement): void {
+  const dataSrc = video.dataset.src?.trim();
+  if (!dataSrc) return;
+  if (video.getAttribute('src') !== dataSrc) {
+    video.src = dataSrc;
+    video.load();
+  }
+  video.style.display = 'block';
+  video.style.opacity = '1';
+}
+
 /** Grid layout: play preview for every tile intersecting the viewport (max 4). */
 function syncGridVideos(track: HTMLElement): void {
   const cards = Array.from(track.querySelectorAll<HTMLElement>('.project-card'));
   if (!cards.length) return;
 
-  const visible: Array<{ card: HTMLElement; ratio: number }> = [];
+  const vh = window.innerHeight || 1;
+  const play: HTMLElement[] = [];
+  const preload: HTMLElement[] = [];
+
   cards.forEach((card) => {
     const r = card.getBoundingClientRect();
-    const vh = window.innerHeight || 1;
     const overlap = Math.min(r.bottom, vh) - Math.max(r.top, 0);
     const ratio = overlap / Math.max(1, r.height);
-    if (ratio >= 0.28) visible.push({ card, ratio });
+    const near = r.top < vh * 1.4 && r.bottom > -vh * 0.4;
+    if (ratio >= 0.22) play.push(card);
+    else if (near) preload.push(card);
   });
 
-  visible.sort((a, b) => b.ratio - a.ratio);
-  const playSet = new Set(visible.slice(0, 4).map((v) => v.card));
+  const playSet = new Set(play.slice(0, 4));
+  const preloadSet = new Set([...playSet, ...preload.slice(0, 4)]);
 
   cards.forEach((card) => {
     const video = card.querySelector('video') as HTMLVideoElement | null;
     if (!video) return;
     const fallback = card.querySelector('.project-card__fallback-img') as HTMLImageElement | null;
-    const dataSrc = video.dataset.src?.trim();
-    if (!dataSrc) return;
+    if (fallback && !card.classList.contains('is-video-error')) {
+      fallback.style.display = 'none';
+    }
+    if (!video.dataset.src?.trim()) return;
 
     if (playSet.has(card)) {
-      video.style.display = 'block';
-      video.style.opacity = '1';
-      if (fallback) fallback.style.display = video.readyState >= 2 ? 'none' : 'block';
-      if (!video.getAttribute('src')) {
-        video.src = dataSrc;
-        video.load();
-      }
+      armCardVideo(video);
       video.play().catch(() => {});
+    } else if (preloadSet.has(card)) {
+      armCardVideo(video);
+      video.pause();
     } else {
       video.pause();
-      video.style.opacity = '0';
-      if (fallback) {
-        fallback.style.display = 'block';
-        fallback.style.opacity = '1';
-      }
-      if (video.getAttribute('src')) {
-        video.removeAttribute('src');
-        video.load();
-      }
     }
   });
 }
@@ -834,7 +839,7 @@ function tryNextCarouselVideoSource(video: HTMLVideoElement): boolean {
   return true;
 }
 
-/** Solo el slide más centrado tiene src + play; el resto poster + data-src. */
+/** Centered slide plays; neighbors preload so the still never flashes first. */
 function syncCarouselVideos(track: HTMLElement): void {
   const cards = Array.from(track.querySelectorAll<HTMLElement>('.project-card'));
   if (cards.length === 0) return;
@@ -856,35 +861,20 @@ function syncCarouselVideos(track: HTMLElement): void {
     const video = card.querySelector('video') as HTMLVideoElement | null;
     if (!video) return;
     const fallback = card.querySelector('.project-card__fallback-img') as HTMLImageElement | null;
-    const dataSrc = video.dataset.src?.trim();
-    if (!dataSrc) return;
+    if (fallback && !card.classList.contains('is-video-error')) {
+      fallback.style.display = 'none';
+    }
+    if (!video.dataset.src?.trim()) return;
 
+    const nearby = Math.abs(i - activeIdx) <= 1;
     if (i === activeIdx) {
-      video.style.display = 'block';
-      video.style.opacity = '1';
-      if (fallback) fallback.style.display = video.readyState >= 2 ? 'none' : 'block';
-      if (!video.getAttribute('src')) {
-        video.src = dataSrc;
-        video.load();
-      }
-      const onReady = (): void => {
-        if (fallback) fallback.style.display = 'none';
-        video.style.opacity = '1';
-      };
-      video.addEventListener('loadeddata', onReady, { once: true });
-      video.addEventListener('playing', onReady, { once: true });
+      armCardVideo(video);
       video.play().catch(() => {});
+    } else if (nearby) {
+      armCardVideo(video);
+      video.pause();
     } else {
       video.pause();
-      video.style.opacity = '0';
-      if (fallback) {
-        fallback.style.display = 'block';
-        fallback.style.opacity = '1';
-      }
-      if (video.getAttribute('src')) {
-        video.removeAttribute('src');
-        video.load();
-      }
     }
   });
 }
@@ -934,6 +924,7 @@ function initSelectedWorkCarousel(): void {
           className: videoSrc ? 'project-card__fallback-img' : undefined,
         })
       : '';
+    const eagerVideo = Boolean(videoSrc) && index < 2;
     const teaser = asciiUiText(projectCardTeaser(localized));
     const teaserHtml = teaser
       ? `<p class="project-card__desc">${teaser}</p>`
@@ -943,19 +934,18 @@ function initSelectedWorkCarousel(): void {
       ? `<p class="project-card__subtitle">${subtitle}</p>`
       : '';
 
-    // data-src + poster; src solo cuando el slide está visible (móvil y desktop).
     card.innerHTML = `
       <div class="project-card__media">
         ${videoSrc ? `
           <video
-            ${index === 0 ? `src="${videoSrc}"` : ''}
+            ${eagerVideo ? `src="${videoSrc}"` : ''}
             data-src="${videoSrc}"${videoFallbackAttr}
-            preload="${index === 0 ? 'auto' : 'metadata'}"
+            preload="${eagerVideo ? 'auto' : 'metadata'}"
             muted
             loop
             playsinline
             webkit-playsinline
-            poster="${posterThumb || ''}"
+            autoplay
           ></video>
           ${stillImg}
         ` : stillImg}
@@ -991,8 +981,9 @@ function initSelectedWorkCarousel(): void {
         // Ensure video is visible and styled correctly
         video.style.display = 'block';
         video.style.opacity = '1';
-        video.style.zIndex = '1';
+        video.style.zIndex = '2';
         if (fallbackImg) {
+          fallbackImg.style.display = 'none';
           fallbackImg.style.zIndex = '0';
         }
 
@@ -1113,6 +1104,7 @@ function initSelectedWorkCarousel(): void {
           }
           console.error(`Error loading video for ${project.title}:`, videoSrc, video.error);
           if (fallbackImg && posterSrc) {
+            card.classList.add('is-video-error');
             video.style.display = 'none';
             fallbackImg.style.display = 'block';
           }

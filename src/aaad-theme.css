@@ -950,12 +950,20 @@ body:not(.hero-video-active) [data-brand="airolax"] .topbar .topbar__brand-link:
 }
 
 [data-brand="airolax"] .selected-work-carousel--grid .project-card__media video {
-  z-index: 1;
+  z-index: 2;
 }
 
-[data-brand="airolax"] .selected-work-carousel--grid .project-card__media img,
-[data-brand="airolax"] .selected-work-carousel--grid .project-card__media .project-card__fallback-img {
+[data-brand="airolax"] .selected-work-carousel--grid .project-card__media img {
   z-index: 0;
+}
+
+[data-brand="airolax"] .selected-work-carousel--grid .project-card__media .project-card__fallback-img {
+  display: none;
+  z-index: 0;
+}
+
+[data-brand="airolax"] .selected-work-carousel--grid .project-card.is-video-error .project-card__fallback-img {
+  display: block;
 }
 
 [data-brand="airolax"] .selected-work-carousel--grid .project-card.is-revealed {
@@ -1295,6 +1303,7 @@ body.hero-video-active [data-brand="airolax"] .scroll-hint--viewport:hover {
   border-radius: var(--r-md);
   overflow: hidden;
   position: relative;
+  background: #0a0a0a;
 }
 
 /* Sin franja spectrum en tarjetas Selected Work — solo velo oscuro al hover (styles.css) */

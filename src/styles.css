@@ -2831,9 +2831,8 @@ section#projects.carousel-section.carousel-section--lead {
   }
 
   .project-card__media .project-card__fallback-img {
-    display: block;
-    z-index: 1;
-    transition: opacity 0.3s ease;
+    display: none;
+    z-index: 0;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -2844,6 +2843,10 @@ section#projects.carousel-section.carousel-section--lead {
     min-height: 100%;
     object-fit: cover;
     object-position: center center;
+  }
+
+  .project-card.is-video-error .project-card__fallback-img {
+    display: block;
   }
 
   .project-details-panel__gallery-item--video video {
