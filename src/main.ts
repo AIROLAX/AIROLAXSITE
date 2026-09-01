@@ -6,12 +6,11 @@ import './colors_and_type.css';
 import './aaad-theme.css';
 import './site-footer-andata.css';
 import './presentations-expositions.css';
-import { initImmersiveIndex } from './immersive-index';
 import { mediaUrl } from './media';
+import { HERO_STILL, responsiveImageAttrs, SELECTED_WORK_STILL, thumbFor } from './home-media';
 import projectMediaFile from './project-media.json';
 import {
   getLang,
-  getProjectCardSize,
   initI18n,
   localizeProject,
   onLangChange,
@@ -79,9 +78,9 @@ const projects: Project[] = [
     id: '1',
     title: 'Biointerface',
     tag: 'AI + Interactive Installation',
-    videoUrl: '/videos/compressed/pro1.mp4',
+    videoUrl: '/videos/BIOINTERFACE/videofinal.mp4',
     poster: '/videos/BIOINTERFACE/1.JPG',
-    mediaAspect: [1080, 1920],
+    mediaAspect: [1280, 768],
     description: [
       'An interactive installation at the intersection of AI, biological data and digital art — where living plants become capacitive instruments and the audience\'s touch drives a real-time, multi-screen environment.',
       'A TouchDesigner engine turns sensor and biometric data into a responsive environment projected across a 3240 × 1920 px three-screen canvas — a living dialogue between human, plant and machine.',
@@ -189,7 +188,7 @@ const projects: Project[] = [
     id: '1b',
     title: 'Biointerface 2',
     tag: 'AI Content · Multiscreen',
-    videoUrl: '/videos/BIOINTERFACE/4.MOV',
+    videoUrl: '/videos/compressed/BIOINTERFACE/4.mp4',
     poster: '/videos/BIOINTERFACE/1.JPG',
     mediaAspect: [1280, 2276],
     description: [
@@ -214,7 +213,7 @@ const projects: Project[] = [
     id: '2',
     title: 'MUSEO DESCUBRE',
     tag: 'Interactive · Built for Museum',
-    videoUrl: '/videos/museo/DESCUBRE.mkv', // First video from gallery as main carousel video
+    videoUrl: '/videos/compressed/museo/DESCUBRE.mp4',
     poster: '/videos/museo/1.png',
     mediaAspect: [1280, 720],                                                                                                                                                                                 
     description: [
@@ -241,8 +240,8 @@ const projects: Project[] = [
     id: '3',
     title: 'OHM Interactive Laser Sculpture',
     tag: 'Physical Installation · Light & Sound',
-    videoUrl: '/videos/compressed/OHM/ohmfinal.MP4',
-    poster: '/videos/OHM/2.png',
+    videoUrl: '/videos/compressed/OHM/1.MP4',
+    poster: '/images/luminex/ohm-1-source.jpg',
     mediaAspect: [1920, 1080],
     description: [
       'Kinetic laser sculpture in physical space — precision light, photonic sensors, and live sound synthesis; no screen, fully built and presented on site.',
@@ -353,11 +352,11 @@ const projects: Project[] = [
   },
   {
     id: '8',
-    title: 'OHM 1',
+    title: 'OHM Sound Sculpture',
     tag: 'Physical Installation · Lasers',
     videoUrl: '/videos/compressed/OHM/1.MP4',
-    poster: '/videos/compressed/OHM/1.MP4',
-    mediaAspect: [1920, 1080],
+    poster: '/projects/ohm-1/ohm-sound-sculpture.jpg',
+    mediaAspect: [1024, 623],
     description: [
       'Early laser sound sculpture — geometric light compositions in three-dimensional space, built and presented as a physical audiovisual work.',
       'Developed using laser technology, photonic sensors, sound synthesis with Arduino and Max/MSP, and real-time audio-visual processing.',
@@ -366,40 +365,79 @@ const projects: Project[] = [
     technologies: ['Laser Technology', 'Photonic Sensors', 'Sound Synthesis', 'Arduino', 'Max/MSP'],
     concept: 'OHM 1 represents the first iteration in exploring the relationship between light and sound through laser technology. The red laser beams create a visual language that translates into harmonic frequencies, making visible the invisible connections between vibration, resonance, and perception.',
     galleryItems: [
-      { type: 'image', src: '/videos/OHM/3.png', alt: 'OHM 1 Installation View' }
+      { type: 'image', src: '/projects/ohm-1/ohm-how-it-works.png', alt: 'OHM — how it works' },
+      { type: 'image', src: '/videos/OHM/3.png', alt: 'OHM Sound Sculpture — red laser beams' },
+      { type: 'image', src: '/images/luminex/ohm-1-source.jpg', alt: 'OHM Sound Sculpture — blue lasers' },
+      { type: 'image', src: '/projects/ohm-1/51835853-acba-4058-a8cf-4c385bbcea80 (1).jpeg', alt: 'OHM Sound Sculpture — night forest' }
     ],
     credits: {
       direction: 'AIROLAX',
       development: 'AIROLAX Team',
       exhibition: 'Aguas Calientes · MUTEK 2023',
-      duration: '3 months development'
+      duration: '2019'
     }
   },
   {
     id: '9',
-    title: 'Ethereal Motion. Digital Poetry',
-    tag: 'Generative Video · 3D Motion',
-    videoUrl: '/videos/compressed/demo2.mp4',
-    poster: '/videos/compressed/demo2.mp4',
-    mediaAspect: [600, 1080],
+    title: 'Particle System Art',
+    tag: 'Generative art · 3D motion',
+    cardSubtitle: 'Blender · TouchDesigner',
+    videoUrl: '/projects/particle-system/hero.mp4',
+    poster: '/projects/particle-system/hero-poster.webp',
+    mediaAspect: [1280, 720],
     description: [
-      'Generative 3D motion piece — abstract digital poetry where form, light, and movement carry the narrative; content-first video work.',
-      'This piece explores the fluid boundaries between form and void, light and shadow, creating a meditative experience through kinetic 3D compositions.',
-      'Each movement tells a story, each transition reveals a new perspective, inviting the viewer to lose themselves in the dance of digital matter.',
-      'Developed using Blender for 3D modeling and animation, After Effects for compositing and color grading, Cinema 4D for complex motion design, and real-time rendering techniques.',
-      'Deliverables: 3D motion graphics piece, abstract visual narrative, and immersive motion design experience.'
+      'A generative motion piece in Blender and TouchDesigner — thousands of points of light simulated as bioluminescent fluid, falling, folding and blooming in the dark.',
+      'Built as a visual study for exhibitions and large-format screens: geometry as feeling, motion as poetry.',
+      'Deliverables: generative motion loops, particle simulation studies, and real-time playback for exhibition walls and LED.'
     ],
-    technologies: ['3D Animation', 'Blender', 'After Effects', 'Cinema 4D', 'Motion Design', 'Compositing', 'Color Grading', 'Real-time Rendering'],
-    concept: 'Ethereal Motion explores the poetic potential of 3D motion graphics, where abstract forms and fluid movements create a language beyond words. The piece demonstrates how digital geometry can evoke emotion and how motion can become a form of visual poetry.',
+    technologies: ['Particle Systems', 'Blender', 'TouchDesigner', '3D Animation', 'Motion Design', 'Real-time Rendering'],
+    concept: 'Particle System Art — a visual journey through abstract dimensions where geometry becomes emotion and motion transforms into poetry. Bioluminescent fluid dynamics rendered as generative art.',
     galleryItems: [
-      { type: 'video', src: '/videos/compressed/demo2.mp4', alt: 'Ethereal Motion. Digital Poetry' }
+      { type: 'video', src: '/projects/particle-system/hero.mp4', alt: 'Particle System Art — hero' },
+      { type: 'video', src: '/projects/particle-system/export-10.mp4', alt: 'Particle System Art — study' },
+      { type: 'video', src: '/projects/particle-system/export-8.mp4', alt: 'Particle System Art — study' },
+      { type: 'video', src: '/projects/particle-system/export-6.mp4', alt: 'Particle System Art — study' }
     ],
     credits: {
       direction: 'AIROLAX',
-      development: 'AIROLAX Studio',
-      exhibition: 'Mexico City · Digital Art Collection 2022',
-      duration: '2022'
+      development: 'Andata Lab',
+      exhibition: 'Generative motion study',
+      duration: '2025'
     }
+  },
+  {
+    id: 'resonance-of-contact',
+    title: 'Resonancia de Contacto',
+    tag: 'Interactive installation · Proposal',
+    cardSubtitle: 'LUMINEX 4.0 · Los Angeles',
+    videoUrl: '',
+    poster: '/projects/resonance-of-contact/render_installation_wide-800.webp',
+    mediaAspect: [16, 9],
+    description: [
+      'A handshake happens before the rational mind can process it — immediate trust, not calculation. Resonancia de Contacto captures that instant: two people connected through physical touch, before reason intervenes.',
+      'A new iteration of Biointerface (2024): there, a living plant acted as a capacitive instrument; here, two people do. Proposal for LUMINEX 4.0, Los Angeles.',
+    ],
+    technologies: ['TouchDesigner', 'MPR121', 'Capacitive sensing', 'Generative visuals', 'Spatial audio'],
+    concept:
+      'The system translates a bioelectric signal — conductivity between two bodies, duration of contact, grip pressure — into a visual and sonic response that neither person fully controls.',
+    galleryItems: [
+      {
+        type: 'image',
+        src: '/projects/resonance-of-contact/render_pedestal_detail-800.webp',
+        alt: 'Sculptural pedestal — concept render',
+      },
+      {
+        type: 'image',
+        src: '/projects/resonance-of-contact/diagrama_tecnico-1280.webp',
+        alt: 'Signal flow — from physical contact to generative output',
+      },
+    ],
+    credits: {
+      direction: 'AIROLAX',
+      development: 'AIROLAX',
+      exhibition: 'Proposal — LUMINEX 4.0, Los Angeles',
+      duration: '2027',
+    },
   }
 ];
 
@@ -452,21 +490,45 @@ for (let i = 0; i < projects.length; i++) {
 }
 
 const CAROUSEL_PROJECT_ORDER: string[] = [
-  // Primera línea — videos largos (retrato)
-  '9',
-  '1b',
-  '1',
-  'breathing-space',
+  '1', // Biointerface — first
+  'resonance-of-contact', // Resonancia de Contacto — LUMINEX 4.0 proposal
+  '8', // OHM 1 — Sound Sculpture
+  '3', // OHM Interactive — blue / museum
+  '4', // Edzná 2021
+  '6', // ThermoSense 2021
+  '2', // Museo Descubre 2022
+  '9', // Particle System Art 2025
+  '5', // Wavey Runway 2023
+  '1b', // Biointerface 2 2024
+  '7', // Whispers 2025
   'ai-mirror-dia-de-muertos',
-  '5',
-  '7',
-  // Abajo — landscape y tamaños variados (masonry)
-  '2',
-  '3',
-  '6',
-  '8',
-  '4',
+  'breathing-space',
 ];
+
+/** Public year for Selected Work + Expositions — oldest first in the grid. */
+const PROJECT_YEAR: Record<string, string> = {
+  '8': '2019',
+  '3': '2019',
+  '4': '2021',
+  '6': '2021',
+  '2': '2022',
+  '9': '2025',
+  '5': '2023',
+  '1': '2024',
+  '1b': '2024',
+  '7': '2025',
+  'ai-mirror-dia-de-muertos': '2025',
+  'breathing-space': '2026',
+  'resonance-of-contact': '2027',
+};
+
+function projectYear(project: { id: string; credits?: { duration?: string; exhibition?: string } }): string {
+  if (PROJECT_YEAR[project.id]) return PROJECT_YEAR[project.id]!;
+  const dur = (project.credits?.duration || '').trim();
+  const exh = (project.credits?.exhibition || '').trim();
+  const yearMatch = dur.match(/^\d{4}$/) || exh.match(/\d{4}/);
+  return yearMatch ? yearMatch[0] : '';
+}
 
 /** First row: 4 tall portrait tiles; rest render 2-up (half width). */
 const SELECTED_WORK_FIRST_ROW_COUNT = 4;
@@ -506,7 +568,8 @@ function getProjectSlug(project: Project): string {
     '6': 'thermosense',
     '7': 'whispers-of-the-lake-digital-immersive-experience',
     '8': 'ohm-1',
-    '9': 'ethereal-motion-digital-poetry'
+    '9': 'particle-system',
+    'resonance-of-contact': 'resonance-of-contact'
   };
   return slugMap[project.id] ?? generateSlug(project.title);
 }
@@ -638,7 +701,7 @@ function initProjectCardReveal(track: HTMLElement): void {
         io.unobserve(el);
       });
     },
-    { root: null, threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+    { root: null, threshold: 0, rootMargin: '160px 0px 220px 0px' }
   );
 
   cards.forEach((card, i) => {
@@ -685,19 +748,53 @@ function isCarouselMobileView(): boolean {
 
 const VIDEO_POSTER_EXT = /\.(mp4|mov|webm|mkv|m4v)(\?|#|$)/i;
 
-const CAROUSEL_STILL_POSTER: Record<string, string> = {
-  '1': '/videos/BIOINTERFACE/1.JPG',
-  '7': '/collections/projection-mapping/index/01.webp',
-  'breathing-space': '/videos/ASANA_YOGA/IMG_20260131_103426.jpg',
-};
-
 /** Hero reel per project (carousel) — Biointerface must stay pro1, not process stills. */
 const CAROUSEL_HERO_VIDEO: Record<string, string[]> = {
   '1': [
+    '/videos/BIOINTERFACE/videofinal.mp4',
     '/videos/compressed/pro1.mp4',
-    '/videos/compressed/pro1_WEB.mp4',
     '/videos/BIOINTERFACE/videofinal_WEB.mp4',
-    '/videos-compressed/videos/pro1.mp4',
+  ],
+  '1b': [
+    '/videos/compressed/BIOINTERFACE/4.mp4',
+    '/videos/compressed/BIOINTERFACE/4_WEB.mp4',
+  ],
+  '2': [
+    '/videos/compressed/museo/DESCUBRE.mp4',
+    '/videos/compressed/museo/DESCUBRE_WEB.mp4',
+  ],
+  '3': [
+    '/videos/compressed/OHM/1.MP4',
+    '/videos/compressed/OHM/1_WEB.mp4',
+  ],
+  '4': [
+    '/videos/compressed/edzna/ednzapyramid.mp4',
+    '/videos/compressed/edzna/ednzapyramid_WEB.mp4',
+  ],
+  '5': [
+    '/videos/compressed/waveytiktok.mp4',
+    '/videos/waveytiktok.mp4',
+    '/videos/compressed/waveytiktok_WEB.mp4',
+  ],
+  '6': [
+    '/videos/compressed/thermosense.mp4',
+    '/videos/thermosense.mp4',
+    '/videos/compressed/thermosense_WEB.mp4',
+  ],
+  '7': [
+    '/videos/chapala_project/1.mp4',
+    '/videos/chapala_project/1_WEB.mp4',
+  ],
+  '9': [
+    '/projects/particle-system/hero.mp4',
+  ],
+  'breathing-space': [
+    '/videos/ASANA_YOGA/elbueno.mp4',
+    '/videos/ASANA_YOGA/elbueno_WEB.mp4',
+  ],
+  'ai-mirror-dia-de-muertos': [
+    '/videos/compressed/mirror.mp4',
+    '/videos/compressed/mirror_WEB.mp4',
   ],
 };
 
@@ -706,22 +803,24 @@ function isProcessStillPath(src: string): boolean {
 }
 
 function carouselVideoSources(project: Project): string[] {
+  // OHM 1: still of the red laser ring — do not play the blue-laser reel on the card.
+  if (project.id === '8') return [];
   const chain = CAROUSEL_HERO_VIDEO[project.id];
   if (chain?.length) return chain.map((p) => mediaUrl(p));
   return project.videoUrl ? [mediaUrl(project.videoUrl)] : [];
 }
 
-/** Still image for carousel cards — never use process F1–F8 or a video file as poster. */
+/** Still image for carousel cards — unique per project, never a shared fallback. */
 function carouselPosterFor(project: Project): string {
+  if (SELECTED_WORK_STILL[project.id]) return SELECTED_WORK_STILL[project.id]!;
   const poster = project.poster?.trim() || '';
   if (poster && !VIDEO_POSTER_EXT.test(poster) && !isProcessStillPath(poster)) return poster;
-  if (CAROUSEL_STILL_POSTER[project.id]) return CAROUSEL_STILL_POSTER[project.id]!;
   const still = project.galleryItems?.find(
     (g) =>
       (g.type === 'image' || !VIDEO_POSTER_EXT.test(g.src)) && !isProcessStillPath(g.src)
   );
   if (still) return still.src;
-  return '/collections/immersive-installation/index/01.webp';
+  return SELECTED_WORK_STILL['9'] || '/projects/particle-system/hero-poster.webp';
 }
 
 function tryNextCarouselVideoSource(video: HTMLVideoElement): boolean {
@@ -808,19 +907,11 @@ function initSelectedWorkCarousel(): void {
 
   // Create project card with video
   const createCard = (project: Project, index: number): HTMLElement => {
-    const mobileLayout = isCarouselMobileView();
     const localized = localizeProject(project, getLang());
-    const aspect = projectMediaAspect(project);
-    const portrait = isPortraitAspect(aspect);
-    const cardSize = getProjectCardSize(project.id, index, portrait);
+    const mobileLayout = isCarouselMobileView();
     const card = document.createElement('a');
-    card.className = `project-card project-card--size-${cardSize}${portrait ? ' project-card--portrait' : ' project-card--landscape'}`;
-    if (index >= SELECTED_WORK_FIRST_ROW_COUNT) {
-      card.classList.add('project-card--grid-half');
-    } else {
-      card.classList.add('project-card--first-row');
-    }
-    card.style.setProperty('--card-aspect', `${aspect[0]} / ${aspect[1]}`);
+    card.className = `project-card project-card--portrait project-card--grid-half`;
+    card.style.setProperty('--card-aspect', '4 / 5');
     card.setAttribute('data-project-id', project.id);
     const slug = getProjectSlug(project);
     card.href = `work/${slug}.html`;
@@ -833,6 +924,16 @@ function initSelectedWorkCarousel(): void {
         ? ` data-src-fallbacks="${videoSources.slice(1).join('|')}"`
         : '';
     const posterSrc = mediaUrl(carouselPosterFor(project));
+    const posterThumb = posterSrc ? thumbFor(posterSrc).src : '';
+    const eagerStill = index < SELECTED_WORK_FIRST_ROW_COUNT;
+    const stillImg = posterSrc
+      ? responsiveImageAttrs(posterSrc, {
+          loading: eagerStill ? 'eager' : 'lazy',
+          sizes: '(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 42vw',
+          alt: localized.title,
+          className: videoSrc ? 'project-card__fallback-img' : undefined,
+        })
+      : '';
     const teaser = asciiUiText(projectCardTeaser(localized));
     const teaserHtml = teaser
       ? `<p class="project-card__desc">${teaser}</p>`
@@ -847,27 +948,17 @@ function initSelectedWorkCarousel(): void {
       <div class="project-card__media">
         ${videoSrc ? `
           <video
+            ${index === 0 ? `src="${videoSrc}"` : ''}
             data-src="${videoSrc}"${videoFallbackAttr}
-            preload="metadata"
+            preload="${index === 0 ? 'auto' : 'metadata'}"
             muted
             loop
             playsinline
             webkit-playsinline
-            poster="${posterSrc || ''}"
+            poster="${posterThumb || ''}"
           ></video>
-          ${posterSrc ? `
-            <img
-              src="${posterSrc}"
-              alt="${localized.title}"
-              class="project-card__fallback-img"
-            />
-          ` : ''}
-        ` : posterSrc ? `
-          <img
-            src="${posterSrc}"
-            alt="${localized.title}"
-          />
-        ` : ''}
+          ${stillImg}
+        ` : stillImg}
         <div class="project-card__overlay" aria-hidden="true">
           <p class="project-card__view-hint">View project</p>
         </div>
@@ -900,6 +991,16 @@ function initSelectedWorkCarousel(): void {
         // Ensure video is visible and styled correctly
         video.style.display = 'block';
         video.style.opacity = '1';
+        video.style.zIndex = '1';
+        if (fallbackImg) {
+          fallbackImg.style.zIndex = '0';
+        }
+
+        const hideFallback = (): void => {
+          if (fallbackImg) fallbackImg.style.display = 'none';
+        };
+        video.addEventListener('playing', hideFallback);
+        video.addEventListener('loadeddata', hideFallback);
 
         const applyGridNativeVideo = (): void => {
           video.style.objectFit = 'cover';
@@ -923,24 +1024,6 @@ function initSelectedWorkCarousel(): void {
 
         if (isGrid) {
           applyGridNativeVideo();
-          video.addEventListener(
-            'loadedmetadata',
-            () => {
-              const w = video.videoWidth;
-              const h = video.videoHeight;
-              if (w > 0 && h > 0) {
-                card.style.setProperty('--card-aspect', `${w} / ${h}`);
-                if (h > w) {
-                  card.classList.add('project-card--portrait');
-                  card.classList.remove('project-card--landscape');
-                } else {
-                  card.classList.add('project-card--landscape');
-                  card.classList.remove('project-card--portrait');
-                }
-              }
-            },
-            { once: true }
-          );
         } else {
           video.style.width = '100%';
           video.style.height = '100%';
@@ -1107,11 +1190,19 @@ function initSelectedWorkCarousel(): void {
   // Render all cards
   const renderCards = () => {
     trackElement.innerHTML = '';
-    
+    let lastEraYear = '';
+
     carouselProjects.forEach((project, index) => {
-      const card = createCard(project, index);
-      trackElement.appendChild(card);
-      
+      const year = projectYear(project);
+      if (year && year !== lastEraYear) {
+        const era = document.createElement('div');
+        era.className = 'selected-work-era';
+        era.setAttribute('aria-hidden', 'true');
+        era.innerHTML = `<p class="selected-work-era__year">${year}</p>`;
+        trackElement.appendChild(era);
+        lastEraYear = year;
+      }
+      trackElement.appendChild(createCard(project, index));
     });
     
     console.log('✅ Selected Work carousel initialized with arrow navigation');
@@ -1223,10 +1314,8 @@ function getPresentationsTimeline(): Array<{
 }> {
   return projects.filter((p) => p.id !== '1b').map((p) => {
     const lp = localizeProject(p, getLang());
-    const dur = (lp.credits?.duration || p.credits?.duration || '').trim();
     const exh = (lp.credits?.exhibition || p.credits?.exhibition || '').trim();
-    const yearMatch = dur.match(/^\d{4}$/) || exh.match(/\d{4}/);
-    const year = yearMatch ? yearMatch[0] : '';
+    const year = projectYear(p);
     const venue = exh.replace(/\s*—?\s*\d{4}\s*$/, '').trim() || exh;
     const slug = getProjectSlug(p);
     return {
@@ -1815,20 +1904,6 @@ function scrollToSection(targetId: string): void {
   if (targetId === 'projects') {
     scrollToProjectsVideoStart('smooth');
     return;
-  }
-
-  if (targetId === 'immersive-index') {
-    const section = document.getElementById('immersive-index');
-    const stage = section?.querySelector<HTMLElement>('.immersive-index__stage');
-    const scrollTarget = stage ?? section;
-    if (scrollTarget) {
-      const isMobile = window.innerWidth <= 768;
-      const headerHeight = isMobile ? 64 : 80;
-      const rect = scrollTarget.getBoundingClientRect();
-      const top = rect.top + window.pageYOffset - headerHeight - 6;
-      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
-      return;
-    }
   }
 
   // Handle all other sections
@@ -3322,12 +3397,21 @@ function initScrollProgress(): void {
 function initHeaderScrollBehavior(): void {
   const topbar = document.querySelector('.topbar') as HTMLElement;
   const heroVideo = document.querySelector('.hero-video') as HTMLElement;
-  if (!topbar || !heroVideo) return;
+  const openingHero = document.querySelector('.opening-hero') as HTMLElement | null;
+  if (!topbar) return;
+
+  function isOverDarkHero(): boolean {
+    const over = (el: HTMLElement | null): boolean => {
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      return r.top < 72 && r.bottom > 72;
+    };
+    return over(openingHero) || over(heroVideo);
+  }
 
   function updateHeaderState(): void {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const heroRect = heroVideo.getBoundingClientRect();
-    const isOverHero = heroRect.top < 72 && heroRect.bottom > 72;
+    const isOverHero = isOverDarkHero();
     const isScrolled = scrollTop > 50;
 
     // Add/remove scrolled class for solid background
@@ -3543,6 +3627,54 @@ function initHeroVideoFastLoad(): void {
   }
 }
 
+function initOpeningHero(): void {
+  const section = document.querySelector<HTMLElement>('.opening-hero');
+  const video = document.querySelector<HTMLVideoElement>('.opening-hero__video');
+  if (!section || !video) return;
+
+  const posterThumb = thumbFor(HERO_STILL);
+  if (posterThumb.src) video.poster = posterThumb.src;
+
+  const src = video.dataset.videoSrc || '/videos/home_WEB.mp4';
+  video.removeAttribute('data-video-src');
+  video.src = mediaUrl(src);
+  video.muted = true;
+  video.loop = true;
+  video.playsInline = true;
+  video.setAttribute('fetchpriority', 'high');
+
+  const reveal = (): void => {
+    section.classList.add('is-ready');
+  };
+
+  const tryPlay = (): void => {
+    video.play().catch(() => {});
+  };
+
+  video.addEventListener('loadeddata', () => {
+    tryPlay();
+    reveal();
+  }, { once: true });
+  video.addEventListener('canplay', () => {
+    tryPlay();
+    reveal();
+  }, { once: true });
+  video.load();
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) tryPlay();
+        else video.pause();
+      },
+      { threshold: 0.12 }
+    );
+    io.observe(section);
+  }
+
+  window.setTimeout(reveal, 2200);
+}
+
 // ==========================================
 // INITIALIZATION
 // ==========================================
@@ -3550,6 +3682,7 @@ function initHeroVideoFastLoad(): void {
 function initializeApp(): void {
   console.log('🚀 Initializing application...');
   initI18n();
+  initOpeningHero();
   
   // Initialize hero video fast load FIRST (critical for mobile)
   initHeroVideoFastLoad();
@@ -4514,42 +4647,6 @@ function initFloatingWhatsAppButton(): void {
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     initPresentationsTimeline();
-    void initImmersiveIndex(
-      projects.map((p) => ({
-        id: p.id,
-        title: p.title,
-        tag: p.tag,
-        poster: p.poster,
-        indexImages: p.indexImages,
-        galleryItems: p.galleryItems,
-        technologies: p.technologies,
-        credits: p.credits,
-        slug: getProjectSlug(p),
-      })),
-      Object.values(
-        (projectMediaFile as {
-          collections?: Record<
-            string,
-            {
-              slug: string;
-              label: string;
-              disciplines: string[];
-              index?: Array<string | { type: 'image' | 'video'; src: string; poster?: string }>;
-            }
-          >;
-        }).collections ?? {}
-      ).map((c) => ({
-        ...c,
-        index: (c.index ?? []).map((item) => {
-          if (typeof item === 'string') return mediaUrl(item);
-          return {
-            ...item,
-            src: mediaUrl(item.src),
-            poster: item.poster ? mediaUrl(item.poster) : undefined,
-          };
-        }),
-      }))
-    ).then(() => notifyPageLayout()).catch(() => notifyPageLayout());
     initSelectedWorkCarousel();
     notifyPageLayout();
   }, 200);

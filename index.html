@@ -214,9 +214,14 @@
         body[data-brand="airolax"] .topbar__brand {
           font-size: 11px;
         }
-        body[data-brand="airolax"] .topbar__nav { display: none; }
-        body[data-brand="airolax"] .topbar__brand-links { display: none; }
-        body[data-brand="airolax"] .topbar__brand-block { max-width: 72vw; }
+        body[data-brand="airolax"] .topbar__clock { display: none !important; }
+        body[data-brand="airolax"] .topbar__brand-sep,
+        body[data-brand="airolax"] .topbar__brand-role { display: none; }
+        body[data-brand="airolax"] .topbar__brand-name {
+          max-width: min(52vw, 220px);
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         body[data-brand="airolax"] .mobile-menu-toggle {
           display: flex;
           z-index: 5;
@@ -278,12 +283,10 @@
         <div class="topbar__liquid-glass">
           <div class="topbar__inner">
         <div class="topbar__brand-block">
-          <a href="#projects" class="topbar__brand" aria-label="Argel Erevan Airola — Multimedia Artist">
+          <a href="#projects" class="topbar__brand" aria-label="Argel Erevan Airola">
             <img class="topbar__mark" src="/images/aaad-mark-white.png" width="22" height="22" alt="">
             <span class="topbar__brand-text">
               <span class="topbar__brand-name">Argel Erevan Airola</span>
-              <span class="topbar__brand-sep" aria-hidden="true">·</span>
-              <span class="topbar__brand-role" data-i18n="brand.role">Multimedia Artist</span>
             </span>
           </a>
           <span class="topbar__brand-links">
@@ -326,6 +329,27 @@
         </div>
       </div>
     </header>
+
+    <section class="opening-hero" id="opening-hero" aria-label="Argel Erevan Airola">
+      <div class="opening-hero__media">
+        <video
+          class="opening-hero__video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          fetchpriority="high"
+          data-video-src="/videos/home_WEB.mp4"
+          poster="/collections/immersive-installation/index/12.webp"
+          aria-label="Landing background video"
+        ></video>
+      </div>
+      <div class="opening-hero__copy">
+        <p class="opening-hero__name">Argel Erevan Airola</p>
+        <p class="opening-hero__statement" data-i18n="hero.statement">Real-time AI installations, projection mapping, and generative motion for museums, festivals, and public space.</p>
+      </div>
+    </section>
 
     <!-- Selected Work — first (Andata Lab light surface) -->
     <section class="carousel-section carousel-section--lead surface-andata" id="projects">
@@ -386,10 +410,10 @@
             </div>
           </div>
           <div class="hero-video__cta">
-            <a href="#immersive-index" class="hero-video__button">
-              <span data-i18n="sections.exploreIndex">Explore Index</span>
+            <a href="#projects" class="hero-video__button">
+              <span data-i18n="sections.selectedWork">Selected work</span>
             </a>
-            <a href="#immersive-index" class="hero-video__scroll-hint" aria-label="Scroll to index">
+            <a href="#projects" class="hero-video__scroll-hint" aria-label="Scroll to selected work">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M7 10l5 5 5-5"/>
               </svg>
@@ -398,9 +422,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Immersive Index (AAAD — full archive wall) -->
-    <section class="immersive-index" id="immersive-index" aria-label="Work"></section>
 
     <!-- Scroll Down Indicator (links to Expositions) -->
     <a href="#presentations-section" class="scroll-down-indicator" data-i18n-aria="sections.scrollDown" aria-label="Scroll to Expositions">

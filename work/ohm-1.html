@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="OHM 1 — Laser Sound Sculpture">
-  <title>OHM 1 | AIROLAX</title>
+  <meta name="description" content="OHM Sound Sculpture — kinetic laser and live sound.">
+  <title>OHM Sound Sculpture | AIROLAX</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
@@ -266,65 +266,61 @@
 
     .video-wrapper {
       width: 100%;
-      height: 600px;
+      height: auto;
       border-radius: var(--border-radius);
       margin-bottom: 32px;
-      overflow: hidden;
+      overflow: visible;
       position: relative;
-      background: #000;
+      background: transparent;
     }
 
     .project-video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-      position: absolute;
-      top: 0;
-      left: 0;
+      display: block;
+      width: 1024px;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      object-fit: contain;
     }
 
     /* Gallery */
     .gallery {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      grid-template-columns: 1fr;
+      gap: 28px;
       margin-bottom: 48px;
+    }
+
+    @media (min-width: 800px) {
+      .gallery {
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
     .gallery-item {
       width: 100%;
-      height: 280px;
-      background: var(--grid);
+      height: auto;
+      background: transparent;
       border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: visible;
+      box-shadow: none;
       position: relative;
-      overflow: hidden;
-      background: #000;
     }
 
     .gallery-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      transform: none;
+      box-shadow: none;
     }
 
     .gallery-item img,
     .gallery-item video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    @media (min-width: 1200px) {
-      .gallery-item {
-        height: 320px;
-      }
+      display: block;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      object-fit: contain;
+      border-radius: 14px;
     }
 
     /* ==========================================
@@ -425,18 +421,18 @@
 
       .gallery {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 20px;
         margin-bottom: 40px;
       }
 
       .gallery-item {
         width: 100%;
-        height: 240px;
+        height: auto;
         border-radius: 12px;
       }
 
       .video-wrapper {
-        height: 400px;
+        height: auto;
       }
 
       .tech-list {
@@ -500,10 +496,10 @@
       <!-- Project Hero -->
       <section class="project-hero">
         <div style="margin-bottom: 48px;"><div class="video-wrapper">
-          <img src="/videos/OHM/2.png" alt="OHM 1" class="project-video">
+          <img src="/projects/ohm-1/ohm-sound-sculpture.jpg" width="1024" height="623" alt="OHM Sound Sculpture — red laser ring" class="project-video">
         </div></div>
-        <h1 class="project-title">OHM 1</h1>
-        <p class="project-subtitle">Laser Sound Sculpture</p>
+        <h1 class="project-title">OHM Sound Sculpture</h1>
+        <p class="project-subtitle">Physical installation · lasers</p>
       </section>
 
       <!-- Project Description -->
@@ -512,6 +508,13 @@
         <p class="project-description">
           An initial exploration of laser technology as a medium for visual music, featuring red laser beams that create intricate patterns and geometric compositions in three-dimensional space.
         </p>
+      </section>
+
+      <section class="project-section">
+        <h2 class="section-title">How it works</h2>
+        <figure class="video-wrapper">
+          <img src="/projects/ohm-1/ohm-how-it-works.png" width="1024" height="576" alt="OHM: Interactive laser sound sculpture — 12 beams, one chromatic octave, from body to sound and projection" class="project-video">
+        </figure>
       </section>
 
       <section class="project-section">
@@ -529,10 +532,16 @@
         <h2 class="section-title">Gallery</h2>
         <div class="gallery">
           <div class="gallery-item">
-            <img src="/videos/OHM/2.png" alt="OHM 1 Laser Pattern">
+            <img src="/videos/OHM/2.png" alt="OHM Sound Sculpture — red laser ring, portrait">
           </div>
           <div class="gallery-item">
-            <img src="/videos/OHM/3.png" alt="OHM 1 Installation View">
+            <img src="/videos/OHM/3.png" alt="OHM Sound Sculpture — red laser beams">
+          </div>
+          <div class="gallery-item">
+            <img src="/images/luminex/ohm-1-source.jpg" alt="OHM Sound Sculpture — blue lasers">
+          </div>
+          <div class="gallery-item">
+            <img src="/projects/ohm-1/51835853-acba-4058-a8cf-4c385bbcea80 (1).jpeg" alt="OHM Sound Sculpture — night forest installation">
           </div>
         </div>
       </section>

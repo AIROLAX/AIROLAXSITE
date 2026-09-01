@@ -42,7 +42,8 @@ const SLUG_TO_ID = {
   thermosense: '6',
   'whispers-of-the-lake-digital-immersive-experience': '7',
   'ohm-1': '8',
-  'ethereal-motion-digital-poetry': '9',
+  'particle-system': '9',
+  'resonance-of-contact': 'resonance-of-contact',
   'breathing-space': 'breathing-space',
   'ai-mirror-dia-de-muertos': 'ai-mirror-dia-de-muertos',
 };

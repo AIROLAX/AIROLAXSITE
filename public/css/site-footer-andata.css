@@ -1,0 +1,402 @@
+/**
+ * Static copy of src/site-footer-andata.css for work/*.html pages
+ * (Vite does not bundle those files). Keep in sync with the source.
+ *
+ * Footer + contact — Andata Lab light surface (paired with andatalab.art).
+ * Scoped to .site-footer--andata so the rest of AIROLAX stays dark.
+ */
+
+.site-footer--andata {
+  --bg: #ffffff;
+  --surface: #f5f5f7;
+  --ink: #111111;
+  --ink-2: #6e6e73;
+  --ink-3: #8e8e93;
+  --hair: #d2d2d7;
+  --hair-2: #e5e5ea;
+  --on-accent: #ffffff;
+  --field-bg: rgba(255, 255, 255, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.72);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.6) inset;
+  --r-sm: 12px;
+  --r-pill: 999px;
+
+  background: var(--bg);
+  border-top: 1px solid var(--hair-2);
+  color: var(--ink);
+  padding: 0;
+  font-family: var(--font, 'Inter', system-ui, sans-serif);
+}
+
+/* Override legacy dark-footer rules from styles.css */
+.site-footer--andata.contact-section,
+.site-footer--andata .contact-section,
+.site-footer--andata .contact-top {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-footer--andata .footer-meta {
+  display: none !important;
+}
+
+/* CTA block — matches andatalab.art #s-contact */
+.site-footer__cta {
+  padding: clamp(72px, 10vw, 90px) clamp(20px, 4vw, 48px);
+  background: linear-gradient(180deg, transparent 0%, var(--surface) 14%, var(--surface) 100%);
+  border-top: none;
+}
+
+.site-footer__cta-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(36px, 6vw, 80px);
+  align-items: start;
+}
+
+.site-footer__headline {
+  margin: 0;
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.site-footer__sub {
+  margin: 20px 0 0;
+  max-width: 440px;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.site-footer__details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: clamp(32px, 5vw, 48px);
+  margin-top: 36px;
+}
+
+.site-footer__detail {
+  min-width: 0;
+}
+
+.site-footer__label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.site-footer__detail-value {
+  margin: 7px 0 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  line-height: 1.35;
+}
+
+a.site-footer__detail-value--plain {
+  display: inline-block;
+}
+
+a.site-footer__detail-value--plain:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Based — Mexico pill + worldwide (andatalab.art contact) */
+.site-footer__location-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 7px;
+}
+
+.site-footer__location-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 8px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(134, 198, 154, 0.38);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.site-footer__flag {
+  display: block;
+  flex-shrink: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.site-footer__location-pill-text {
+  line-height: 1;
+}
+
+.site-footer__location-sep {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-3);
+  line-height: 1;
+  user-select: none;
+}
+
+.site-footer__location-wide {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+  line-height: 1.35;
+}
+
+.site-footer__globe {
+  flex-shrink: 0;
+  opacity: 0.72;
+}
+
+.site-footer__channels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.site-footer__channel-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--glass-border);
+  color: var(--ink-2);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.38);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.site-footer__channel-link:hover {
+  color: var(--ink);
+  border-color: rgba(17, 17, 17, 0.12);
+  background: rgba(255, 255, 255, 0.62);
+  transform: translateY(-1px);
+}
+
+.site-footer__channel-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.site-footer__channel-link--text {
+  width: auto;
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+/* Form card */
+.site-footer__form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin: 0;
+  padding: clamp(22px, 3vw, 34px);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.site-footer__form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+}
+
+.site-footer__form-row .site-footer__field {
+  flex: 1 1 120px;
+}
+
+.site-footer__field {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 15px;
+  padding: 14px 16px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--hair);
+  background: var(--field-bg);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.site-footer__field::placeholder {
+  color: var(--ink-3);
+}
+
+.site-footer__field:focus {
+  border-color: var(--ink-2);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.site-footer__field--area {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.site-footer__submit {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--on-accent);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.site-footer__submit:hover {
+  opacity: 0.88;
+}
+
+.site-footer__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.site-footer__form-note {
+  margin: 2px 0 0;
+  font-size: 12px;
+  text-align: center;
+  color: var(--ink-3);
+}
+
+.site-footer--andata .footer-form-message {
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  margin: 0;
+}
+
+.site-footer--andata .footer-form-message.success {
+  display: block;
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.site-footer--andata .footer-form-message.error {
+  display: block;
+  background: rgba(239, 68, 68, 0.08);
+  color: #b91c1c;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Bottom bar — matches andatalab.art Footer */
+.site-footer__bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 40px clamp(20px, 4vw, 48px);
+  padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+  background: var(--bg);
+  border-top: 1px solid var(--hair-2);
+}
+
+.site-footer__mark {
+  width: 26px !important;
+  height: 26px !important;
+  max-width: 26px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.site-footer__brand {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.site-footer__cross {
+  margin-left: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+  text-decoration: none;
+}
+
+.site-footer__cross:hover {
+  color: var(--ink);
+}
+
+.site-footer__legal {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+@media (max-width: 640px) {
+  .site-footer__legal {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* WhatsApp float — legible on light footer edge */
+[data-brand='airolax'] .floating-whatsapp-btn {
+  border-color: var(--hair);
+  background: rgba(255, 255, 255, 0.92);
+  color: #111;
+}
+
+/* Beat legacy .site-footer + dark-brand rules */
+[data-brand='airolax'] .site-footer.site-footer--andata {
+  background: var(--bg);
+  color: var(--ink);
+  padding: 0;
+  border-top: none;
+  font-size: 1rem;
+}

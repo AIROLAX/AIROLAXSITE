@@ -266,65 +266,64 @@
 
     .video-wrapper {
       width: 100%;
-      height: 600px;
+      height: auto;
       border-radius: var(--border-radius);
       margin-bottom: 32px;
-      overflow: hidden;
+      overflow: visible;
       position: relative;
       background: #000;
     }
 
     .project-video {
+      display: block;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-      position: absolute;
-      top: 0;
-      left: 0;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      object-fit: contain;
+      vertical-align: top;
     }
 
     /* Gallery */
     .gallery {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      grid-template-columns: 1fr;
+      gap: 32px;
       margin-bottom: 48px;
     }
 
     .gallery-item {
       width: 100%;
-      height: 280px;
-      background: var(--grid);
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-      overflow: hidden;
+      height: auto;
       background: #000;
+      border-radius: 14px;
+      overflow: visible;
+      box-shadow: none;
+      position: relative;
+      text-align: center;
     }
 
     .gallery-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      transform: none;
+      box-shadow: none;
     }
 
     .gallery-item img,
     .gallery-item video {
+      display: block;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-      position: absolute;
-      top: 0;
-      left: 0;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      object-fit: contain;
     }
 
-    @media (min-width: 1200px) {
-      .gallery-item {
-        height: 320px;
-      }
+    .gallery-item video.is-portrait,
+    .project-video.is-portrait {
+      width: auto;
+      max-width: 100%;
+      max-height: 90vh;
+      height: auto;
     }
 
     /* ==========================================
@@ -425,18 +424,18 @@
 
       .gallery {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 24px;
         margin-bottom: 40px;
       }
 
       .gallery-item {
         width: 100%;
-        height: 240px;
+        height: auto;
         border-radius: 12px;
       }
 
       .video-wrapper {
-        height: 400px;
+        height: auto;
       }
 
       .tech-list {
@@ -500,8 +499,8 @@
       <!-- Project Hero -->
       <section class="project-hero">
         <div style="margin-bottom: 48px;"><div class="video-wrapper">
-          <video class="project-video" autoplay muted loop playsinline poster="/videos/OHM/2.png">
-            <source src="/videos/compressed/OHM/ohmfinal.MP4" type="video/mp4">
+          <video class="project-video" autoplay muted loop playsinline controls width="1920" height="1080" poster="/images/luminex/ohm-1-source.jpg">
+            <source src="/videos/compressed/OHM/1.MP4" type="video/mp4">
           </video>
         </div></div>
         <h1 class="project-title">OHM Interactive Laser Sculpture</h1>
@@ -532,30 +531,19 @@
         <h2 class="section-title">Gallery</h2>
         <div class="gallery">
           <div class="gallery-item">
-            <video autoplay muted loop playsinline>
+            <video autoplay muted loop playsinline controls width="1920" height="1080">
               <source src="/videos/compressed/OHM/1.MP4" type="video/mp4">
             </video>
           </div>
           <div class="gallery-item">
-            <video autoplay muted loop playsinline>
-              <source src="/videos/compressed/OHM/ohmfinal.MP4" type="video/mp4">
-            </video>
-          </div>
-          <div class="gallery-item">
-            <video autoplay muted loop playsinline>
+            <video class="is-portrait" autoplay muted loop playsinline controls width="1080" height="1920">
               <source src="/videos/compressed/OHM/ohm.mp4" type="video/mp4">
             </video>
           </div>
           <div class="gallery-item">
-            <video autoplay muted loop playsinline>
+            <video class="is-portrait" autoplay muted loop playsinline controls width="1080" height="1920">
               <source src="/videos/compressed/OHM/ohm2.mp4" type="video/mp4">
             </video>
-          </div>
-          <div class="gallery-item">
-            <img src="/videos/OHM/2.png" alt="OHM Installation View">
-          </div>
-          <div class="gallery-item">
-            <img src="/videos/OHM/3.png" alt="OHM Installation View">
           </div>
         </div>
       </section>
@@ -598,23 +586,10 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Video handling - ensure videos play and fill container
     document.addEventListener('DOMContentLoaded', () => {
-      const videos = document.querySelectorAll('video');
-      videos.forEach(video => {
+      document.querySelectorAll('video').forEach((video) => {
         video.addEventListener('loadeddata', () => {
-          video.play().catch(e => console.log('Video autoplay prevented:', e));
-        });
-        
-        video.addEventListener('pause', () => {
-          if (!video.ended) {
-            setTimeout(() => video.play(), 100);
-          }
-        });
-        
-        video.addEventListener('ended', () => {
-          video.currentTime = 0;
-          video.play();
+          video.play().catch(() => {});
         });
       });
     });

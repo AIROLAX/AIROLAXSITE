@@ -112,11 +112,25 @@
       ]
     },
     "9": {
-      "slug": "ethereal-motion-digital-poetry",
+      "slug": "particle-system",
+      "poster": "/projects/particle-system/hero-poster.webp",
+      "video": "/projects/particle-system/hero.mp4",
       "workGallery": [
         {
           "type": "video",
-          "src": "/videos/compressed/demo2.mp4"
+          "src": "/projects/particle-system/hero.mp4"
+        },
+        {
+          "type": "video",
+          "src": "/projects/particle-system/export-10.mp4"
+        },
+        {
+          "type": "video",
+          "src": "/projects/particle-system/export-8.mp4"
+        },
+        {
+          "type": "video",
+          "src": "/projects/particle-system/export-6.mp4"
         }
       ]
     },

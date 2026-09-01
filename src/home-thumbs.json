@@ -1,0 +1,461 @@
+{
+  "generatedAt": "2026-09-01T15:31:23.419Z",
+  "thumbs": {
+    "/images/optimized/videos/BIOINTERFACE/1.JPG_compressed.webp": {
+      "src": "/images/home/images-optimized-videos-BIOINTERFACE-1-JPG-compressed-800.webp",
+      "srcSet": "/images/home/images-optimized-videos-BIOINTERFACE-1-JPG-compressed-400.webp 400w, /images/home/images-optimized-videos-BIOINTERFACE-1-JPG-compressed-800.webp 800w, /images/home/images-optimized-videos-BIOINTERFACE-1-JPG-compressed-1280.webp 1280w"
+    },
+    "/videos/BIOINTERFACE/F2.jpg": {
+      "src": "/images/home/videos-BIOINTERFACE-F2-800.webp",
+      "srcSet": "/images/home/videos-BIOINTERFACE-F2-400.webp 400w, /images/home/videos-BIOINTERFACE-F2-800.webp 800w, /images/home/videos-BIOINTERFACE-F2-1280.webp 1280w"
+    },
+    "/collections/projection-mapping/index/01.webp": {
+      "src": "/images/home/collections-projection-mapping-index-01-800.webp",
+      "srcSet": "/images/home/collections-projection-mapping-index-01-400.webp 400w, /images/home/collections-projection-mapping-index-01-800.webp 800w"
+    },
+    "/videos/ASANA_YOGA/IMG_20260131_103426.jpg": {
+      "src": "/images/home/videos-ASANA-YOGA-IMG-20260131-103426-800.webp",
+      "srcSet": "/images/home/videos-ASANA-YOGA-IMG-20260131-103426-400.webp 400w, /images/home/videos-ASANA-YOGA-IMG-20260131-103426-800.webp 800w, /images/home/videos-ASANA-YOGA-IMG-20260131-103426-1280.webp 1280w"
+    },
+    "/collections/immersive-installation/index/06.webp": {
+      "src": "/images/home/collections-immersive-installation-index-06-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-06-400.webp 400w, /images/home/collections-immersive-installation-index-06-800.webp 800w"
+    },
+    "/images/optimized/videos/museo/1_compressed.webp": {
+      "src": "/images/home/images-optimized-videos-museo-1-compressed-800.webp",
+      "srcSet": "/images/home/images-optimized-videos-museo-1-compressed-400.webp 400w, /images/home/images-optimized-videos-museo-1-compressed-800.webp 800w, /images/home/images-optimized-videos-museo-1-compressed-1280.webp 1280w"
+    },
+    "/images/optimized/videos/OHM/3_compressed.webp": {
+      "src": "/images/home/images-optimized-videos-OHM-3-compressed-800.webp",
+      "srcSet": "/images/home/images-optimized-videos-OHM-3-compressed-400.webp 400w, /images/home/images-optimized-videos-OHM-3-compressed-800.webp 800w, /images/home/images-optimized-videos-OHM-3-compressed-1280.webp 1280w"
+    },
+    "/images/optimized/videos/edzna/1_compressed.webp": {
+      "src": "/images/home/images-optimized-videos-edzna-1-compressed-800.webp",
+      "srcSet": "/images/home/images-optimized-videos-edzna-1-compressed-400.webp 400w, /images/home/images-optimized-videos-edzna-1-compressed-800.webp 800w, /images/home/images-optimized-videos-edzna-1-compressed-1280.webp 1280w"
+    },
+    "/images/optimized/videos/wavey/wavey-1.webp": {
+      "src": "/images/home/images-optimized-videos-wavey-wavey-1-800.webp",
+      "srcSet": "/images/home/images-optimized-videos-wavey-wavey-1-400.webp 400w, /images/home/images-optimized-videos-wavey-wavey-1-800.webp 800w"
+    },
+    "/collections/generative-video/index/08.webp": {
+      "src": "/images/home/collections-generative-video-index-08-800.webp",
+      "srcSet": "/images/home/collections-generative-video-index-08-400.webp 400w, /images/home/collections-generative-video-index-08-800.webp 800w, /images/home/collections-generative-video-index-08-1280.webp 1280w"
+    },
+    "/projects/ohm-1/51835853-acba-4058-a8cf-4c385bbcea80 (1).jpeg": {
+      "src": "/images/home/projects-ohm-1-51835853-acba-4058-a8cf-4c385bbcea80-1-800.webp",
+      "srcSet": "/images/home/projects-ohm-1-51835853-acba-4058-a8cf-4c385bbcea80-1-400.webp 400w, /images/home/projects-ohm-1-51835853-acba-4058-a8cf-4c385bbcea80-1-800.webp 800w"
+    },
+    "/collections/generative-video/index/03.webp": {
+      "src": "/images/home/collections-generative-video-index-03-800.webp",
+      "srcSet": "/images/home/collections-generative-video-index-03-400.webp 400w, /images/home/collections-generative-video-index-03-800.webp 800w, /images/home/collections-generative-video-index-03-1280.webp 1280w"
+    },
+    "/collections/immersive-installation/index/12.webp": {
+      "src": "/images/home/collections-immersive-installation-index-12-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-12-400.webp 400w, /images/home/collections-immersive-installation-index-12-800.webp 800w"
+    },
+    "/collections/ai-content/index/01.webp": {
+      "src": "/images/home/collections-ai-content-index-01-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-01-400.webp 400w, /images/home/collections-ai-content-index-01-800.webp 800w"
+    },
+    "/collections/ai-content/index/02.webp": {
+      "src": "/images/home/collections-ai-content-index-02-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-02-400.webp 400w, /images/home/collections-ai-content-index-02-800.webp 800w"
+    },
+    "/collections/ai-content/index/03.webp": {
+      "src": "/images/home/collections-ai-content-index-03-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-03-400.webp 400w, /images/home/collections-ai-content-index-03-800.webp 800w"
+    },
+    "/collections/ai-content/index/04.webp": {
+      "src": "/images/home/collections-ai-content-index-04-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-04-400.webp 400w, /images/home/collections-ai-content-index-04-800.webp 800w"
+    },
+    "/collections/ai-content/index/05.webp": {
+      "src": "/images/home/collections-ai-content-index-05-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-05-400.webp 400w, /images/home/collections-ai-content-index-05-800.webp 800w"
+    },
+    "/collections/ai-content/index/06.webp": {
+      "src": "/images/home/collections-ai-content-index-06-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-06-400.webp 400w, /images/home/collections-ai-content-index-06-800.webp 800w"
+    },
+    "/collections/ai-content/index/07.webp": {
+      "src": "/images/home/collections-ai-content-index-07-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-07-400.webp 400w, /images/home/collections-ai-content-index-07-800.webp 800w"
+    },
+    "/collections/ai-content/index/08.webp": {
+      "src": "/images/home/collections-ai-content-index-08-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-08-400.webp 400w, /images/home/collections-ai-content-index-08-800.webp 800w"
+    },
+    "/collections/ai-content/index/09.webp": {
+      "src": "/images/home/collections-ai-content-index-09-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-09-400.webp 400w, /images/home/collections-ai-content-index-09-800.webp 800w"
+    },
+    "/collections/ai-content/index/10.webp": {
+      "src": "/images/home/collections-ai-content-index-10-400.webp",
+      "srcSet": "/images/home/collections-ai-content-index-10-400.webp 400w"
+    },
+    "/collections/ai-content/index/11.webp": {
+      "src": "/images/home/collections-ai-content-index-11-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-11-400.webp 400w, /images/home/collections-ai-content-index-11-800.webp 800w"
+    },
+    "/collections/ai-content/index/12.webp": {
+      "src": "/images/home/collections-ai-content-index-12-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-12-400.webp 400w, /images/home/collections-ai-content-index-12-800.webp 800w"
+    },
+    "/collections/ai-content/index/13.webp": {
+      "src": "/images/home/collections-ai-content-index-13-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-13-400.webp 400w, /images/home/collections-ai-content-index-13-800.webp 800w"
+    },
+    "/collections/ai-content/index/14.webp": {
+      "src": "/images/home/collections-ai-content-index-14-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-14-400.webp 400w, /images/home/collections-ai-content-index-14-800.webp 800w"
+    },
+    "/collections/ai-content/index/15.webp": {
+      "src": "/images/home/collections-ai-content-index-15-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-15-400.webp 400w, /images/home/collections-ai-content-index-15-800.webp 800w"
+    },
+    "/collections/ai-content/index/16.webp": {
+      "src": "/images/home/collections-ai-content-index-16-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-16-400.webp 400w, /images/home/collections-ai-content-index-16-800.webp 800w"
+    },
+    "/collections/ai-content/index/17.webp": {
+      "src": "/images/home/collections-ai-content-index-17-400.webp",
+      "srcSet": "/images/home/collections-ai-content-index-17-400.webp 400w"
+    },
+    "/collections/ai-content/index/18.webp": {
+      "src": "/images/home/collections-ai-content-index-18-400.webp",
+      "srcSet": "/images/home/collections-ai-content-index-18-400.webp 400w"
+    },
+    "/collections/ai-content/index/19.webp": {
+      "src": "/images/home/collections-ai-content-index-19-400.webp",
+      "srcSet": "/images/home/collections-ai-content-index-19-400.webp 400w"
+    },
+    "/collections/ai-content/index/20.webp": {
+      "src": "/images/home/collections-ai-content-index-20-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-20-400.webp 400w, /images/home/collections-ai-content-index-20-800.webp 800w"
+    },
+    "/collections/ai-content/index/21.webp": {
+      "src": "/images/home/collections-ai-content-index-21-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-21-400.webp 400w, /images/home/collections-ai-content-index-21-800.webp 800w"
+    },
+    "/collections/ai-content/index/22.webp": {
+      "src": "/images/home/collections-ai-content-index-22-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-22-400.webp 400w, /images/home/collections-ai-content-index-22-800.webp 800w"
+    },
+    "/collections/ai-content/index/23.webp": {
+      "src": "/images/home/collections-ai-content-index-23-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-23-400.webp 400w, /images/home/collections-ai-content-index-23-800.webp 800w"
+    },
+    "/collections/ai-content/index/24.webp": {
+      "src": "/images/home/collections-ai-content-index-24-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-24-400.webp 400w, /images/home/collections-ai-content-index-24-800.webp 800w"
+    },
+    "/collections/ai-content/index/25.webp": {
+      "src": "/images/home/collections-ai-content-index-25-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-25-400.webp 400w, /images/home/collections-ai-content-index-25-800.webp 800w"
+    },
+    "/collections/ai-content/index/26.webp": {
+      "src": "/images/home/collections-ai-content-index-26-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-26-400.webp 400w, /images/home/collections-ai-content-index-26-800.webp 800w"
+    },
+    "/collections/ai-content/index/27.webp": {
+      "src": "/images/home/collections-ai-content-index-27-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-27-400.webp 400w, /images/home/collections-ai-content-index-27-800.webp 800w"
+    },
+    "/collections/ai-content/index/28.webp": {
+      "src": "/images/home/collections-ai-content-index-28-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-28-400.webp 400w, /images/home/collections-ai-content-index-28-800.webp 800w"
+    },
+    "/collections/ai-content/index/29.webp": {
+      "src": "/images/home/collections-ai-content-index-29-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-29-400.webp 400w, /images/home/collections-ai-content-index-29-800.webp 800w"
+    },
+    "/collections/ai-content/index/30.webp": {
+      "src": "/images/home/collections-ai-content-index-30-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-30-400.webp 400w, /images/home/collections-ai-content-index-30-800.webp 800w"
+    },
+    "/collections/ai-content/index/31.webp": {
+      "src": "/images/home/collections-ai-content-index-31-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-31-400.webp 400w, /images/home/collections-ai-content-index-31-800.webp 800w"
+    },
+    "/collections/ai-content/index/32.webp": {
+      "src": "/images/home/collections-ai-content-index-32-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-32-400.webp 400w, /images/home/collections-ai-content-index-32-800.webp 800w"
+    },
+    "/collections/ai-content/index/33.webp": {
+      "src": "/images/home/collections-ai-content-index-33-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-33-400.webp 400w, /images/home/collections-ai-content-index-33-800.webp 800w"
+    },
+    "/collections/ai-content/index/34.webp": {
+      "src": "/images/home/collections-ai-content-index-34-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-34-400.webp 400w, /images/home/collections-ai-content-index-34-800.webp 800w"
+    },
+    "/collections/ai-content/index/35.webp": {
+      "src": "/images/home/collections-ai-content-index-35-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-35-400.webp 400w, /images/home/collections-ai-content-index-35-800.webp 800w"
+    },
+    "/collections/ai-content/index/36.webp": {
+      "src": "/images/home/collections-ai-content-index-36-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-36-400.webp 400w, /images/home/collections-ai-content-index-36-800.webp 800w"
+    },
+    "/collections/ai-content/index/37.webp": {
+      "src": "/images/home/collections-ai-content-index-37-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-37-400.webp 400w, /images/home/collections-ai-content-index-37-800.webp 800w"
+    },
+    "/collections/ai-content/index/38.webp": {
+      "src": "/images/home/collections-ai-content-index-38-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-38-400.webp 400w, /images/home/collections-ai-content-index-38-800.webp 800w"
+    },
+    "/collections/ai-content/index/39.webp": {
+      "src": "/images/home/collections-ai-content-index-39-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-39-400.webp 400w, /images/home/collections-ai-content-index-39-800.webp 800w"
+    },
+    "/collections/ai-content/index/40.webp": {
+      "src": "/images/home/collections-ai-content-index-40-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-40-400.webp 400w, /images/home/collections-ai-content-index-40-800.webp 800w"
+    },
+    "/collections/ai-content/index/41.webp": {
+      "src": "/images/home/collections-ai-content-index-41-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-41-400.webp 400w, /images/home/collections-ai-content-index-41-800.webp 800w"
+    },
+    "/collections/ai-content/index/42.webp": {
+      "src": "/images/home/collections-ai-content-index-42-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-42-400.webp 400w, /images/home/collections-ai-content-index-42-800.webp 800w"
+    },
+    "/collections/ai-content/index/43.webp": {
+      "src": "/images/home/collections-ai-content-index-43-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-43-400.webp 400w, /images/home/collections-ai-content-index-43-800.webp 800w"
+    },
+    "/collections/ai-content/index/44.webp": {
+      "src": "/images/home/collections-ai-content-index-44-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-44-400.webp 400w, /images/home/collections-ai-content-index-44-800.webp 800w"
+    },
+    "/collections/ai-content/index/45.webp": {
+      "src": "/images/home/collections-ai-content-index-45-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-45-400.webp 400w, /images/home/collections-ai-content-index-45-800.webp 800w"
+    },
+    "/collections/ai-content/index/46.webp": {
+      "src": "/images/home/collections-ai-content-index-46-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-46-400.webp 400w, /images/home/collections-ai-content-index-46-800.webp 800w"
+    },
+    "/collections/ai-content/index/47.webp": {
+      "src": "/images/home/collections-ai-content-index-47-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-47-400.webp 400w, /images/home/collections-ai-content-index-47-800.webp 800w"
+    },
+    "/collections/ai-content/index/48.webp": {
+      "src": "/images/home/collections-ai-content-index-48-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-48-400.webp 400w, /images/home/collections-ai-content-index-48-800.webp 800w"
+    },
+    "/collections/ai-content/index/49.webp": {
+      "src": "/images/home/collections-ai-content-index-49-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-49-400.webp 400w, /images/home/collections-ai-content-index-49-800.webp 800w"
+    },
+    "/collections/ai-content/index/50.webp": {
+      "src": "/images/home/collections-ai-content-index-50-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-50-400.webp 400w, /images/home/collections-ai-content-index-50-800.webp 800w, /images/home/collections-ai-content-index-50-1280.webp 1280w"
+    },
+    "/collections/ai-content/index/51.webp": {
+      "src": "/images/home/collections-ai-content-index-51-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-51-400.webp 400w, /images/home/collections-ai-content-index-51-800.webp 800w"
+    },
+    "/collections/ai-content/index/52.webp": {
+      "src": "/images/home/collections-ai-content-index-52-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-52-400.webp 400w, /images/home/collections-ai-content-index-52-800.webp 800w"
+    },
+    "/collections/ai-content/index/53.webp": {
+      "src": "/images/home/collections-ai-content-index-53-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-53-400.webp 400w, /images/home/collections-ai-content-index-53-800.webp 800w, /images/home/collections-ai-content-index-53-1280.webp 1280w"
+    },
+    "/collections/ai-content/index/54.webp": {
+      "src": "/images/home/collections-ai-content-index-54-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-54-400.webp 400w, /images/home/collections-ai-content-index-54-800.webp 800w"
+    },
+    "/collections/ai-content/index/55.webp": {
+      "src": "/images/home/collections-ai-content-index-55-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-55-400.webp 400w, /images/home/collections-ai-content-index-55-800.webp 800w"
+    },
+    "/collections/ai-content/index/56.webp": {
+      "src": "/images/home/collections-ai-content-index-56-800.webp",
+      "srcSet": "/images/home/collections-ai-content-index-56-400.webp 400w, /images/home/collections-ai-content-index-56-800.webp 800w"
+    },
+    "/collections/generative-video/index/01.webp": {
+      "src": "/images/home/collections-generative-video-index-01-400.webp",
+      "srcSet": "/images/home/collections-generative-video-index-01-400.webp 400w"
+    },
+    "/collections/generative-video/index/02.webp": {
+      "src": "/images/home/collections-generative-video-index-02-400.webp",
+      "srcSet": "/images/home/collections-generative-video-index-02-400.webp 400w"
+    },
+    "/collections/generative-video/index/04.webp": {
+      "src": "/images/home/collections-generative-video-index-04-800.webp",
+      "srcSet": "/images/home/collections-generative-video-index-04-400.webp 400w, /images/home/collections-generative-video-index-04-800.webp 800w"
+    },
+    "/collections/generative-video/index/05.webp": {
+      "src": "/images/home/collections-generative-video-index-05-800.webp",
+      "srcSet": "/images/home/collections-generative-video-index-05-400.webp 400w, /images/home/collections-generative-video-index-05-800.webp 800w"
+    },
+    "/collections/generative-video/index/06.webp": {
+      "src": "/images/home/collections-generative-video-index-06-800.webp",
+      "srcSet": "/images/home/collections-generative-video-index-06-400.webp 400w, /images/home/collections-generative-video-index-06-800.webp 800w"
+    },
+    "/collections/generative-video/index/07.webp": {
+      "src": "/images/home/collections-generative-video-index-07-800.webp",
+      "srcSet": "/images/home/collections-generative-video-index-07-400.webp 400w, /images/home/collections-generative-video-index-07-800.webp 800w, /images/home/collections-generative-video-index-07-1280.webp 1280w"
+    },
+    "/collections/generative-video/index/09.webp": {
+      "src": "/images/home/collections-generative-video-index-09-800.webp",
+      "srcSet": "/images/home/collections-generative-video-index-09-400.webp 400w, /images/home/collections-generative-video-index-09-800.webp 800w, /images/home/collections-generative-video-index-09-1280.webp 1280w"
+    },
+    "/collections/generative-video/index/10.webp": {
+      "src": "/images/home/collections-generative-video-index-10-800.webp",
+      "srcSet": "/images/home/collections-generative-video-index-10-400.webp 400w, /images/home/collections-generative-video-index-10-800.webp 800w, /images/home/collections-generative-video-index-10-1280.webp 1280w"
+    },
+    "/collections/generative-video/index/11.webp": {
+      "src": "/images/home/collections-generative-video-index-11-400.webp",
+      "srcSet": "/images/home/collections-generative-video-index-11-400.webp 400w"
+    },
+    "/collections/generative-video/index/12.webp": {
+      "src": "/images/home/collections-generative-video-index-12-400.webp",
+      "srcSet": "/images/home/collections-generative-video-index-12-400.webp 400w"
+    },
+    "/collections/generative-video/index/13.webp": {
+      "src": "/images/home/collections-generative-video-index-13-400.webp",
+      "srcSet": "/images/home/collections-generative-video-index-13-400.webp 400w"
+    },
+    "/collections/immersive-installation/index/01.webp": {
+      "src": "/images/home/collections-immersive-installation-index-01-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-01-400.webp 400w, /images/home/collections-immersive-installation-index-01-800.webp 800w"
+    },
+    "/collections/immersive-installation/index/02.webp": {
+      "src": "/images/home/collections-immersive-installation-index-02-400.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-02-400.webp 400w"
+    },
+    "/collections/immersive-installation/index/03.webp": {
+      "src": "/images/home/collections-immersive-installation-index-03-400.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-03-400.webp 400w"
+    },
+    "/collections/immersive-installation/index/04.webp": {
+      "src": "/images/home/collections-immersive-installation-index-04-400.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-04-400.webp 400w"
+    },
+    "/collections/immersive-installation/index/05.webp": {
+      "src": "/images/home/collections-immersive-installation-index-05-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-05-400.webp 400w, /images/home/collections-immersive-installation-index-05-800.webp 800w, /images/home/collections-immersive-installation-index-05-1280.webp 1280w"
+    },
+    "/collections/immersive-installation/index/07.webp": {
+      "src": "/images/home/collections-immersive-installation-index-07-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-07-400.webp 400w, /images/home/collections-immersive-installation-index-07-800.webp 800w, /images/home/collections-immersive-installation-index-07-1280.webp 1280w"
+    },
+    "/collections/immersive-installation/index/08.webp": {
+      "src": "/images/home/collections-immersive-installation-index-08-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-08-400.webp 400w, /images/home/collections-immersive-installation-index-08-800.webp 800w, /images/home/collections-immersive-installation-index-08-1280.webp 1280w"
+    },
+    "/collections/immersive-installation/index/09.webp": {
+      "src": "/images/home/collections-immersive-installation-index-09-400.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-09-400.webp 400w"
+    },
+    "/collections/immersive-installation/index/10.webp": {
+      "src": "/images/home/collections-immersive-installation-index-10-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-10-400.webp 400w, /images/home/collections-immersive-installation-index-10-800.webp 800w, /images/home/collections-immersive-installation-index-10-1280.webp 1280w"
+    },
+    "/collections/immersive-installation/index/11.webp": {
+      "src": "/images/home/collections-immersive-installation-index-11-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-11-400.webp 400w, /images/home/collections-immersive-installation-index-11-800.webp 800w, /images/home/collections-immersive-installation-index-11-1280.webp 1280w"
+    },
+    "/collections/immersive-installation/index/13.webp": {
+      "src": "/images/home/collections-immersive-installation-index-13-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-13-400.webp 400w, /images/home/collections-immersive-installation-index-13-800.webp 800w"
+    },
+    "/collections/immersive-installation/index/14.webp": {
+      "src": "/images/home/collections-immersive-installation-index-14-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-14-400.webp 400w, /images/home/collections-immersive-installation-index-14-800.webp 800w"
+    },
+    "/collections/immersive-installation/index/17.webp": {
+      "src": "/images/home/collections-immersive-installation-index-17-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-17-400.webp 400w, /images/home/collections-immersive-installation-index-17-800.webp 800w"
+    },
+    "/collections/immersive-installation/index/18.webp": {
+      "src": "/images/home/collections-immersive-installation-index-18-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-18-400.webp 400w, /images/home/collections-immersive-installation-index-18-800.webp 800w"
+    },
+    "/collections/immersive-installation/index/F2.jpg": {
+      "src": "/images/home/collections-immersive-installation-index-F2-800.webp",
+      "srcSet": "/images/home/collections-immersive-installation-index-F2-400.webp 400w, /images/home/collections-immersive-installation-index-F2-800.webp 800w, /images/home/collections-immersive-installation-index-F2-1280.webp 1280w"
+    },
+    "/collections/projection-mapping/index/02.webp": {
+      "src": "/images/home/collections-projection-mapping-index-02-800.webp",
+      "srcSet": "/images/home/collections-projection-mapping-index-02-400.webp 400w, /images/home/collections-projection-mapping-index-02-800.webp 800w, /images/home/collections-projection-mapping-index-02-1280.webp 1280w"
+    },
+    "/collections/projection-mapping/index/03.webp": {
+      "src": "/images/home/collections-projection-mapping-index-03-800.webp",
+      "srcSet": "/images/home/collections-projection-mapping-index-03-400.webp 400w, /images/home/collections-projection-mapping-index-03-800.webp 800w, /images/home/collections-projection-mapping-index-03-1280.webp 1280w"
+    },
+    "/collections/projection-mapping/index/04.webp": {
+      "src": "/images/home/collections-projection-mapping-index-04-800.webp",
+      "srcSet": "/images/home/collections-projection-mapping-index-04-400.webp 400w, /images/home/collections-projection-mapping-index-04-800.webp 800w, /images/home/collections-projection-mapping-index-04-1280.webp 1280w"
+    },
+    "/collections/projection-mapping/index/05.webp": {
+      "src": "/images/home/collections-projection-mapping-index-05-800.webp",
+      "srcSet": "/images/home/collections-projection-mapping-index-05-400.webp 400w, /images/home/collections-projection-mapping-index-05-800.webp 800w, /images/home/collections-projection-mapping-index-05-1280.webp 1280w"
+    },
+    "/collections/projection-mapping/index/06.webp": {
+      "src": "/images/home/collections-projection-mapping-index-06-800.webp",
+      "srcSet": "/images/home/collections-projection-mapping-index-06-400.webp 400w, /images/home/collections-projection-mapping-index-06-800.webp 800w, /images/home/collections-projection-mapping-index-06-1280.webp 1280w"
+    },
+    "/collections/projection-mapping/index/07.webp": {
+      "src": "/images/home/collections-projection-mapping-index-07-800.webp",
+      "srcSet": "/images/home/collections-projection-mapping-index-07-400.webp 400w, /images/home/collections-projection-mapping-index-07-800.webp 800w, /images/home/collections-projection-mapping-index-07-1280.webp 1280w"
+    },
+    "/collections/projection-mapping/index/08.webp": {
+      "src": "/images/home/collections-projection-mapping-index-08-800.webp",
+      "srcSet": "/images/home/collections-projection-mapping-index-08-400.webp 400w, /images/home/collections-projection-mapping-index-08-800.webp 800w, /images/home/collections-projection-mapping-index-08-1280.webp 1280w"
+    },
+    "/collections/projection-mapping/index/09.webp": {
+      "src": "/images/home/collections-projection-mapping-index-09-400.webp",
+      "srcSet": "/images/home/collections-projection-mapping-index-09-400.webp 400w"
+    },
+    "/collections/projection-mapping/index/10.webp": {
+      "src": "/images/home/collections-projection-mapping-index-10-800.webp",
+      "srcSet": "/images/home/collections-projection-mapping-index-10-400.webp 400w, /images/home/collections-projection-mapping-index-10-800.webp 800w, /images/home/collections-projection-mapping-index-10-1280.webp 1280w"
+    },
+    "/collections/projection-mapping/index/11.webp": {
+      "src": "/images/home/collections-projection-mapping-index-11-800.webp",
+      "srcSet": "/images/home/collections-projection-mapping-index-11-400.webp 400w, /images/home/collections-projection-mapping-index-11-800.webp 800w, /images/home/collections-projection-mapping-index-11-1280.webp 1280w"
+    },
+    "/collections/sound/index/01.webp": {
+      "src": "/images/home/collections-sound-index-01-800.webp",
+      "srcSet": "/images/home/collections-sound-index-01-400.webp 400w, /images/home/collections-sound-index-01-800.webp 800w, /images/home/collections-sound-index-01-1280.webp 1280w"
+    },
+    "/collections/sound/index/02.webp": {
+      "src": "/images/home/collections-sound-index-02-400.webp",
+      "srcSet": "/images/home/collections-sound-index-02-400.webp 400w"
+    },
+    "/collections/sound/index/03.webp": {
+      "src": "/images/home/collections-sound-index-03-800.webp",
+      "srcSet": "/images/home/collections-sound-index-03-400.webp 400w, /images/home/collections-sound-index-03-800.webp 800w"
+    },
+    "/collections/sound/index/04.webp": {
+      "src": "/images/home/collections-sound-index-04-800.webp",
+      "srcSet": "/images/home/collections-sound-index-04-400.webp 400w, /images/home/collections-sound-index-04-800.webp 800w"
+    },
+    "/collections/sound/index/05.webp": {
+      "src": "/images/home/collections-sound-index-05-800.webp",
+      "srcSet": "/images/home/collections-sound-index-05-400.webp 400w, /images/home/collections-sound-index-05-800.webp 800w"
+    },
+    "/videos/OHM/2.png": {
+      "src": "/images/home/videos-OHM-2-800.webp",
+      "srcSet": "/images/home/videos-OHM-2-400.webp 400w, /images/home/videos-OHM-2-800.webp 800w"
+    },
+    "/projects/ohm-1/ohm-sound-sculpture.jpg": {
+      "src": "/images/home/projects-ohm-1-ohm-sound-sculpture-800.webp",
+      "srcSet": "/images/home/projects-ohm-1-ohm-sound-sculpture-400.webp 400w, /images/home/projects-ohm-1-ohm-sound-sculpture-800.webp 800w"
+    },
+    "/projects/particle-system/hero-poster.webp": {
+      "src": "/images/home/projects-particle-system-hero-poster-800.webp",
+      "srcSet": "/images/home/projects-particle-system-hero-poster-400.webp 400w, /images/home/projects-particle-system-hero-poster-800.webp 800w, /images/home/projects-particle-system-hero-poster-1280.webp 1280w"
+    },
+    "/projects/resonance-of-contact/render_installation_wide-800.webp": {
+      "src": "/projects/resonance-of-contact/render_installation_wide-800.webp",
+      "srcSet": "/projects/resonance-of-contact/render_installation_wide-800.webp 800w, /projects/resonance-of-contact/render_installation_wide-1024.webp 1024w"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import './immersive-index.css';
 import allExclusions from './index-all-exclusions.json';
+import { normalizeMediaKey, reservedStillKeys, responsiveImageAttrs, thumbFor } from './home-media';
 
 type IndexProject = {
   id: string;
@@ -24,7 +25,7 @@ const COLLECTION_DEFAULT_PROJECT: Record<string, string> = {
   'ai-content': 'biointerface',
   'immersive-installation': 'breathing-space',
   'projection-mapping': 'whispers-of-the-lake-digital-immersive-experience',
-  'generative-video': 'ethereal-motion-digital-poetry',
+  'generative-video': 'particle-system',
   'sound': 'ohm-interactive-laser-sculpture',
   'experiments': 'biointerface-2',
 };
@@ -62,7 +63,7 @@ const SHORT: Record<string, string> = {
   '5': 'Wavey',
   '6': 'Thermo',
   '8': 'OHM I',
-  '9': 'Ethereal',
+  '9': 'Particles',
 };
 
 function shortName(id: string, title: string): string {
@@ -70,11 +71,7 @@ function shortName(id: string, title: string): string {
 }
 
 function normalizeSrc(src: string): string {
-  try {
-    return decodeURIComponent(src.trim()).toLowerCase().split('?')[0]!;
-  } catch {
-    return src.trim().toLowerCase();
-  }
+  return normalizeMediaKey(src);
 }
 
 const DISC_BY_PROJ: Record<string, string[]> = {
@@ -111,9 +108,9 @@ const TECHNIQUE_CHIP_ORDER = [
   '3D Generative',
 ];
 
-/** Max tiles per project when using work/{slug}.html gallery images */
-const MAX_TILES_PER_PROJ = 12;
-const MAX_TILES_MOBILE = 6;
+/** Max tiles per project — unique stills only; density comes from collection walls. */
+const MAX_TILES_PER_PROJ = 1;
+const MAX_TILES_MOBILE = 1;
 /** Collection tiles in the Index grid — “All” stays curated; technique chips use full set. */
 const MAX_COLLECTION_TILES = 20;
 const MAX_COLLECTION_TILES_MOBILE = 12;
@@ -247,6 +244,50 @@ type CollectionMedia = {
   index: CollectionIndexItem[];
 };
 
+const MAX_SELECTED_WORK_EXTRAS = 8;
+
+/** Stills from collections + project galleries, grouped for Selected work. */
+export function collectSelectedWorkStills(
+  projects: IndexProject[],
+  collections: CollectionMedia[],
+  reservedSrcs: string[] = []
+): Record<string, string[]> {
+  const reserved = new Set([...reservedStillKeys(), ...reservedSrcs.map(normalizeSrc)]);
+  const slugToId = new Map(projects.map((p) => [p.slug, p.id]));
+  const byId: Record<string, string[]> = {};
+  const used = new Set(reserved);
+
+  const push = (id: string, src: string): void => {
+    const key = normalizeSrc(src);
+    if (!key || used.has(key) || VIDEO_EXT.test(src)) return;
+    used.add(key);
+    const list = byId[id] ?? [];
+    if (list.length >= MAX_SELECTED_WORK_EXTRAS) return;
+    list.push(src);
+    byId[id] = list;
+  };
+
+  for (const p of projects) {
+    for (const src of projectStillCandidates(p)) {
+      push(p.id, src);
+    }
+  }
+
+  for (const col of collections) {
+    for (const raw of col.index) {
+      const item = normalizeCollectionItem(raw);
+      const img = item.mediaType === 'video' ? item.poster || '' : item.src;
+      if (!img || VIDEO_EXT.test(img)) continue;
+      const { linkSlug } = resolveCollectionLink(projects, col.slug, normalizeSrc(img));
+      const id = slugToId.get(linkSlug);
+      if (!id) continue;
+      push(id, img);
+    }
+  }
+
+  return byId;
+}
+
 function normalizeCollectionItem(item: CollectionIndexItem): {
   src: string;
   poster?: string;
@@ -375,41 +416,52 @@ function pushProjectTile(
   return globalIdx + 1;
 }
 
-function buildTiles(projects: IndexProject[]): IndexTile[] {
+function projectStillCandidates(w: IndexProject): string[] {
+  const out: string[] = [];
+  const push = (src?: string | null): void => {
+    if (!src || VIDEO_EXT.test(src)) return;
+    const key = normalizeSrc(src);
+    if (out.some((s) => normalizeSrc(s) === key)) return;
+    out.push(src);
+  };
+  for (const g of w.indexImages || []) {
+    if (typeof g === 'string') push(g);
+    else push(g.poster);
+  }
+  for (const g of w.galleryItems || []) {
+    if (g.type === 'image' || !VIDEO_EXT.test(g.src)) push(g.src);
+  }
+  push(w.poster);
+  return out;
+}
+
+function buildTiles(projects: IndexProject[], reserved: Set<string>): IndexTile[] {
   const tiles: IndexTile[] = [];
   let globalIdx = 0;
   const maxPerProj =
     typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
       ? MAX_TILES_MOBILE
       : MAX_TILES_PER_PROJ;
+  const used = new Set(reserved);
 
   for (const w of projects) {
     const label = shortName(w.id, w.title);
-
-    // work/{slug}.html Gallery + Process, or public/projects/{slug}/index/
-    if (w.indexImages?.length) {
-      w.indexImages.slice(0, maxPerProj).forEach((ref, k) => {
-        globalIdx = pushProjectTile(
-          tiles,
-          w,
-          label,
-          resolveIndexImage(ref, w),
-          globalIdx,
-          `${w.id}-${k}`
-        );
-      });
-      continue;
+    let added = 0;
+    for (const src of projectStillCandidates(w)) {
+      if (added >= maxPerProj) break;
+      const key = normalizeSrc(src);
+      if (used.has(key)) continue;
+      used.add(key);
+      globalIdx = pushProjectTile(
+        tiles,
+        w,
+        label,
+        { img: src, mediaType: 'image' },
+        globalIdx,
+        `${w.id}-${added}`
+      );
+      added += 1;
     }
-
-    const still = stillForProject(w);
-    globalIdx = pushProjectTile(
-      tiles,
-      w,
-      label,
-      { img: still, mediaType: 'image' },
-      globalIdx,
-      `${w.id}-0`
-    );
   }
 
   return tiles;
@@ -711,10 +763,12 @@ function resolveCollectionLink(
 function buildCollectionTiles(
   collections: CollectionMedia[],
   projects: IndexProject[],
-  startIdx: number
+  startIdx: number,
+  reserved: Set<string>
 ): IndexTile[] {
   const tiles: IndexTile[] = [];
   let globalIdx = startIdx;
+  const used = new Set(reserved);
 
   for (const col of collections) {
     const cap = collectionTileCap(col.slug);
@@ -722,6 +776,9 @@ function buildCollectionTiles(
     picked.forEach((raw, k) => {
       const item = normalizeCollectionItem(raw);
       const stillKey = normalizeSrc(item.poster || item.src);
+      if (!stillKey || used.has(stillKey)) return;
+      if (stillKey.endsWith('/index/15.webp')) return;
+      used.add(stillKey);
       const { linkSlug, label } = resolveCollectionLink(projects, col.slug, stillKey);
       tiles.push({
         id: `col-${col.slug}-${k}`,
@@ -760,20 +817,30 @@ function renderTileMedia(t: IndexTile): string {
   }
   if (t.mediaType === 'video' && t.videoSrc) {
     const poster = t.img || t.poster || '';
-    return `<video class="gal-media gal-media--video" data-video-src="${t.videoSrc}" poster="${poster}" muted loop playsinline preload="none" style="object-position:${t.pos}"></video>`;
+    const posterSrc = poster ? thumbFor(poster).src : '';
+    return `<video class="gal-media gal-media--video" data-video-src="${t.videoSrc}" poster="${posterSrc}" muted loop playsinline preload="none" style="object-position:${t.pos}"></video>`;
   }
-  return `<img class="gal-media" src="${t.img}" alt="${t.caption}" loading="lazy" decoding="async" draggable="false" style="object-position:${t.pos}">`;
+  if (!t.img) return `<div class="gal-placeholder">Image soon</div>`;
+  const img = responsiveImageAttrs(t.img, {
+    loading: 'lazy',
+    sizes: '(max-width: 768px) 132px, 200px',
+    alt: t.caption,
+    className: 'gal-media',
+  });
+  return img.replace('<img', `<img style="object-position:${t.pos}"`);
 }
 
 export async function initImmersiveIndex(
   projects: IndexProject[],
-  collections: CollectionMedia[] = []
+  collections: CollectionMedia[] = [],
+  reservedSrcs: string[] = []
 ): Promise<void> {
   const root = document.getElementById('immersive-index');
   if (!root || projects.length === 0) return;
 
-  const projectTiles = buildTiles(projects);
-  const collectionTiles = buildCollectionTiles(collections, projects, projectTiles.length);
+  const reserved = new Set([...reservedStillKeys(), ...reservedSrcs.map(normalizeSrc)]);
+  const projectTiles = buildTiles(projects, reserved);
+  const collectionTiles = buildCollectionTiles(collections, projects, projectTiles.length, reserved);
   const tiles = composeIndexTiles(projectTiles, collectionTiles);
   const allViewTileIds = pickIdsForAllView(tiles);
   const discs = deriveDisciplines(projects, collections);
@@ -819,26 +886,11 @@ export async function initImmersiveIndex(
 
   counterTotal.textContent = pad3(tiles.length);
 
-  grid.innerHTML = tiles
-    .map(
-      (t) => `
-    <figure class="immersive-index__tile" data-tile-id="${t.id}" data-proj="${t.proj}" data-disc="${t.disc.join('|')}" data-href="${tileHref(t)}" tabindex="0" role="link" aria-label="${t.projName} - ${t.caption}">
-      <div class="gal-frame" style="--tile-ar:${t.ar}">
-        ${renderTileMedia(t)}
-        <span class="gal-caption">
-          <span class="gal-caption__proj">${t.caption}</span>
-          <span class="gal-caption__disc">${t.year || ''}</span>
-        </span>
-        <span class="gal-spec"></span>
-      </div>
-    </figure>`
-    )
-    .join('');
-
   const tileById = new Map(tiles.map((t) => [t.id, t]));
-  let tileEls = Array.from(grid.querySelectorAll<HTMLElement>('[data-tile-id]'));
+  let tileEls: HTMLElement[] = [];
+  let videoSectionIo: IntersectionObserver | null = null;
 
-  tileEls.forEach((el) => {
+  const bindTileEl = (el: HTMLElement): void => {
     el.querySelectorAll<HTMLImageElement>('img.gal-media').forEach((img) => {
       img.addEventListener('error', () => {
         el.style.display = 'none';
@@ -850,13 +902,10 @@ export async function initImmersiveIndex(
         el.style.display = 'none';
       });
     });
-  });
 
-  tileEls.forEach((el) => {
     const href = el.dataset.href;
     if (!href) return;
     const hasProjectLink = !!href && !href.startsWith('#');
-    const hasVideo = !!el.querySelector('video.gal-media--video');
     el.style.cursor = hasProjectLink ? 'pointer' : 'default';
     const go = (): void => {
       const target = el.dataset.href || href;
@@ -883,7 +932,27 @@ export async function initImmersiveIndex(
         go();
       }
     });
-  });
+  };
+
+  const paintTiles = (list: IndexTile[]): void => {
+    grid.innerHTML = list
+      .map(
+        (t) => `
+    <figure class="immersive-index__tile" data-tile-id="${t.id}" data-proj="${t.proj}" data-disc="${t.disc.join('|')}" data-href="${tileHref(t)}" tabindex="0" role="link" aria-label="${t.projName} - ${t.caption}">
+      <div class="gal-frame" style="--tile-ar:${t.ar}">
+        ${renderTileMedia(t)}
+        <span class="gal-caption">
+          <span class="gal-caption__proj">${t.caption}</span>
+          <span class="gal-caption__disc">${t.year || ''}</span>
+        </span>
+        <span class="gal-spec"></span>
+      </div>
+    </figure>`
+      )
+      .join('');
+    tileEls = Array.from(grid.querySelectorAll<HTMLElement>('[data-tile-id]'));
+    tileEls.forEach(bindTileEl);
+  };
 
   const matches = (tile: IndexTile, key: string): boolean => {
     if (key === 'all') return allViewTileIds.has(tile.id);
@@ -945,30 +1014,20 @@ export async function initImmersiveIndex(
     });
   };
 
-  const reorderVisibleTiles = (visibleTiles: IndexTile[]): void => {
+  const reorderVisibleTiles = (visibleTiles: IndexTile[]): IndexTile[] => {
     const cols = estimateColumnCount(visibleTiles.length);
-    const ordered = spreadTilesForWall(visibleTiles, cols);
-    const elById = new Map(tileEls.map((el) => [el.dataset.tileId || '', el]));
-    for (const t of ordered) {
-      const el = elById.get(t.id);
-      if (el) grid.appendChild(el);
-    }
-    tileEls = Array.from(grid.querySelectorAll<HTMLElement>('[data-tile-id]'));
+    return visibleTiles.length > 1 ? spreadTilesForWall(visibleTiles, cols) : visibleTiles;
   };
 
   const applyFilter = (): void => {
     pauseAllIndexVideos();
-    const visibleTiles: IndexTile[] = [];
-    tileEls.forEach((el) => {
-      const tile = tileById.get(el.dataset.tileId || '')!;
-      const show = matches(tile, active);
-      el.style.display = show ? '' : 'none';
-      if (show) visibleTiles.push(tile);
-    });
-    if (visibleTiles.length > 1) reorderVisibleTiles(visibleTiles);
+    const visibleTiles = tiles.filter((t) => matches(t, active));
+    paintTiles(reorderVisibleTiles(visibleTiles));
     counterVis.textContent = pad3(visibleTiles.length);
     relayout();
     alignGridView();
+    initTileNaturalAspects(grid, reflowAfterAspects);
+    initVideoTiles();
   };
 
   const pickChip = (key: string): void => {
@@ -1157,6 +1216,8 @@ export async function initImmersiveIndex(
   });
 
   const initVideoTiles = (): void => {
+    videoSectionIo?.disconnect();
+    videoSectionIo = null;
     const videos = Array.from(grid.querySelectorAll<HTMLVideoElement>('video.gal-media--video'));
     if (!videos.length) return;
 
@@ -1253,6 +1314,7 @@ export async function initImmersiveIndex(
         { root: null, threshold: 0.05 }
       );
       sectionIo.observe(root);
+      videoSectionIo = sectionIo;
     }
   };
 
@@ -1263,6 +1325,4 @@ export async function initImmersiveIndex(
 
   renderChips();
   applyFilter();
-  initTileNaturalAspects(grid, reflowAfterAspects);
-  initVideoTiles();
 }

@@ -1,4 +1,14 @@
 import { defineConfig } from 'vite'
+import { resolve } from 'path'
+
+const luminexProjects = [
+  'ohm-1',
+  'ohm-2',
+  'thermosense',
+  'wavey-runway',
+  'biointerface',
+  'resonance',
+]
 
 export default defineConfig({
   // Use relative base so assets work correctly on static hosts like cPanel
@@ -15,6 +25,16 @@ export default defineConfig({
     target: 'es2020',
     cssCodeSplit: true,
     rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        luminex: resolve(__dirname, 'luminex/index.html'),
+        ...Object.fromEntries(
+          luminexProjects.map((slug) => [
+            `luminex-${slug}`,
+            resolve(__dirname, `luminex/${slug}/index.html`),
+          ])
+        ),
+      },
       output: {
         manualChunks: {
           'three': ['gsap'], // Split GSAP into separate chunk

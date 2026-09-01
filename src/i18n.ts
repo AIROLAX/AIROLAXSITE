@@ -24,7 +24,7 @@ type UiStrings = {
     expositions: string;
     expositionsSub: string;
   };
-  hero: { line2: string; line3: string };
+  hero: { line2: string; line3: string; statement: string };
   footer: {
     headline: string;
     sub: string;
@@ -55,7 +55,12 @@ const UI: Record<Lang, UiStrings> = {
       expositionsSub:
         'AI-assisted visuals, generative content, and large-scale work delivered on site - museums, festivals, and public space.',
     },
-    hero: { line2: 'MÉXICO', line3: 'MULTIMEDIA ARTIST · 1991' },
+    hero: {
+      line2: 'MÉXICO',
+      line3: 'MULTIMEDIA ARTIST · 1991',
+      statement:
+        'Real-time AI installations, projection mapping, and generative motion for museums, festivals, and public space.',
+    },
     footer: {
       headline: "Let's collab",
       sub: 'Get in contact.',
@@ -84,7 +89,12 @@ const UI: Record<Lang, UiStrings> = {
       expositionsSub:
         'Visuales asistidas por IA, contenido generativo e instalaciones a gran escala en sitio — museos, festivales y espacio público.',
     },
-    hero: { line2: 'MÉXICO', line3: 'ARTISTA MULTIMEDIA · 1991' },
+    hero: {
+      line2: 'MÉXICO',
+      line3: 'ARTISTA MULTIMEDIA · 1991',
+      statement:
+        'Instalaciones de IA en tiempo real, video mapping y motion generativo para museos, festivales y espacio público.',
+    },
     footer: {
       headline: 'Colaboremos',
       sub: 'Ponte en contacto.',
@@ -208,7 +218,7 @@ export const PROJECT_LOCALES: Record<string, Partial<Record<Lang, ProjectLocaleF
   },
   '8': {
     es: {
-      title: 'OHM 1',
+      title: 'OHM Sound Sculpture',
       tag: 'Instalación física · Láser',
       cardSubtitle: 'Escultura sonora · láser',
       description: [
@@ -218,12 +228,25 @@ export const PROJECT_LOCALES: Record<string, Partial<Record<Lang, ProjectLocaleF
   },
   '9': {
     es: {
-      title: 'Ethereal Motion. Poesía digital',
-      tag: 'Video generativo · Motion 3D',
-      cardSubtitle: 'Motion graphics · poesía abstracta',
+      title: 'Particle System Art',
+      tag: 'Arte generativo · Motion 3D',
+      cardSubtitle: 'Blender · TouchDesigner',
       description: [
-        'Pieza de motion 3D generativa — poesía digital abstracta donde forma, luz y movimiento llevan la narrativa.',
+        'Pieza de motion generativo en Blender y TouchDesigner — miles de puntos de luz simulados como fluido bioluminiscente, cayendo, plegándose y floreciendo en la oscuridad.',
       ],
+    },
+  },
+  'resonance-of-contact': {
+    es: {
+      title: 'Resonancia de Contacto',
+      tag: 'Instalación interactiva · Propuesta',
+      cardSubtitle: 'LUMINEX 4.0 · Los Ángeles',
+      description: [
+        'Un apretón de manos ocurre antes de que la mente racional pueda procesarlo — confianza inmediata, no cálculo. Resonancia de Contacto captura ese instante: dos personas conectadas por el tacto físico, antes de que intervenga la razón.',
+        'Nueva iteración de Biointerface (2024): allí, una planta viva actuaba como instrumento capacitivo; aquí, lo hacen dos personas. Propuesta para LUMINEX 4.0, Los Ángeles.',
+      ],
+      concept:
+        'El sistema traduce una señal bioeléctrica — conductividad entre dos cuerpos, duración del contacto, presión del apretón — en una respuesta visual y sonora que ninguna de las dos personas controla del todo.',
     },
   },
 };
@@ -376,6 +399,7 @@ const CARD_SIZE_BY_ID: Partial<Record<string, CardSize>> = {
   '4': 'lg',
   '3': 'md',
   '5': 'wide',
+  '9': 'wide',
   'breathing-space': 'lg',
   'ai-mirror-dia-de-muertos': 'md',
 };
@@ -392,6 +416,7 @@ export function getProjectCardSize(projectId: string, index: number, portrait = 
       'ai-mirror-dia-de-muertos': 'lg',
       '5': 'md',
       '7': 'md',
+      'resonance-of-contact': 'xl',
     };
     return portraitMap[projectId] ?? CARD_SIZE_CYCLE[index % CARD_SIZE_CYCLE.length] ?? 'md';
   }

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Resonancia de Contacto (Resonance of Contact) — a LUMINEX 4.0 proposal. A new iteration of Biointerface: human connection in real time.">
+  <title>Resonancia de Contacto | AIROLAX</title>
+  <link rel="canonical" href="https://airolax.com/work/resonance-of-contact.html">
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <meta property="og:title" content="Resonancia de Contacto — Argel Erevan Airola">
+  <meta property="og:description" content="A new iteration of Biointerface — human connection in real time. Proposal for LUMINEX 4.0, Los Angeles.">
+  <meta property="og:url" content="https://airolax.com/work/resonance-of-contact.html">
+  <meta property="og:image" content="https://airolax.com/projects/resonance-of-contact/render_installation_wide-1024.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site-footer-andata.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RWP8TWF8QX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RWP8TWF8QX', { page_path: window.location.pathname + window.location.search });
+  </script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #111111;
+      --muted: #666666;
+      --grid: #eeeeee;
+      --surface: #f5f5f7;
+      --accent: #e60023;
+      --font-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-display: 'Space Grotesk', var(--font-base);
+      --font: var(--font-base);
+      --topbar-height: 72px;
+      --border-radius: 14px;
+    }
+
+    [hidden] { display: none !important; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: var(--font-base);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--fg);
+      background: var(--bg);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: var(--bg);
+      border-bottom: 1px solid var(--grid);
+    }
+
+    .topbar__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .topbar__brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-base);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .topbar__mark {
+      display: block;
+      width: 22px;
+      height: 22px;
+    }
+
+    .topbar__nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--fg);
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-link:hover { opacity: 0.5; }
+
+    .lang-toggle {
+      font-family: var(--font-base);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      background: none;
+      border: 1px solid var(--grid);
+      border-radius: 999px;
+      padding: 6px 12px;
+      cursor: pointer;
+      color: var(--fg);
+    }
+
+    .project-page { padding-top: var(--topbar-height); }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .back-link:hover { color: var(--fg); }
+
+    .roc-hero__copy {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 48px 36px;
+      text-align: center;
+    }
+
+    .roc-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .project-title {
+      font-size: clamp(32px, 6vw, 64px);
+      letter-spacing: -2px;
+      margin-bottom: 16px;
+    }
+
+    .project-subtitle {
+      font-size: clamp(16px, 3vw, 22px);
+      font-weight: 400;
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .site-footer--andata h1,
+    .site-footer--andata h2,
+    .site-footer--andata h3 {
+      font-family: var(--font-base);
+    }
+
+    .site-footer--andata {
+      margin-top: 80px;
+    }
+
+    .roc-hero__media {
+      width: 100%;
+      margin: 0;
+      background: #050510;
+      aspect-ratio: 1024 / 571;
+    }
+
+    .roc-hero__media img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1024 / 571;
+      object-fit: cover;
+    }
+
+    .project-content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 80px 48px 0;
+    }
+
+    .project-section { margin-bottom: 80px; }
+
+    .section-title {
+      font-size: 28px;
+      letter-spacing: -0.5px;
+      margin-bottom: 28px;
+    }
+
+    .project-description {
+      font-size: 18px;
+      line-height: 1.8;
+      margin-bottom: 1.25em;
+      color: var(--fg);
+    }
+
+    .project-description:last-child { margin-bottom: 0; }
+
+    .roc-list {
+      list-style: none;
+      margin: 28px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .roc-list li {
+      font-size: 17px;
+      line-height: 1.7;
+      padding-left: 1.1em;
+      position: relative;
+    }
+
+    .roc-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.7em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--fg);
+    }
+
+    .roc-figure {
+      margin: 0 auto;
+    }
+
+    .roc-figure--detail {
+      max-width: 560px;
+    }
+
+    .roc-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .roc-caption {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.01em;
+    }
+
+    .roc-diagram-wrap {
+      background: var(--surface);
+      border-radius: var(--border-radius);
+      padding: clamp(20px, 4vw, 40px);
+    }
+
+    .roc-diagram-card {
+      background: #ffffff;
+      border: 1px solid var(--grid);
+      border-radius: 12px;
+      padding: clamp(12px, 2vw, 24px);
+    }
+
+    .roc-diagram-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    .roc-table-wrap { overflow-x: auto; }
+
+    .roc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .roc-table th,
+    .roc-table td {
+      text-align: left;
+      vertical-align: top;
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--grid);
+    }
+
+    .roc-table th {
+      font-family: var(--font-base);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--fg);
+    }
+
+    .roc-table td:first-child {
+      font-weight: 600;
+      white-space: nowrap;
+      padding-right: 24px;
+      width: 28%;
+    }
+
+    @media (max-width: 768px) {
+      .topbar__inner {
+        padding: 14px 16px;
+        gap: 12px;
+      }
+
+      .topbar__brand-text { display: none; }
+
+      .topbar__nav { gap: 16px; }
+
+      .roc-hero__copy,
+      .project-content {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .project-content { padding-top: 56px; }
+
+      .section-title { font-size: 24px; }
+
+      .project-description,
+      .roc-list li { font-size: 16px; }
+
+      .roc-table td:first-child { white-space: normal; }
+    }
+  </style>
+</head>
+<body data-brand="airolax">
+  <header class="topbar" role="banner">
+    <div class="topbar__inner">
+      <a href="../index.html" class="topbar__brand" aria-label="Argel Erevan Airola">
+        <img class="topbar__mark" src="/images/aaad-mark-black.png" width="22" height="22" alt="">
+        <span class="topbar__brand-text">Argel Erevan Airola</span>
+      </a>
+      <nav class="topbar__nav" role="navigation" aria-label="Main navigation">
+        <a href="../index.html#projects" class="nav-link" data-i18n="nav.work">Work</a>
+        <a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
+        <a href="https://www.andatalab.art" class="nav-link" target="_blank" rel="noopener noreferrer" data-i18n="nav.andataLab">Andata Lab</a>
+        <button type="button" class="lang-toggle" id="lang-toggle" aria-label="Switch to Spanish">ES</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="project-page">
+    <div class="project-content" style="padding-top: 8px; padding-bottom: 0; max-width: 1200px;">
+      <a href="../index.html#projects" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span data-i18n-en>Back to Work</span>
+        <span data-i18n-es hidden>Volver a Trabajo</span>
+      </a>
+    </div>
+
+    <section class="roc-hero" aria-labelledby="roc-title">
+      <div class="roc-hero__copy">
+        <p class="roc-eyebrow">PROPOSAL — LUMINEX 4.0, LOS ANGELES</p>
+        <h1 class="project-title" id="roc-title">Resonancia de Contacto</h1>
+        <p class="project-subtitle">
+          <span data-i18n-en>A new iteration of Biointerface — human connection in real time</span>
+          <span data-i18n-es hidden>Una nueva iteración de Biointerface — conexión humana en tiempo real</span>
+        </p>
+      </div>
+      <figure class="roc-hero__media">
+        <img
+          src="/projects/resonance-of-contact/render_installation_wide-1024.webp"
+          srcset="/projects/resonance-of-contact/render_installation_wide-800.webp 800w, /projects/resonance-of-contact/render_installation_wide-1024.webp 1024w"
+          sizes="100vw"
+          width="1024"
+          height="571"
+          alt="Resonancia de Contacto — installation concept render"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          draggable="false"
+        >
+      </figure>
+    </section>
+
+    <div class="project-content">
+      <section class="project-section" aria-labelledby="roc-concept">
+        <h2 class="section-title" id="roc-concept">
+          <span data-i18n-en>Concept</span>
+          <span data-i18n-es hidden>Concepto</span>
+        </h2>
+        <div data-i18n-en>
+          <p class="project-description">A handshake happens before the rational mind can process it — it's immediate trust, not calculation. Resonancia de Contacto captures that exact instant: the moment two people connect through physical touch, before reason intervenes.</p>
+          <p class="project-description">The system doesn't interpret intention or emotion; it translates a bioelectric signal directly — the variation in conductivity between two bodies, the duration of contact, the pressure of the grip — into a visual and sonic response that neither person fully controls. It is a visualization of what happens outside conscious thought: the body responding to the body, not the mind deciding. That's the limit of reason the piece stages — the human connection that logic can't fully explain.</p>
+          <p class="project-description">The piece extends Biointerface (2024): there, a living plant acted as a capacitive instrument; here, two people do. The core premise stays the same — technology doesn't impose an experience, it reveals one that was already there — connecting directly to LUMINEX 4.0's theme, "Resonance of Connection," now also framed by Nature: this isn't technology over the body, it's technology revealing the body.</p>
+        </div>
+        <div data-i18n-es hidden>
+          <p class="project-description">Un apretón de manos ocurre antes de que la mente racional pueda procesarlo — es confianza inmediata, no cálculo. Resonancia de Contacto captura ese instante exacto: el momento en que dos personas se conectan a través del tacto físico, antes de que intervenga la razón.</p>
+          <p class="project-description">El sistema no interpreta intención ni emoción; traduce una señal bioeléctrica de forma directa — la variación de conductividad entre dos cuerpos, la duración del contacto, la presión del apretón — en una respuesta visual y sonora que ninguna de las dos personas controla del todo. Es una visualización de lo que ocurre fuera del pensamiento consciente: el cuerpo respondiendo al cuerpo, no la mente decidiendo. Ese es el límite de la razón que la pieza pone en escena — la conexión humana que la lógica no puede explicar por completo.</p>
+          <p class="project-description">La pieza extiende Biointerface (2024): allí, una planta viva actuaba como instrumento capacitivo; aquí, lo hacen dos personas. La premisa central se mantiene — la tecnología no impone una experiencia, revela una que ya estaba ahí — conectando de forma directa con el tema de LUMINEX 4.0, «Resonance of Connection», ahora también enmarcado por Nature: esto no es tecnología sobre el cuerpo, es tecnología revelando el cuerpo.</p>
+        </div>
+      </section>
+
+      <section class="project-section" aria-labelledby="roc-visuals">
+        <h2 class="section-title" id="roc-visuals">
+          <span data-i18n-en>What the visuals are</span>
+          <span data-i18n-es hidden>Qué son las visuales</span>
+        </h2>
+        <div data-i18n-en>
+          <p class="project-description">No representational imagery — no drawn hands, nothing literal. The system generates organic, fluid forms — particle fields and flow lines — whose shape, speed, and color are driven in real time by three variables:</p>
+          <ul class="roc-list">
+            <li><strong>Duration of contact</strong> → how much the generative form grows and expands.</li>
+            <li><strong>Conductivity variance between the two people</strong> → texture and noise of the pattern — never the same twice, because no two people are alike.</li>
+            <li><strong>Grip pressure</strong> → light intensity and sound volume.</li>
+          </ul>
+          <p class="project-description">Aesthetically, it continues the palette and visual language of Ethereal Motion and Biointerface — blue and violet light, organic motion — but now the organism responding is the connection between two people.</p>
+        </div>
+        <div data-i18n-es hidden>
+          <p class="project-description">Sin imagen representacional — sin manos dibujadas, nada literal. El sistema genera formas orgánicas y fluidas — campos de partículas y líneas de flujo — cuya forma, velocidad y color están impulsados en tiempo real por tres variables:</p>
+          <ul class="roc-list">
+            <li><strong>Duración del contacto</strong> → cuánto crece y se expande la forma generativa.</li>
+            <li><strong>Variación de conductividad entre las dos personas</strong> → textura y ruido del patrón — nunca igual dos veces, porque no hay dos personas iguales.</li>
+            <li><strong>Presión del apretón</strong> → intensidad de la luz y volumen del sonido.</li>
+          </ul>
+          <p class="project-description">Estéticamente continúa la paleta y el lenguaje visual de Ethereal Motion y Biointerface — luz azul y violeta, movimiento orgánico — pero ahora el organismo que responde es la conexión entre dos personas.</p>
+        </div>
+      </section>
+    </div>
+
+    <div class="project-content" style="max-width: 1200px;">
+      <section class="project-section" aria-labelledby="roc-detail">
+        <figure class="roc-figure roc-figure--detail">
+          <img
+            src="/projects/resonance-of-contact/render_pedestal_detail-824.webp"
+            srcset="/projects/resonance-of-contact/render_pedestal_detail-400.webp 400w, /projects/resonance-of-contact/render_pedestal_detail-800.webp 800w, /projects/resonance-of-contact/render_pedestal_detail-824.webp 824w"
+            sizes="(max-width: 768px) 100vw, 560px"
+            width="824"
+            height="1024"
+            alt="Sculptural pedestal — concept render"
+            loading="lazy"
+            decoding="async"
+            draggable="false"
+            style="aspect-ratio: 824 / 1024"
+          >
+          <figcaption class="roc-caption">
+            <span data-i18n-en>Sculptural pedestal — concept render</span>
+            <span data-i18n-es hidden>Pedestal escultórico — render de concepto</span>
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="project-section" aria-labelledby="roc-diagram">
+        <div class="roc-diagram-wrap">
+          <figure class="roc-figure">
+            <div class="roc-diagram-card">
+              <img
+                src="/projects/resonance-of-contact/diagrama_tecnico-1280.webp"
+                srcset="/projects/resonance-of-contact/diagrama_tecnico-800.webp 800w, /projects/resonance-of-contact/diagrama_tecnico-1280.webp 1280w, /projects/resonance-of-contact/diagrama_tecnico-1600.webp 1600w"
+                sizes="(max-width: 768px) 100vw, 1100px"
+                width="1600"
+                height="720"
+                alt="Signal flow — from physical contact to generative output"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+                style="aspect-ratio: 1600 / 720"
+              >
+            </div>
+            <figcaption class="roc-caption">
+              <span data-i18n-en>Signal flow — from physical contact to generative output</span>
+              <span data-i18n-es hidden>Flujo de señal — del contacto físico a la salida generativa</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+    </div>
+
+    <div class="project-content">
+      <section class="project-section" aria-labelledby="roc-equipment">
+        <h2 class="section-title" id="roc-equipment">
+          <span data-i18n-en>Equipment</span>
+          <span data-i18n-es hidden>Equipo</span>
+        </h2>
+        <div class="roc-table-wrap" data-i18n-en>
+          <table class="roc-table">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Specification</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Electrodes</td>
+                <td>2× conductive handles (brass or copper), sculptural design integrated into the pedestal</td>
+              </tr>
+              <tr>
+                <td>Touch sensor</td>
+                <td>MPR121 (12-channel capacitive sensing) + microcontroller (Arduino / Teensy)</td>
+              </tr>
+              <tr>
+                <td>Compute</td>
+                <td>1× workstation with dedicated GPU, running TouchDesigner in real time</td>
+              </tr>
+              <tr>
+                <td>Visual output</td>
+                <td>Short-throw projector or LED wall (per site specifications)</td>
+              </tr>
+              <tr>
+                <td>Audio</td>
+                <td>Spatial sound system, minimum 2 channels (ideally 4)</td>
+              </tr>
+              <tr>
+                <td>Structure</td>
+                <td>Pedestal/sculpture housing the electrodes, wiring, and power supply</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="roc-table-wrap" data-i18n-es hidden>
+          <table class="roc-table">
+            <thead>
+              <tr>
+                <th>Componente</th>
+                <th>Especificación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Electrodos</td>
+                <td>2× asas conductivas (latón o cobre), diseño escultórico integrado al pedestal</td>
+              </tr>
+              <tr>
+                <td>Sensor táctil</td>
+                <td>MPR121 (sensado capacitivo de 12 canales) + microcontrolador (Arduino / Teensy)</td>
+              </tr>
+              <tr>
+                <td>Compute</td>
+                <td>1× estación de trabajo con GPU dedicada, ejecutando TouchDesigner en tiempo real</td>
+              </tr>
+              <tr>
+                <td>Salida visual</td>
+                <td>Proyector de corto alcance o muro LED (según especificaciones del sitio)</td>
+              </tr>
+              <tr>
+                <td>Audio</td>
+                <td>Sistema de sonido espacial, mínimo 2 canales (idealmente 4)</td>
+              </tr>
+              <tr>
+                <td>Estructura</td>
+                <td>Pedestal/escultura que aloja los electrodos, el cableado y la fuente de poder</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="project-section" aria-labelledby="roc-production">
+        <h2 class="section-title" id="roc-production">
+          <span data-i18n-en>Production model</span>
+          <span data-i18n-es hidden>Modelo de producción</span>
+        </h2>
+        <ul class="roc-list" data-i18n-en>
+          <li>Design, sensor logic, and software (TouchDesigner) developed and calibrated remotely by the artist.</li>
+          <li>Assembly, physical pedestal, and on-site installation by local technical crew, following exact specifications and live guidance from the artist.</li>
+          <li>No sculpture shipping or artist travel required.</li>
+        </ul>
+        <ul class="roc-list" data-i18n-es hidden>
+          <li>Diseño, lógica de sensores y software (TouchDesigner) desarrollados y calibrados a distancia por el artista.</li>
+          <li>Ensamble, pedestal físico e instalación en sitio a cargo de equipo técnico local, siguiendo especificaciones exactas y guía en vivo del artista.</li>
+          <li>No se requiere envío de escultura ni viaje del artista.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer site-footer--andata" id="contact">
+    <section class="site-footer__cta" aria-labelledby="footer-contact-heading">
+      <div class="site-footer__cta-inner">
+        <div class="site-footer__lead">
+          <h2 class="site-footer__headline" id="footer-contact-heading" data-i18n="footer.headline">Let&apos;s collab</h2>
+          <p class="site-footer__sub" data-i18n="footer.sub">Get in contact.</p>
+          <div class="site-footer__details">
+            <div class="site-footer__detail">
+              <span class="site-footer__label" data-i18n="footer.email">Email</span>
+              <a href="mailto:airolaxx@gmail.com" class="site-footer__detail-value site-footer__detail-value--plain">airolaxx@gmail.com</a>
+            </div>
+            <div class="site-footer__detail">
+              <span class="site-footer__label" data-i18n="footer.based">Based</span>
+              <div class="site-footer__location-row">
+                <span class="site-footer__location-pill">
+                  <svg class="site-footer__flag" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+                    <defs><clipPath id="mx-flag-clip-roc"><circle cx="9" cy="9" r="9"/></clipPath></defs>
+                    <g clip-path="url(#mx-flag-clip-roc)">
+                      <rect width="6" height="18" fill="#006847"/>
+                      <rect x="6" width="6" height="18" fill="#fff"/>
+                      <rect x="12" width="6" height="18" fill="#ce1126"/>
+                    </g>
+                  </svg>
+                  <span class="site-footer__location-pill-text" data-i18n="footer.mexico">Mexico</span>
+                </span>
+                <span class="site-footer__location-sep" aria-hidden="true">·</span>
+                <span class="site-footer__location-wide">
+                  <svg class="site-footer__globe" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>
+                  </svg>
+                  <span data-i18n="footer.worldwide">Working worldwide</span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <nav class="site-footer__channels" aria-label="Contact and channels">
+            <a href="https://wa.me/523221364664" class="site-footer__channel-link" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+              <svg class="site-footer__channel-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/air_olax/" class="site-footer__channel-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg class="site-footer__channel-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.766 6.98 6.98.059 1.28.073 1.689.073 4.948 0 3.259-.014 3.667-.072 4.947-.196 4.354-2.617 6.78-6.979 6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              </svg>
+            </a>
+            <a href="/Portfolio.pdf" class="site-footer__channel-link site-footer__channel-link--text" download="Argel-Erevan-Airola-Portfolio.pdf">Portfolio</a>
+            <a href="/CV.pdf" class="site-footer__channel-link site-footer__channel-link--text" download="Argel-Erevan-Airola-CV-2027.pdf">CV</a>
+          </nav>
+        </div>
+        <form class="site-footer__form" id="footer-contact-form">
+          <div class="site-footer__form-row">
+            <input type="text" name="name" class="site-footer__field" data-i18n-placeholder="footer.name" placeholder="Name" required data-i18n-aria="footer.name" aria-label="Name">
+            <input type="email" name="email" class="site-footer__field" data-i18n-placeholder="footer.email" placeholder="Email" required data-i18n-aria="footer.email" aria-label="Email">
+          </div>
+          <input type="text" name="organization" class="site-footer__field" data-i18n-placeholder="footer.org" placeholder="Museum, brand, festival, studio…" data-i18n-aria="footer.org" aria-label="Organization">
+          <textarea name="message" class="site-footer__field site-footer__field--area" rows="4" data-i18n-placeholder="footer.message" placeholder="The space, the mood, the timeline — what should people feel?" required data-i18n-aria="footer.message" aria-label="Message"></textarea>
+          <button type="submit" class="site-footer__submit" data-i18n="footer.send">Send a note</button>
+          <p class="site-footer__form-note" data-i18n="footer.note">No pressure — if it isn&apos;t the right match, I&apos;ll tell you straight.</p>
+          <div class="footer-form-message" id="footer-form-message"></div>
+        </form>
+      </div>
+    </section>
+    <div class="site-footer__bar">
+      <img class="site-footer__mark" src="/images/aaad-mark-black.png" width="26" height="26" alt="">
+      <span class="site-footer__brand">Argel Erevan Airola</span>
+      <a href="https://www.andatalab.art" class="site-footer__cross" target="_blank" rel="noopener noreferrer">Andata Lab ↗</a>
+      <span class="site-footer__legal" data-i18n="footer.legal">© 2026 — Multimedia Artist &amp; Immersive Installation</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var STORAGE_KEY = 'airolax-lang';
+      var UI = {
+        en: {
+          nav: { work: 'Work', contact: 'Contact', andataLab: 'Andata Lab' },
+          langToggle: { toEs: 'Switch to Spanish', toEn: 'Switch to English' },
+          footer: {
+            headline: "Let's collab",
+            sub: 'Get in contact.',
+            email: 'Email',
+            based: 'Based',
+            mexico: 'Mexico',
+            worldwide: 'Working worldwide',
+            name: 'Name',
+            org: 'Museum, brand, festival, studio…',
+            message: 'The space, the mood, the timeline — what should people feel?',
+            send: 'Send a note',
+            note: "No pressure — if it isn't the right match, I'll tell you straight.",
+            legal: '© 2026 — Multimedia Artist & Immersive Installation'
+          }
+        },
+        es: {
+          nav: { work: 'Trabajo', contact: 'Contacto', andataLab: 'Andata Lab' },
+          langToggle: { toEs: 'Cambiar a español', toEn: 'Cambiar a inglés' },
+          footer: {
+            headline: 'Colaboremos',
+            sub: 'Ponte en contacto.',
+            email: 'Email',
+            based: 'Base',
+            mexico: 'México',
+            worldwide: 'Trabajo en todo el mundo',
+            name: 'Nombre',
+            org: 'Museo, marca, festival, estudio…',
+            message: 'El espacio, el mood, el timeline — ¿qué debería sentir la gente?',
+            send: 'Enviar mensaje',
+            note: 'Sin compromiso — si no encaja, te lo digo con claridad.',
+            legal: '© 2026 — Artista multimedia e instalaciones inmersivas'
+          }
+        }
+      };
+
+      function detectLang() {
+        try {
+          var stored = localStorage.getItem(STORAGE_KEY);
+          if (stored === 'en' || stored === 'es') return stored;
+        } catch (e) {}
+        return (navigator.language || '').toLowerCase().indexOf('es') === 0 ? 'es' : 'en';
+      }
+
+      function resolve(ui, dotted) {
+        var parts = dotted.split('.');
+        var cur = ui;
+        for (var i = 0; i < parts.length; i++) {
+          if (!cur || typeof cur !== 'object' || !(parts[i] in cur)) return '';
+          cur = cur[parts[i]];
+        }
+        return typeof cur === 'string' ? cur : '';
+      }
+
+      function applyLang(lang) {
+        var ui = UI[lang];
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          var value = resolve(ui, el.getAttribute('data-i18n'));
+          if (value) el.textContent = value;
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+          var value = resolve(ui, el.getAttribute('data-i18n-placeholder'));
+          if (value) el.setAttribute('placeholder', value);
+        });
+        document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+          var value = resolve(ui, el.getAttribute('data-i18n-aria'));
+          if (value) el.setAttribute('aria-label', value);
+        });
+        document.querySelectorAll('[data-i18n-en]').forEach(function (el) {
+          el.hidden = lang !== 'en';
+        });
+        document.querySelectorAll('[data-i18n-es]').forEach(function (el) {
+          el.hidden = lang !== 'es';
+        });
+        var btn = document.getElementById('lang-toggle');
+        if (btn) {
+          btn.textContent = lang === 'en' ? 'ES' : 'EN';
+          btn.setAttribute('aria-label', lang === 'en' ? ui.langToggle.toEs : ui.langToggle.toEn);
+        }
+      }
+
+      var lang = detectLang();
+      applyLang(lang);
+
+      var toggle = document.getElementById('lang-toggle');
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          lang = lang === 'en' ? 'es' : 'en';
+          try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+          applyLang(lang);
+        });
+      }
+
+      var form = document.getElementById('footer-contact-form');
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var data = new FormData(form);
+          var name = String(data.get('name') || '');
+          var email = String(data.get('email') || '');
+          var organization = String(data.get('organization') || '');
+          var message = String(data.get('message') || '');
+          var box = document.getElementById('footer-form-message');
+          if (!name || !email || !message) {
+            if (box) {
+              box.textContent = 'Please fill in all fields.';
+              box.className = 'footer-form-message error';
+            }
+            return;
+          }
+          var subject = encodeURIComponent('Project brief from ' + name);
+          var body = encodeURIComponent(
+            'Name: ' + name + '\nEmail: ' + email + (organization ? '\nOrganization: ' + organization : '') + '\n\nMessage:\n' + message
+          );
+          window.location.href = 'mailto:airolaxx@gmail.com?subject=' + subject + '&body=' + body;
+          if (box) {
+            box.textContent = 'Your email client will open. Send the message to reach us.';
+            box.className = 'footer-form-message success';
+          }
+          form.reset();
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

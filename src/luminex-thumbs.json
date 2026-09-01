@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-09-01T17:30:29.148Z",
+  "thumbs": {
+    "hero": {
+      "src": "/images/luminex/hero-800.webp",
+      "srcSet": "/images/luminex/hero-800.webp 800w",
+      "width": 848,
+      "height": 480
+    },
+    "ohm-1": {
+      "src": "/images/luminex/ohm-1-800.webp",
+      "srcSet": "/images/luminex/ohm-1-800.webp 800w",
+      "width": 1024,
+      "height": 623
+    },
+    "ohm-1c": {
+      "src": "/images/luminex/ohm-1c-1280.webp",
+      "srcSet": "/images/luminex/ohm-1c-800.webp 800w, /images/luminex/ohm-1c-1280.webp 1280w, /images/luminex/ohm-1c-1920.webp 1920w",
+      "width": 1920,
+      "height": 1080
+    },
+    "ohm-2": {
+      "src": "/images/luminex/ohm-2-800.webp",
+      "srcSet": "/images/luminex/ohm-2-800.webp 800w",
+      "width": 757,
+      "height": 661
+    },
+    "thermosense": {
+      "src": "/images/luminex/thermosense-1280.webp",
+      "srcSet": "/images/luminex/thermosense-800.webp 800w, /images/luminex/thermosense-1280.webp 1280w",
+      "width": 1592,
+      "height": 2072
+    },
+    "wavey": {
+      "src": "/images/luminex/wavey-800.webp",
+      "srcSet": "/images/luminex/wavey-800.webp 800w",
+      "width": 970,
+      "height": 864
+    },
+    "biointerface": {
+      "src": "/images/luminex/biointerface-1280.webp",
+      "srcSet": "/images/luminex/biointerface-800.webp 800w, /images/luminex/biointerface-1280.webp 1280w",
+      "width": 1280,
+      "height": 853
+    },
+    "resonance": {
+      "src": "/images/luminex/resonance-800.webp",
+      "srcSet": "/images/luminex/resonance-800.webp 800w",
+      "width": 1024,
+      "height": 1024
+    }
+  }
+}
